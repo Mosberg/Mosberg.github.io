@@ -130,6 +130,7 @@ li a {
   font-size: var(--li-a-font-size);
   border: var(--li-a-border);
   border-radius: var(--search-border-radius);
+  text-decoration: none;
 }
 
 /* li a hover */
