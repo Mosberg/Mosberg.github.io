@@ -19,7 +19,7 @@
 
   /* Search Styling*/
   --search-border-radius: 10px;
-  --search-width: 100%;
+  --search-width: 50%;
   --search-font-size: 26px;
   --search-padding: 6px;
 
@@ -56,6 +56,7 @@
 
 * {
   box-sizing: border-box;
+  font-family: "Fira Code";
 }
 
 /* body */
@@ -69,15 +70,6 @@ body {
 
 main {
   background-color: transparent;
-}
-
-/* Search */
-#search-input {
-  width: var(--search-width);
-  font-size: var(--search-font-size);
-  padding: var(--search-padding);
-  border-radius: var(--search-border-radius);
-  border: var(--search-border);
 }
 
 /* h1 */
@@ -118,7 +110,7 @@ ul {
   font-weight: var(--ul-font-weight);
   color: var(--h2-color);
   display: var(--ul-display);
-  width: var(--ul-width);
+  width: 50%;
 }
 
 /* li a */
@@ -140,9 +132,20 @@ li a:hover {
 }
 
 header {
-  width: 100%;
+  width: 95%;
   display: flex;
-  justify-content: center;
+  position: fixed;
+  justify-content: right;
+  height: 7%;
+}
+
+/* Search */
+#search-input {
+  width: var(--search-width);
+  font-size: var(--search-font-size);
+  padding: var(--search-padding);
+  border-radius: var(--search-border-radius);
+  border: var(--search-border);
 }
 
 #colorChangeBtn,
@@ -152,16 +155,14 @@ header {
   padding: 20px;
   border: 2px solid white;
   font-size: large;
-  margin: 10px;
+  margin-left: 20px;
   border-radius: 10px;
   transition: all 0.1s;
   font-style: var(--h1-font-style);
   font-weight: var(--h1-font-weight);
-  font-family: "Fira Code";
 }
 
-#colorChangeBtn:active,
-#counter:hover {
+#colorChangeBtn:active {
   background-color: rgb(255, 255, 255);
   color: rgb(0, 0, 0);
   border: 2px solid black;
