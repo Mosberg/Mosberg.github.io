@@ -1,4 +1,4 @@
-let count = 0;
+let count = localStorage.getItem("clickCount") || 0;
 
 document
   .getElementById("colorChangeBtn")
@@ -25,5 +25,6 @@ document
 
     // Increment counter
     count++;
+    localStorage.setItem("clickCount", count);
     document.getElementById("counter").innerHTML = count;
   });
