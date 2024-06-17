@@ -1,218 +1,185 @@
 <!DOCTYPE html>
 <html lang="da-dk">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="description" content="Mosberg's Github.io Homepage" />
-    <meta name="author" content="Mosberg" />
-    <meta name="keywords" content="HTML, CSS, JavaScript, Python" />
-    <title>Mosberg.github.io</title>
-    <link rel="icon" type="image/x-icon" href="/img/favicon.ico" />
-    <link rel="stylesheet" href="/css/my-links.css" />
-  </head>
 
-  <body>
-    <header>
-      <input
-        type="text"
-        id="search-input"
-        onkeyup="upFunction()"
-        placeholder="Search..."
-        title="Type in a category"
-      />
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Mosberg's Github.io Homepage" />
+  <meta name="author" content="Mosberg" />
+  <meta name="keywords" content="HTML, CSS, JavaScript, Python" />
+  <title>Mosberg.github.io</title>
+  <link rel="icon" type="image/x-icon" href="/img/favicon.ico" />
+  <link rel="stylesheet" href="/css/my-links.css" />
+</head>
 
-      <button type="button" id="colorChangeBtn">
-        Click here for Random Colors
-      </button>
+<body>
+  <header>
+    <input type="text" id="search-input" onkeyup="upFunction()" placeholder="Search..." title="Type in a category" />
 
-      <button type="submit" id="counter">0</button>
-    </header>
-    <main>
-      <h1>Software List</h1>
+    <button type="button" id="colorChangeBtn">
+      Click here for Random Colors
+    </button>
 
-      <ul id="drivers">
-        <h3>Drivers:</h3>
-        <li>
-          <a
-            href="https://www.nvidia.com/da-dk/geforce/geforce-experience/download/"
-            >GeForce Experience</a
-          >
-        </li>
-      </ul>
+    <button type="submit" id="counter">0</button>
+  </header>
+  <main>
+    <h1>Software List</h1>
 
-      <ul id="security">
-        <h3>Security:</h3>
-        <li>
-          <a href="https://minesider.stofa.dk/">Norlys Sikkerhedspakke</a>
-        </li>
-      </ul>
+    <ul id="drivers">
+      <h3>Drivers:</h3>
+      <li>
+        <a href="https://www.nvidia.com/da-dk/geforce/geforce-experience/download/">GeForce Experience</a>
+      </li>
+    </ul>
 
-      <ul id="internet-browser">
-        <h3>Internet Browser:</h3>
-        <li><a href="https://www.mozilla.org/">Mozilla Firefox</a></li>
-        <li>
-          <a href="https://www.google.com/intl/da/chrome/">Google Chrome</a>
-        </li>
-        <li><a href="https://www.opera.com/">Opera</a></li>
-      </ul>
+    <ul id="security">
+      <h3>Security:</h3>
+      <li>
+        <a href="https://minesider.stofa.dk/">Norlys Sikkerhedspakke</a>
+      </li>
+    </ul>
 
-      <ul id="screenshots">
-        <h3>Screenshots:</h3>
-        <li><a href="https://app.prntscr.com/">LightShot</a></li>
-        <li><a href="https://getsharex.com/">ShareX</a></li>
-      </ul>
+    <ul id="internet-browser">
+      <h3>Internet Browser:</h3>
+      <li><a href="https://www.mozilla.org/">Mozilla Firefox</a></li>
+      <li>
+        <a href="https://www.google.com/intl/da/chrome/">Google Chrome</a>
+      </li>
+      <li><a href="https://www.opera.com/">Opera</a></li>
+    </ul>
 
-      <ul id="archive-managers">
-        <h3>Archive Managers:</h3>
-        <li><a href="https://www.7-zip.org/">7-Zip</a></li>
-        <li><a href="https://peazip.github.io/">PeaZip</a></li>
-        <li><a href="https://www.rarlab.com/">WinRAR</a></li>
-      </ul>
+    <ul id="screenshots">
+      <h3>Screenshots:</h3>
+      <li><a href="https://app.prntscr.com/">LightShot</a></li>
+      <li><a href="https://getsharex.com/">ShareX</a></li>
+    </ul>
 
-      <ul id="media-music-editors">
-        <h3>Media & Music Editors:</h3>
-        <li><a href="https://www.audacityteam.org/">Audacity</a></li>
-        <li><a href="https://handbrake.fr/">HandBrake</a></li>
-        <li><a href="https://shotcut.org/">Shotcut</a></li>
-        <li><a href="https://obsproject.com/">OBS Studio</a></li>
-        <li><a href="https://streamlabs.com/">Streamlabs</a></li>
-      </ul>
+    <ul id="archive-managers">
+      <h3>Archive Managers:</h3>
+      <li><a href="https://www.7-zip.org/">7-Zip</a></li>
+      <li><a href="https://peazip.github.io/">PeaZip</a></li>
+      <li><a href="https://www.rarlab.com/">WinRAR</a></li>
+    </ul>
 
-      <ul id="image-editor">
-        <h3>Image Editor:</h3>
-        <li><a href="https://www.getpaint.net/">Paint.net</a></li>
-        <li><a href="https://www.gimp.org/">GIMP</a></li>
-        <li><a href="https://inkscape.org/">Inkscape</a></li>
-      </ul>
+    <ul id="media-music-editors">
+      <h3>Media and Music Editors:</h3>
+      <li><a href="https://www.audacityteam.org/">Audacity</a></li>
+      <li><a href="https://handbrake.fr/">HandBrake</a></li>
+      <li><a href="https://shotcut.org/">Shotcut</a></li>
+      <li><a href="https://obsproject.com/">OBS Studio</a></li>
+      <li><a href="https://streamlabs.com/">Streamlabs</a></li>
+    </ul>
 
-      <ul id="media-player">
-        <h3>Media Player:</h3>
-        <li><a href="https://www.videolan.org/">VLC</a></li>
-        <li><a href="https://www.plex.tv/">PLEX</a></li>
-        <li><a href="https://www.faststone.org/">FastStone</a></li>
-      </ul>
+    <ul id="image-editor">
+      <h3>Image Editor:</h3>
+      <li><a href="https://www.getpaint.net/">Paint.net</a></li>
+      <li><a href="https://www.gimp.org/">GIMP</a></li>
+      <li><a href="https://inkscape.org/">Inkscape</a></li>
+    </ul>
 
-      <ul id="office-suite">
-        <h3>Office Suite:</h3>
-        <li>
-          <a href="https://gravesoft.dev/office_c2r_links">Microsoft Office</a>
-        </li>
-        <li><a href="https://www.libreoffice.org/">Libre Office</a></li>
-        <li><a href="https://www.freeoffice.com/">Free Office</a></li>
-      </ul>
+    <ul id="media-player">
+      <h3>Media Player:</h3>
+      <li><a href="https://www.videolan.org/">VLC</a></li>
+      <li><a href="https://www.plex.tv/">PLEX</a></li>
+      <li><a href="https://www.faststone.org/">FastStone</a></li>
+    </ul>
 
-      <ul id="file-management">
-        <h3>File Management:</h3>
-        <li><a href="https://www.voidtools.com/">Everything</a></li>
-        <li><a href="https://www.diskanalyzer.com/">WizTree</a></li>
-        <li><a href="https://antibody-software.com/wizfile/">WizFile</a></li>
-        <li><a href="https://www.mdtzone.it/sw/wincontig/">WinContig</a></li>
-        <li><a href="https://gparted.org/">GNOME Partition Editor</a></li>
-      </ul>
+    <ul id="office-suite">
+      <h3>Office Suite:</h3>
+      <li>
+        <a href="https://gravesoft.dev/office_c2r_links">Microsoft Office</a>
+      </li>
+      <li><a href="https://www.libreoffice.org/">Libre Office</a></li>
+      <li><a href="https://www.freeoffice.com/">Free Office</a></li>
+    </ul>
 
-      <ul id="game-launchers">
-        <h3>Game Launchers:</h3>
-        <li><a href="https://store.steampowered.com/">Steam</a></li>
-        <li><a href="https://www.riotgames.com/">Riot Games</a></li>
-        <li><a href="https://eu.shop.battle.net/">Battle.net</a></li>
-        <li><a href="https://www.epicgames.com/">Epic Games</a></li>
-        <li><a href="https://www.ubisoft.com/">Ubisoft</a></li>
-      </ul>
+    <ul id="file-management">
+      <h3>File Management:</h3>
+      <li><a href="https://www.voidtools.com/">Everything</a></li>
+      <li><a href="https://www.diskanalyzer.com/">WizTree</a></li>
+      <li><a href="https://antibody-software.com/wizfile/">WizFile</a></li>
+      <li><a href="https://www.mdtzone.it/sw/wincontig/">WinContig</a></li>
+      <li><a href="https://gparted.org/">GNOME Partition Editor</a></li>
+    </ul>
 
-      <ul id="communication">
-        <h3>Communication:</h3>
-        <li><a href="https://discord.com/">Discord</a></li>
-        <li><a href="https://www.teamspeak.com/">TeamSpeak</a></li>
-        <li><a href="https://www.teamspeak3.com/">TeamSpeak3</a></li>
-      </ul>
+    <ul id="game-launchers">
+      <h3>Game Launchers:</h3>
+      <li><a href="https://store.steampowered.com/">Steam</a></li>
+      <li><a href="https://www.riotgames.com/">Riot Games</a></li>
+      <li><a href="https://eu.shop.battle.net/">Battle.net</a></li>
+      <li><a href="https://www.epicgames.com/">Epic Games</a></li>
+      <li><a href="https://www.ubisoft.com/">Ubisoft</a></li>
+    </ul>
 
-      <ul id="ides">
-        <h3>IDEs:</h3>
-        <li><a href="https://notepad-plus-plus.org/">Notepad++</a></li>
-        <li>
-          <a href="https://code.visualstudio.com/">Visual Studio Code</a>
-        </li>
-        <li><a href="https://vscodium.com/">Visual Studio Codium</a></li>
-        <li>
-          <a href="https://visualstudio.microsoft.com/"
-            >Visual Studio & Build Tools</a
-          >
-        </li>
-        <li><a href="https://nodejs.org/en">Node.js</a></li>
-      </ul>
+    <ul id="communication">
+      <h3>Communication:</h3>
+      <li><a href="https://discord.com/">Discord</a></li>
+      <li><a href="https://www.teamspeak.com/">TeamSpeak</a></li>
+      <li><a href="https://www.teamspeak3.com/">TeamSpeak3</a></li>
+    </ul>
 
-      <ul id="git-github">
-        <h3>Git & Github:</h3>
-        <li><a href="https://git-scm.com/">Git</a></li>
-        <li><a href="https://git-lfs.com/">Git LFS</a></li>
-        <li><a href="https://desktop.github.com/">Github Desktop</a></li>
-      </ul>
+    <ul id="ides">
+      <h3>IDEs:</h3>
+      <li><a href="https://notepad-plus-plus.org/">Notepad++</a></li>
+      <li>
+        <a href="https://code.visualstudio.com/">Visual Studio Code</a>
+      </li>
+      <li><a href="https://vscodium.com/">Visual Studio Codium</a></li>
+      <li>
+        <a href="https://visualstudio.microsoft.com/">Visual Studio and Build Tools</a>
+      </li>
+      <li><a href="https://nodejs.org/en">Node.js</a></li>
+    </ul>
 
-      <ul id="python">
-        <h3>Python:</h3>
-        <li>
-          <a
-            href="https://apps.microsoft.com/detail/9nj46sx7x90p?hl=da-dk&gl=DK"
-            >Python 3.7</a
-          >
-        </li>
-        <li>
-          <a
-            href="https://apps.microsoft.com/detail/9mssztt1n39l?hl=da-dk&gl=DK"
-            >Python 3.8</a
-          >
-        </li>
-        <li>
-          <a
-            href="https://apps.microsoft.com/detail/9p7qfqmjrfp7?hl=da-dk&gl=DK"
-            >Python 3.9</a
-          >
-        </li>
-        <li>
-          <a
-            href="https://apps.microsoft.com/detail/9pjpw5ldxlz5?hl=da-dk&gl=DK"
-            >Python 3.10</a
-          >
-        </li>
-        <li>
-          <a
-            href="https://apps.microsoft.com/detail/9nrwmjp3717k?hl=da-dk&gl=DK"
-            >Python 3.11</a
-          >
-        </li>
-        <li>
-          <a
-            href="https://apps.microsoft.com/detail/9ncvdn91xzqp?hl=da-dk&gl=DK"
-            >Python 3.12</a
-          >
-        </li>
-      </ul>
+    <ul id="git-github">
+      <h3>Git and Github:</h3>
+      <li><a href="https://git-scm.com/">Git</a></li>
+      <li><a href="https://git-lfs.com/">Git LFS</a></li>
+      <li><a href="https://desktop.github.com/">Github Desktop</a></li>
+    </ul>
 
-      <ul id="other">
-        <h3>Other:</h3>
-        <li>
-          <a href="https://massgrave.dev/">Microsoft Activation Scripts</a>
-        </li>
-        <li>
-          <a href="https://massgrave.dev/genuine-installation-media"
-            >Download Windows / Office</a
-          >
-        </li>
-        <li><a href="https://msdl.gravesoft.dev/">Windows 8, 10 & 11</a></li>
-        <li>
-          <a href="https://www.microsoft.com/da-dk/software-download"
-            >Windows 7, 8, 10 & 11</a
-          >
-        </li>
-        <li>
-          <a href="https://massgrave.dev/unsupported_products_activation"
-            >Unsupported Products Activation</a
-          >
-        </li>
-      </ul>
-    </main>
+    <ul id="python">
+      <h3>Python:</h3>
+      <li>
+        <a href="https://apps.microsoft.com/detail/9nj46sx7x90p?hl=da-dk&gl=DK">Python 3.7</a>
+      </li>
+      <li>
+        <a href="https://apps.microsoft.com/detail/9mssztt1n39l?hl=da-dk&gl=DK">Python 3.8</a>
+      </li>
+      <li>
+        <a href="https://apps.microsoft.com/detail/9p7qfqmjrfp7?hl=da-dk&gl=DK">Python 3.9</a>
+      </li>
+      <li>
+        <a href="https://apps.microsoft.com/detail/9pjpw5ldxlz5?hl=da-dk&gl=DK">Python 3.10</a>
+      </li>
+      <li>
+        <a href="https://apps.microsoft.com/detail/9nrwmjp3717k?hl=da-dk&gl=DK">Python 3.11</a>
+      </li>
+      <li>
+        <a href="https://apps.microsoft.com/detail/9ncvdn91xzqp?hl=da-dk&gl=DK">Python 3.12</a>
+      </li>
+    </ul>
 
-    <script src="/js/search-links.js"></script>
-    <script src="/js/color-change.js"></script>
-  </body>
+    <ul id="other">
+      <h3>Other:</h3>
+      <li>
+        <a href="https://massgrave.dev/">Microsoft Activation Scripts</a>
+      </li>
+      <li>
+        <a href="https://massgrave.dev/genuine-installation-media">Download Windows / Office</a>
+      </li>
+      <li><a href="https://msdl.gravesoft.dev/">Windows 8, 10 and 11</a></li>
+      <li>
+        <a href="https://www.microsoft.com/da-dk/software-download">Windows 7, 8, 10 and 11</a>
+      </li>
+      <li>
+        <a href="https://massgrave.dev/unsupported_products_activation">Unsupported Products Activation</a>
+      </li>
+    </ul>
+  </main>
+
+  <script src="/js/search-links.js"></script>
+  <script src="/js/color-change.js"></script>
+</body>
+
 </html>
