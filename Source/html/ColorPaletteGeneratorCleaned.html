@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Color Palette Generator</title>
+  <link rel="icon" type="image/x-icon" href="img/favicon.ico">
+  <link rel="stylesheet" href="css/styles.css">
+  <link rel="stylesheet" href="https://www.w3.org/StyleSheets/Core/Modernist" type="text/css">
+</head>
+
+<body>
+  <div class="color-palette-generator tool"
+    x-data="{url:false, colors:false,type:'palette', options: {png: true, code: true }}">
+    <div class="shadowed rounded display-palette color-palette-generator-output big" id="main-display"
+      data-generate-method="auto" data-copyurl="https://colorkit.co/palette/80a6db-79b8e2-6ec9ea-85c7ee-99c5f2/"
+      data-sort-by-brightness="true">
+      <div class="color" x-data="{color:'#80a6db'}" x-bind="palette" id="swatchid-1"
+        style="background:rgb(128,166,219);--contrast-color:#375172">
+        <div class="actions">
+          <div class="clr-field" style="color:rgb(128,166,219)">
+            <button type="button" aria-labelledby="clr-open-label"></button>
+            <input type="text" class="colorWell" aria-label="Select swatch color" name="color1" data-swatchid="1"
+              value="#80a6db" data-coloris="">
+          </div>
+          <button type="button" class="mini secondary button random" title="Randomize Color"><i
+              class="fa fa-shuffle-solid"></i></button>
+          <button type="button" class="mini secondary button lock" title="Lock Color"><i
+              class="fa fa-lock-open-solid"></i><i class="fa fa-lock-solid sf-hidden"></i></button>
+          <button type="button" class="mini secondary button remove" title="Remove Color"><i
+              class="fa fa-trash"></i></button>
+          <button type="button" class="mini secondary button sort-handle" title="Drag to re-order"><i
+              class="fa fa-grip-dots-solid"></i></button>
+        </div>
+        <span class="color-pill" data-copycolor="#80a6db">#80a6db</span>
+        <div class="add-actions before">
+          <button type="button" class="addbutton before" id="addColor0" title="Insert Color"><i
+              class="fa fa-plus-solid"></i></button>
+          <div class="color-dots">
+            <div class="color-dot" style="opacity:0;background:#40536e"></div>
+            <div class="color-dot" style="opacity:0;background:#000000"></div>
+            <div class="color-dot" style="opacity:0;background:#000000"></div>
+            <div class="color-dot" style="opacity:0;background:#a6db80"></div>
+          </div>
+        </div>
+        <div class="add-actions after">
+          <button type="button" class="addbutton after" id="addColor1" title="Insert Color"><i
+              class="fa fa-plus-solid"></i></button>
+          <div class="color-dots">
+            <div class="color-dot" style="opacity:0;background:#7dafdf"></div>
+            <div class="color-dot" style="opacity:0;background:#dbb580"></div>
+            <div class="color-dot" style="opacity:0;background:#db80a6"></div>
+            <div class="color-dot" style="opacity:0;background:#b8e279"></div>
+          </div>
+        </div>
+      </div>
+      <div class="color" x-data="{color:'#79b8e2'}" x-bind="palette" id="swatchid-2"
+        style="background:rgb(121,184,226);--contrast-color:#315972">
+        <div class="actions">
+          <div class="clr-field" style="color:rgb(121,184,226)">
+            <button type="button" aria-labelledby="clr-open-label"></button>
+            <input type="text" class="colorWell" aria-label="Select swatch color" name="color2" data-swatchid="2"
+              value="#79b8e2" data-coloris="">
+          </div>
+          <button type="button" class="mini secondary button random" title="Randomize Color"><i
+              class="fa fa-shuffle-solid"></i></button>
+          <button type="button" class="mini secondary button lock" title="Lock Color"><i
+              class="fa fa-lock-open-solid"></i><i class="fa fa-lock-solid sf-hidden"></i></button>
+          <button type="button" class="mini secondary button remove" title="Remove Color"><i
+              class="fa fa-trash"></i></button>
+          <button type="button" class="mini secondary button sort-handle" title="Drag to re-order"><i
+              class="fa fa-grip-dots-solid"></i></button>
+        </div>
+        <span class="color-pill" data-copycolor="#79b8e2">#79b8e2</span>
+        <div class="add-actions before">
+          <button type="button" class="addbutton before" id="addColor2" title="Insert Color"><i
+              class="fa fa-plus-solid"></i></button>
+          <div class="color-dots">
+            <div class="color-dot" style="opacity:0;background:#40536e"></div>
+            <div class="color-dot" style="opacity:0;background:#000000"></div>
+            <div class="color-dot" style="opacity:0;background:#000000"></div>
+            <div class="color-dot" style="opacity:0;background:#a6db80"></div>
+          </div>
+        </div>
+        <div class="add-actions after">
+          <button type="button" class="addbutton after" id="addColor3" title="Insert Color"><i
+              class="fa fa-plus-solid"></i></button>
+          <div class="color-dots">
+            <div class="color-dot" style="opacity:0;background:#7dafdf"></div>
+            <div class="color-dot" style="opacity:0;background:#dbb580"></div>
+            <div class="color-dot" style="opacity:0;background:#db80a6"></div>
+            <div class="color-dot" style="opacity:0;background:#b8e279"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+
+</html>

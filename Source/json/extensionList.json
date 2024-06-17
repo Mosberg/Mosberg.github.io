@@ -1,0 +1,177 @@
+[
+  {
+    "identifier": {
+      "id": "abusaidm.html-snippets",
+      "uuid": "be992f3f-9f22-4b66-a1d2-ecad04c28a28"
+    },
+    "displayName": "HTML Snippets"
+  },
+  {
+    "identifier": {
+      "id": "aaron-bond.better-comments",
+      "uuid": "7a0110bb-231a-4598-aa1b-0769ea46d28b"
+    },
+    "displayName": "Better Comments"
+  },
+  {
+    "identifier": {
+      "id": "bierner.bracket-pair-colorizer-2",
+      "uuid": "5a6e2b21-1d61-4acd-b31b-907f9c23f18a"
+    },
+    "displayName": "Bracket Pair Colorizer 2"
+  },
+  {
+    "identifier": {
+      "id": "bierner.emojisense",
+      "uuid": "081cd2e9-bc51-4ea3-977e-544bed2e33a8"
+    },
+    "displayName": ":emojisense:"
+  },
+  {
+    "identifier": {
+      "id": "bierner.markdown-mermaid",
+      "uuid": "f8d0ffc4-66bb-4a9c-8149-ef8f043691a1"
+    },
+    "displayName": "Markdown Preview Mermaid Support"
+  },
+  {
+    "identifier": {
+      "id": "bierner.markdown-preview-github-styles",
+      "uuid": "5cbdf58a-694a-4aba-af08-61d00842eb03"
+    },
+    "displayName": "Markdown Preview Github Styling"
+  },
+  {
+    "identifier": {
+      "id": "bradgashler.htmltagwrap",
+      "uuid": "c16f95f6-9b42-4a24-9bf4-245d4ea54fc5"
+    },
+    "displayName": "HTMLTagWrap"
+  },
+  {
+    "identifier": {
+      "id": "christian-kohler.npm-intellisense",
+      "uuid": "dff6b801-247e-40e9-82e8-8c9b1d19d1b8"
+    },
+    "displayName": "npm Intellisense"
+  },
+  {
+    "identifier": {
+      "id": "christian-kohler.path-intellisense",
+      "uuid": "a41c1549-4053-44d4-bf30-60fc809b4a86"
+    },
+    "displayName": "Path Intellisense"
+  },
+  {
+    "identifier": {
+      "id": "codeium.codeium",
+      "uuid": "acab4f40-b6db-42ec-bcd1-01802cbdd988"
+    },
+    "displayName": "Codeium: AI Coding Autocomplete and Chat for Python, Javascript, Typescript, Java, Go, and more"
+  },
+{
+    "identifier": {
+      "id": "coenraads.bracket-pair-colorizer-2",
+      "uuid": "5a6e2b21-1d61-4acd-b31b-907f9c23f18a"
+    },
+    "displayName": "Bracket Pair Colorizer 2"
+  },
+  {
+    "identifier": {
+      "id": "davidanson.vscode-markdownlint",
+      "uuid": "daf8b44d-8aae-4da2-80c5-1f770219f643"
+    },
+    "displayName": "markdownlint"
+  },
+  {
+    "identifier": {
+      "id": "dbaeumer.vscode-eslint",
+      "uuid": "583b2b34-2c1e-4634-8c0b-0b82e283ea3a"
+    },
+    "displayName": "ESLint"
+  },
+  {
+    "identifier": {
+      "id": "donjayamanne.python-environment-manager",
+      "uuid": "0c9f60fd-5588-42f7-9176-e80c3ae111ec"
+    },
+    "displayName": "Python Environment Manager"
+  },
+  {
+    "identifier": {
+      "id": "ecmel.vscode-html-css",
+      "uuid": "aaee577c-f062-495a-9816-0cbd442f1d25"
+    },
+    "displayName": "HTML CSS Support"
+  },
+  {
+    "identifier": {
+      "id": "edwinkofler.vscode-hyperupcall-pack-markdown",
+      "uuid": "7532dc0a-9710-4aee-9483-8f6e5000205b"
+    },
+    "displayName": "Edwin's Pack: Markdown"
+  },
+  {
+    "identifier": {
+      "id": "eg2.vscode-npm-script",
+      "uuid": "ae9e3eb0-3357-4cc0-90ee-598d2d384757"
+    },
+    "displayName": "npm"
+  },
+  {
+    "identifier": {
+      "id": "esbenp.prettier-vscode",
+      "uuid": "96fa4707-6983-4489-b7c5-d5ffdfdcce90"
+    },
+    "displayName": "Prettier - Code formatter"
+  },
+  {
+    "identifier": {
+      "id": "formulahendry.auto-close-tag",
+      "uuid": "d3836729-9cc1-42c1-b2af-d50071f57d29"
+    },
+    "displayName": "Auto Close Tag"
+  },
+  {
+    "identifier": {
+      "id": "formulahendry.auto-complete-tag",
+      "uuid": "366a9f01-2d1b-48b9-b7df-014ff8dea46b"
+    },
+    "displayName": "Auto Complete Tag"
+  },
+  {
+    "identifier": {
+      "id": "formulahendry.auto-rename-tag",
+      "uuid": "6e440e71-8ed9-4f25-bb78-4b13096b8a03"
+    },
+    "displayName": "Auto Rename Tag"
+  },
+  {
+    "identifier": {
+      "id": "formulahendry.code-runner",
+      "uuid": "a6a0c5b2-d078-4bf5-a9ee-4e37054414b3"
+    },
+    "displayName": "Code Runner"
+  },
+  {
+    "identifier": {
+      "id": "gengjiawen.vscode-npm-dependency",
+      "uuid": "9eb468c8-20e5-426d-8c57-219f01dab54e"
+    },
+    "displayName": "Npm Dependency"
+  },
+  {
+    "identifier": {
+      "id": "hbenl.test-adapter-converter",
+      "uuid": "fcc7f3d5-c349-4329-85ab-4760fc641520"
+    },
+    "displayName": "Test Adapter Converter"
+  },
+  {
+    "identifier": {
+      "id": "hbenl.vscode-test-explorer",
+      "uuid": "ff96f1b4-a4b8-45ef-8ecf-c232c0cb75c8"
+    },
+    "displayName": "Test Explorer UI"
+  }
+]

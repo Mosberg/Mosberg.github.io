@@ -1,0 +1,29 @@
+.container {
+  display: grid;
+  grid-template-columns: 100px 100px 100px 100px;
+  grid-template-rows: auto;
+  grid-template-areas:
+    "header header header header"
+    "main main . sidebar"
+    "footer footer footer footer";
+}
+
+header {
+  grid-area: header;
+  background: linear-gradient(red, green, blue);
+}
+
+main {
+  grid-area: main;
+  background: linear-gradient();
+}
+
+aside {
+  grid-area: sidebar;
+  background: linear-gradient();
+}
+
+footer {
+  grid-area: footer;
+  background: linear-gradient();
+}

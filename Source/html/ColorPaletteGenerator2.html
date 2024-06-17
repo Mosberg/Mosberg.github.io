@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Color Palette Generator</title>
+  <link rel="icon" type="image/x-icon" href="img/favicon.ico">
+  <link rel="stylesheet" href="css/styles.css">
+  <link rel="stylesheet" href="https://www.w3.org/StyleSheets/Core/Oldstyle" type="text/css">)
+</head>
+
+<body>
+  <div class="color-palette-generator tool" x-data="paletteGenerator()" x-init="init()"
+    x-on:keydown.space.prevent="generatePalette()">
+    <div class="shadowed rounded display-palette color-palette-generator-output big" id="main-display"
+      data-generate-method="auto" data-copyurl="" data-sort-by-brightness="true">
+      <template x-for="(color, index) in colors">
+        <div class="color" x-data="{color: color}" x-bind="palette" :id="'swatchid-' + index"
+          :style="'background:rgb(' + color.rgb.join(',') + ');--contrast-color:' + getContrastColor(color.hex)">
+          <div class="actions">
+            <div class="clr-field" :style="'color:rgb(' + color.rgb.join(',') + ')'">
+              <button type="button" aria-labelledby="clr-open-label"></button>
+              <input type="text" class="colorWell" aria-label="Select swatch color" :name="'color' + (index + 1)"
+                :data-swatchid="index + 1" :value="color.hex" :data-coloris="">
+            </div>
+            <button type="button" class="mini secondary button random" title="Randomize Color"><i
+                class="fa fa-shuffle-solid"></i></button>
+            <button type="button" class="mini secondary button lock" title="Lock Color"><i
+                class="fa fa-lock-open-solid"></i><i class="fa fa-lock-solid sf-hidden"></i></button>
+            <button type="button" class="mini secondary button remove" title="Remove Color"><i
+                class="fa fa-trash"></i></button>
+            <button type="button" class="mini secondary button sort-handle" title="Drag to re-order"><i
+                class="fa fa-grip-dots-solid"></i></button>
+          </div>
+          <span class="color-pill" :data-copycolor="color.hex">#<span x-text="color.hex"></span></span>
+          <div class="add-actions before">
+            <button type="button" class="addbutton before" :id="'addColor' + (index + 1)" title="Insert Color"><i
+                class="fa fa-plus-solid"></i></button>
+            <div class="color-dots">
+              <div class="color-dot" x-bind:style="getColorStyles(colors[index - 1])"></div>
+              <div class="color-dot" x-bind:style="getColorStyles(colors[index + 1])"></div>
+            </div>
+          </div>
+        </div>
+      </template>
+    </div>
+    <div class="controls colorkit-controls rounded shadowed">
+      <button type="button" class="button secondary" id="randomColors" aria-label="Generate palette"><i
+          class="fa fa-shuffle-solid"></i> <span class="hidden-mobile">Generate</span></button>
+      <button type="button" class="button subtle" id="adjustColors" aria-label="Adjust colors"><i
+          class="fa fa-palette-solid"></i> <span class="hidden-mobile">Adjust Colors</span></button>
+      <button type="button" class="button subtle hidden-mobile contrast-checker-button"
+        data-tippy-content="Check palette color contrast"><i class="fa fa-contrast"></i></button>
+      <button type="button" class="button subtle hidden-mobile method-button" data-tippy-content="Generator options"><i
+          class="fa fa-gear"></i></button>
+      <div class="spacer"></div>
+      <button type="button" class="button" @click="shareSheet($data)"><i class="fa fa-arrow-up-from-bracket-solid"
+          aria-hidden="true"></i> Export</button>
+    </div>
+    <div class="muted colorkit-controls hidden-mobile">
+      <i>Tip: Press space to generate a new palette.</i>
+    </div>
+  </div>
+  <script src="js/script.js"></script>
+</body>
+
+</html>
