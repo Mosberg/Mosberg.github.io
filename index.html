@@ -191,6 +191,58 @@
 
   <script src="/js/search-links.js"></script>
   <script src="/js/color-change.js"></script>
+
+  
+
+<script>
+
+// Definer dataLayer og gtag-funktionen.
+
+window.dataLayer = window.dataLayer || [];
+
+function gtag(){dataLayer.push(arguments);}
+ 
+
+// VIGTIGT – UNDLAD AT KOPIERE/SÆTTE IND UDEN FØRST AT ÆNDRE LISTEN OVER REGIONER
+
+// Angiv standardsamtykke for bestemte regioner i henhold til dine krav
+
+gtag('consent', 'default', {
+
+  'ad_storage': 'denied',
+
+  'ad_user_data': 'denied',
+
+  'ad_personalization': 'denied',
+
+  'analytics_storage': 'denied',
+
+ 'regions':[<liste over ISO 3166-2-regions koder>]
+
+});
+
+// Angiv standardsamtykke for alle andre regioner i henhold til dine krav
+
+gtag('consent', 'default', {
+
+  'ad_storage': 'denied',
+
+  'ad_user_data': 'denied',
+
+  'ad_personalization': 'denied',
+
+  'analytics_storage': 'denied'
+
+});
+ 
+
+</script>
+
+<!--Angiv bannerscript her!--> 
+
+  	<!-- Start cookieyes banner --> <script id="cookieyes" type="text/javascript" src="https://cdn-cookieyes.com/client_data/dc80dc4471ae7044e39f0398/script.js"></script> <!-- End cookieyes banner -->
+
+  
 </body>
 
 </html>
