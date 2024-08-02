@@ -3,9 +3,9 @@
 
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width,initial-scale=1">
-    <title>Mosberg's GitHub.io Homepage</title>
-    <link rel="icon" href="src/ico/mosberg.ico">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="shortcut icon" href="src/ico/mosberg.ico" type="image/x-icon">
     <link rel="stylesheet" href="src/css/style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
     <link
@@ -13,35 +13,44 @@
         rel="stylesheet">
 </head>
 
-<body>
-    <header class="header">
-        <img src="src/img/mosberg.png" alt="Mosberg" class="header-logo">
-        <h1 class="header-title">Mosberg's GitHub.io Homepage!</h1>
-    </header>
-    <nav class="nav">
-        <ul class="nav-list">
-            <li class="nav-item"><a href="home" class="nav-link active"><i class="fa fa-home" aria-label="Home"></i>
-                    Home</a></li>
-            <li class="nav-item"><a href="projects" class="nav-link"><i class="fa fa-code" aria-label="Projects"></i>
-                    Projects</a></li>
-            <li class="nav-item"><a href="about" class="nav-link"><i class="fa fa-user" aria-label="About"></i>
-                    About</a>
-            </li>
-        </ul>
-    </nav>
-    <main class="main">
-        <section class="content"></section>
-    </main>
-    <footer class="footer">
-        <p class="footer-text">
-            Copyright: &copy; 2024 -|- Project: <a href="https://github.com/Mosberg/Mosberg.GitHub.io"
-                class="footer-link">Mosberg.GitHub.io</a> -|- Author: <a href="https://github.com/Mosberg"
-                class="footer-link">Mosberg</a> -|- License: <a
-                href="https://github.com/Mosberg/Mosberg.GitHub.io/docs/LICENSE" class="footer-link">MIT</a> -|- All
-            rights reserved.
-        </p>
-    </footer>
-    <script src="src/js/script.js"></script>
+<body id="prevent">
+    <div class="container">
+
+        <div class="logoGrid">
+            <img src="src/img/mosberg.webp" alt="Logo" title="Click to load the main page">
+        </div>
+
+        <div class="navGrid">
+            <img src="src/img/projects.svg" alt="Project" title="Click to load the project showcase page">
+            <img src="src/img/gallery.svg" alt="Gallery" title="Click to load the gallery showcase page">
+            <img src="src/img/editor.svg" alt="Editor" title="Click to load the editor showcase page">
+        </div>
+
+        <div class="footerGrid">
+            <h2>&copy; 2024 >-> <a href="https://github.com/Mosberg" target="_blank"
+                    title="Click to load Mosberg's GitHub">Mosberg</a>
+                >->
+                <a href="https://github.com/Mosberg/Mosberg.github.io/blob/main/LICENSE" target="_blank"
+                    title="Click to load the license">License</a> All Rights Reserved
+            </h2>
+        </div>
+
+        <div class="leftGrid"></div>
+
+        <div class="mainGrid"></div>
+
+        <div class="rightGrid">
+            <img src="src/img/profile.svg" alt="Profile" title="Click to load the profile page">
+            <img src="src/img/theme.svg" alt="Theme" title="Click to change the theme">
+            <img src="src/img/settings.svg" alt="Settings" title="Click to load the setting page">
+        </div>
+
+        <div class="adminGrid">
+            <img src="src/img/edit.svg" alt="Edit" title="Click to edit this page">
+            <img src="src/img/admin.svg" alt="Admin" title="Click to load the admin page">
+        </div>
+
+    </div>
 </body>
 
 </html>
