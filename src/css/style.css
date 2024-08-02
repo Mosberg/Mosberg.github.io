@@ -140,7 +140,7 @@ body {
 }
 
 .rightGrid img {
-    inline-size: 30%;
+    inline-size: 20%;
     cursor: pointer;
     transition: all 0.3s ease-in-out;
     padding: 2px 8px;
