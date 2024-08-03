@@ -9,6 +9,7 @@
     --button-color: #FF69B4;
     --button-color-hover: #FF99CC;
     --button-color-active: #FFC67D;
+    --button-color-disabled: #2C2F33;
     --button-text-color: #FFFFFF;
     --button-text-color-hover: #F7F7F7;
     --button-text-color-active: #2C2F33;
@@ -32,7 +33,7 @@ body {
 .container {
     display: grid;
     grid-template-columns: 5% 10% 10% 10% 10% 10% 10% 10% 10% 10% 5%;
-    grid-template-rows: 6% 90% 4%;
+    grid-template-rows: 10% 86% 4%;
     gap: 0px 0px;
     grid-template-areas:
         "logoGrid navGrid navGrid navGrid navGrid navGrid navGrid navGrid navGrid navGrid userGrid"
@@ -45,6 +46,24 @@ body {
     position: fixed;
 }
 
+img {
+    background-color: var(--button-color);
+}
+
+img:hover {
+    transform: scale(1.1);
+    background-color: var(--button-color-hover);
+}
+
+img:active {
+    transform: scale(1.1);
+    background-color: var(--button-color-active);
+}
+
+img:disabled {
+    background-color: var(--button-color-disabled);
+}
+
 .logoGrid {
     grid-area: logoGrid;
     display: flex;
@@ -55,8 +74,9 @@ body {
 .logoGrid img {
     cursor: pointer;
     transition: all 0.3s ease-in-out;
-    border-radius: 10px;
+    border-radius: 50%;
     block-size: 90%;
+    background-color: transparent;
 }
 
 .logoGrid img:hover {
@@ -76,7 +96,6 @@ body {
     transition: all 0.3s ease-in-out;
     padding: 2px 8px;
     border-radius: 10px;
-    background-color: var(--button-color);
 }
 
 .navGrid img:hover {
@@ -122,6 +141,7 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
+    flex-direction: column;
 }
 
 .mainGrid {
@@ -134,28 +154,9 @@ body {
 .rightGrid {
     grid-area: rightGrid;
     display: flex;
-    justify-content: space-evenly;
+    justify-content: center;
     align-items: center;
     flex-direction: column;
-}
-
-.rightGrid img {
-    inline-size: 20%;
-    cursor: pointer;
-    transition: all 0.3s ease-in-out;
-    padding: 2px 8px;
-    border-radius: 10px;
-    background-color: var(--button-color);
-}
-
-.rightGrid img:hover {
-    transform: scale(1.1);
-    background-color: var(--button-color-hover);
-}
-
-.rightGrid img:active {
-    transform: scale(1.1);
-    background-color: var(--button-color-active);
 }
 
 .adminGrid {
@@ -171,17 +172,6 @@ body {
     transition: all 0.3s ease-in-out;
     padding: 2px 8px;
     border-radius: 10px;
-    background-color: var(--button-color);
-}
-
-.adminGrid img:hover {
-    transform: scale(1.1);
-    background-color: var(--button-color-hover);
-}
-
-.adminGrid img:active {
-    transform: scale(1.1);
-    background-color: var(--button-color-active);
 }
 
 .userGrid {
@@ -192,22 +182,11 @@ body {
 }
 
 .userGrid img {
-    block-size: 40%;
+    block-size: 25%;
     cursor: pointer;
     transition: all 0.3s ease-in-out;
     padding: 2px 8px;
     border-radius: 10px;
-    background-color: var(--button-color);
-}
-
-.userGrid img:hover {
-    transform: scale(1.1);
-    background-color: var(--button-color-hover);
-}
-
-.userGrid img:active {
-    transform: scale(1.1);
-    background-color: var(--button-color-active);
 }
 
 .socialGrid {
@@ -223,17 +202,6 @@ body {
     transition: all 0.3s ease-in-out;
     padding: 2px 8px;
     border-radius: 10px;
-    background-color: var(--button-color);
-}
-
-.socialGrid img:hover {
-    transform: scale(1.1);
-    background-color: var(--button-color-hover);
-}
-
-.socialGrid img:active {
-    transform: scale(1.1);
-    background-color: var(--button-color-active);
 }
 
 #prevent {
