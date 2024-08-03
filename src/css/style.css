@@ -53,9 +53,10 @@ body {
 }
 
 .logoGrid img {
-    block-size: 90%;
     cursor: pointer;
     transition: all 0.3s ease-in-out;
+    border-radius: 10px;
+    block-size: 90%;
 }
 
 .logoGrid img:hover {
@@ -70,7 +71,7 @@ body {
 }
 
 .navGrid img {
-    block-size: 60%;
+    block-size: 40%;
     cursor: pointer;
     transition: all 0.3s ease-in-out;
     padding: 2px 8px;
@@ -191,7 +192,7 @@ body {
 }
 
 .userGrid img {
-    block-size: 60%;
+    block-size: 40%;
     cursor: pointer;
     transition: all 0.3s ease-in-out;
     padding: 2px 8px;
