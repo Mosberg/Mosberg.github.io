@@ -31,16 +31,15 @@ body {
 
 .container {
     display: grid;
-    grid-template-columns: 10% 10% 10% 10% 10% 10% 10% 10% 10% 10%;
-    grid-template-rows: 8% 88% 4%;
+    grid-template-columns: 5% 10% 10% 10% 10% 10% 10% 10% 10% 10% 5%;
+    grid-template-rows: 6% 90% 4%;
     gap: 0px 0px;
-    grid-auto-flow: row;
+    grid-template-areas:
+        "logoGrid navGrid navGrid navGrid navGrid navGrid navGrid navGrid navGrid navGrid userGrid"
+        "leftGrid mainGrid mainGrid mainGrid mainGrid mainGrid mainGrid mainGrid mainGrid mainGrid rightGrid"
+        "socialGrid footerGrid footerGrid footerGrid footerGrid footerGrid footerGrid footerGrid footerGrid footerGrid adminGrid";
     align-content: center;
     align-items: stretch;
-    grid-template-areas:
-        "logoGrid navGrid navGrid navGrid navGrid navGrid navGrid navGrid navGrid adminGrid"
-        "leftGrid mainGrid mainGrid mainGrid mainGrid mainGrid mainGrid mainGrid mainGrid rightGrid"
-        "footerGrid footerGrid footerGrid footerGrid footerGrid footerGrid footerGrid footerGrid footerGrid footerGrid";
     inline-size: 100%;
     block-size: 100%;
     position: fixed;
@@ -180,6 +179,58 @@ body {
 }
 
 .adminGrid img:active {
+    transform: scale(1.1);
+    background-color: var(--button-color-active);
+}
+
+.userGrid {
+    grid-area: userGrid;
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+}
+
+.userGrid img {
+    block-size: 60%;
+    cursor: pointer;
+    transition: all 0.3s ease-in-out;
+    padding: 2px 8px;
+    border-radius: 10px;
+    background-color: var(--button-color);
+}
+
+.userGrid img:hover {
+    transform: scale(1.1);
+    background-color: var(--button-color-hover);
+}
+
+.userGrid img:active {
+    transform: scale(1.1);
+    background-color: var(--button-color-active);
+}
+
+.socialGrid {
+    grid-area: socialGrid;
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+}
+
+.socialGrid img {
+    block-size: 60%;
+    cursor: pointer;
+    transition: all 0.3s ease-in-out;
+    padding: 2px 8px;
+    border-radius: 10px;
+    background-color: var(--button-color);
+}
+
+.socialGrid img:hover {
+    transform: scale(1.1);
+    background-color: var(--button-color-hover);
+}
+
+.socialGrid img:active {
     transform: scale(1.1);
     background-color: var(--button-color-active);
 }
