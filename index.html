@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Mosberg's GitHub.io Homepage</title>
-    <link rel="shortcut icon" href="src/ico/mosberg.ico" type="image/x-icon">
+    <link rel="shortcut icon" href="src/ico/icon.ico" type="image/x-icon">
     <link rel="stylesheet" href="src/css/style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
     <link
@@ -13,18 +13,48 @@
         rel="stylesheet">
 </head>
 
-<body id="prevent">
+<body>
     <div class="container">
 
         <div class="logoGrid">
-            <img src="src/img/mosberg.webp" alt="Logo" title="Click to load the main page">
+            <img id="main" src="src/img/logo.webp" alt="Logo" title="Click to load the main page">
+        </div>
+
+        <div class="leftGrid">
+            <img id="html" src="src/svg/color/html.svg" alt="HTML" title="Click to load the homepage in HTML code">
+            <img id="css" src="src/svg/color/css.svg" alt="CSS" title="Click to load the homepage in CSS code">
+            <img id="js" src="src/svg/color/javascript.svg" alt="JS" title="Click to load the homepage in JS code">
+            <img id="python" src="src/svg/color/python.svg" alt="Python"
+                title="Click to load the homepage in Python code">
+            <img id="markdown" src="src/svg/color/markdown.svg" alt="MD"
+                title="Click to load the homepage in markdown code">
+        </div>
+
+        <div class="socialGrid"></div>
+
+        <div class="mainGrid">
+            <div class="indholdGrid"></div>
         </div>
 
         <div class="navGrid">
-            <img src="src/svg/dark/projects.svg" alt="Project" title="Click to load the project showcase page">
-            <img src="src/svg/dark/gallery.svg" alt="Gallery" title="Click to load the gallery showcase page">
-            <img src="src/svg/dark/editor.svg" alt="Editor" title="Click to load the editor showcase page">
+            <img id="projects" src="src/svg/black/projects.svg" alt="Project"
+                title="Click to load the project showcase page">
+            <img id="gallery" src="src/svg/black/gallery.svg" alt="Gallery"
+                title="Click to load the gallery showcase page">
+            <img id="editor" src="src/svg/black/editor.svg" alt="Editor" title="Click to load the editor showcase page">
+            <img id="book" src="src/svg/black/book.svg" alt="Book" title="Click to load the book showcase page">
+            <img id="newspaper" src="src/svg/black/newspaper.svg" alt="Newspaper"
+                title="Click to load the newspaper showcase page">
+            <img id="list" src="src/svg/black/list.svg" alt="list" title="Click to load the list showcase page">
+            <img id="games" src="src/svg/black/games.svg" alt="games" title="Click to load the games showcase page">
         </div>
+
+        <div class="userGrid">
+            <img id="profile" src="src/svg/black/profile.svg" alt="Profile" title="Click to load the profile page">
+            <img id="theme" src="src/svg/black/theme.svg" alt="Theme" title="Click to change the theme">
+        </div>
+
+        <div class="rightGrid"></div>
 
         <div class="footerGrid">
             <h2>&copy; 2024 [ <a href="https://github.com/Mosberg" target="_blank"
@@ -34,25 +64,14 @@
             </h2>
         </div>
 
-        <div class="leftGrid"></div>
-
-        <div class="mainGrid"></div>
-
-        <div class="rightGrid"></div>
-
         <div class="adminGrid">
-            <img src="src/svg/dark/admin.svg" alt="Admin" title="Click to load the admin page">
-            <img src="src/svg/dark/settings.svg" alt="Settings" title="Click to load the setting page" disabled>
+            <img id="admin" src="src/svg/black/admin.svg" alt="Admin" title="Click to load the admin page">
+            <img id="settings" src="src/svg/black/settings.svg" alt="Settings" title="Click to load the setting page">
         </div>
-
-        <div class="userGrid">
-            <img src="src/svg/dark/profile.svg" alt="Profile" title="Click to load the profile page">
-            <img src="src/svg/dark/theme.svg" alt="Theme" title="Click to change the theme">
-        </div>
-
-        <div class="socialGrid"></div>
 
     </div>
+
+    <script src="src/js/script.js"></script>
 </body>
 
 </html>
