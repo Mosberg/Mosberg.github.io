@@ -98,6 +98,7 @@ body {
     grid-area: mainGrid;
     border-radius: 15px;
     background-color: var(--secondary-background-color);
+    box-shadow: inset 0 0 20px rgba(0, 0, 0, 1), 0 0 20px rgba(0, 0, 0, 0.5);
 }
 
 .indholdGrid {
@@ -109,6 +110,7 @@ body {
     background-color: var(--primary-background-color);
     inline-size: 100%;
     overflow: auto;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 1), 0 0 20px rgba(0, 0, 0, 0.5);
 }
 
 .navGrid {
@@ -204,4 +206,30 @@ a:active {
 a:disabled {
     filter: hue-rotate(135deg);
     text-decoration: line-through;
+}
+
+/* Indhold Styles */
+
+.indhold {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.indhold h1 {
+    margin: 0;
+}
+
+.indhold p {
+    margin: 0;
+}
+
+/* Projects Styles */
+
+.projects-list {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
 }
