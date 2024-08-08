@@ -1,0 +1,98 @@
+/* Global Variables */
+
+:root {
+  /* Colors */
+  --primary-background-color: #0e51d8;
+  --secondary-background-color: #ffffff;
+  --highlight-color: #ff4a92;
+  --text-color: #000000;
+  --button-color: #ff8168;
+  --button-color-disabled: #c33fbf;
+  --button-text-color: #ffffff;
+  --link-color: #f9f871;
+
+  /* Fonts */
+  --main-font: "Fira Code", monospace;
+}
+
+/* Global Styles */
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: var(--main-font);
+  color: var(--text-color);
+  background-color: var(--primary-background-color);
+  block-size: 100vh;
+  inline-size: 100vw;
+  display: flex;
+  flex-direction: column;
+  /* added for better layout */
+}
+
+header {
+  position: fixed;
+  inset-block-start: 0;
+  inset-inline-start: 0;
+  inline-size: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.logo {
+  inline-size: 100px;
+  block-size: 100px;
+}
+
+.title {
+  font-size: 48px;
+  margin: 0;
+  padding: 0;
+}
+
+main {
+  position: fixed;
+  inset-block-start: 110px;
+  inset-inline-start: 2%;
+  inset-block-end: 50px;
+  inline-size: 96%;
+  block-size: 83.5%;
+  overflow-y: auto;
+  /* added for better scrolling */
+}
+
+section {
+  background-color: var(--secondary-background-color);
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.7), 0 10px 20px rgba(0, 0, 0, 0.5), 0 20px 30px rgba(0, 0, 0, 0.3), 0 30px 40px rgba(0, 0, 0, 0.1);
+  border-radius: 10px;
+  block-size: 100%;
+  /* added for better layout */
+}
+
+footer {
+  position: fixed;
+  inset-block-end: 0;
+  inset-inline-start: 0;
+  inline-size: 100%;
+  text-align: center;
+  padding: 10px;
+}
+
+footer p {
+  margin: 0;
+  padding: 0;
+}
+
+footer a {
+  color: var(--link-color);
+  text-decoration: none;
+}
+
+footer a:hover {
+  text-decoration: underline;
+}
