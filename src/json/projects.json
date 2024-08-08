@@ -1,0 +1,14 @@
+[
+  {
+    "title": "Project 1",
+    "image": "image1.jpg",
+    "description": "This is project 1.",
+    "rating": 4.5
+  },
+  {
+    "title": "Project 2",
+    "image": "image2.jpg",
+    "description": "This is project 2.",
+    "rating": 4.8
+  }
+]
