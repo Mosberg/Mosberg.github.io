@@ -16,13 +16,11 @@ document.addEventListener("DOMContentLoaded", () => {
   const expandBtn = document.createElement("button");
   expandBtn.type = "button";
   expandBtn.textContent = "Expand all";
-  expandBtn.dataset.action = "expand";
   controls.appendChild(expandBtn);
 
   const collapseBtn = document.createElement("button");
   collapseBtn.type = "button";
   collapseBtn.textContent = "Collapse all";
-  collapseBtn.dataset.action = "collapse";
   controls.appendChild(collapseBtn);
 
   nav.appendChild(controls);
@@ -43,7 +41,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   nav.appendChild(ul);
 
-  // Active link highlighting via IntersectionObserver
+  // Active link highlighting
   const observer = new IntersectionObserver(
     (entries) => {
       entries.forEach((entry) => {
@@ -85,7 +83,7 @@ document.addEventListener("DOMContentLoaded", () => {
     window.__navHelpers.collapseAll()
   );
 
-  // Search filtering (handled in main_content via event)
+  // Search filtering
   search.addEventListener("input", (e) => {
     const q = e.target.value.toLowerCase().trim();
     window.dispatchEvent(
