@@ -1,0 +1,28 @@
+{
+  "schemaVersion": 1,
+  "id": "rarity",
+  "version": "${version}",
+  "name": "Rarity",
+  "description": "A fully data-driven Minecraft Fabric mod that introduces dynamic item rarities across crafting, loot, and drops.",
+  "authors": ["Mosberg"],
+  "contact": {
+    "homepage": "https://fabricmc.net/",
+    "sources": "https://github.com/FabricMC/fabric-example-mod"
+  },
+  "license": "CC0-1.0",
+  "icon": "assets/rarity/icon.png",
+  "environment": "*",
+  "entrypoints": {
+    "main": ["dk.mosberg.Rarity"],
+    "client": ["dk.mosberg.RarityClient"]
+  },
+  "depends": {
+    "fabricloader": ">=0.18.1",
+    "minecraft": "~1.21.10",
+    "java": ">=21",
+    "fabric-api": "*"
+  },
+  "suggests": {
+    "another-mod": "*"
+  }
+}
