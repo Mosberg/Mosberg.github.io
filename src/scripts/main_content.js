@@ -38,7 +38,7 @@ document.addEventListener("DOMContentLoaded", () => {
     try {
       if (cache.has(url)) return cache.get(url);
       const res = await fetch(url, { cache: "no-cache" });
-      if (!res.ok) throw new Error(`Failed to fetch ${url}: ${res.status}`);
+      if (!res.ok) throw new Error(`HTTP ${res.status} ${res.statusText}`);
       const text = await res.text();
       cache.set(url, text);
       return text;
@@ -177,6 +177,8 @@ document.addEventListener("DOMContentLoaded", () => {
         loaded = true;
         try {
           await fetcher();
+        } catch (err) {
+          console.error("Lazy fetch error:", err);
         } finally {
           summary?.removeAttribute("aria-busy");
         }
@@ -209,8 +211,12 @@ document.addEventListener("DOMContentLoaded", () => {
           const md = await fetchText(url);
           container.innerHTML = marked.parse(md);
           rewriteLinks(container, url);
-        } catch {
-          container.textContent = "Failed to load README.";
+        } catch (err) {
+          container.innerHTML = `
+            <p style="color:red">
+              Failed to load <code>${url}</code><br>
+              Error: ${err.message}
+            </p>`;
         }
       });
 
@@ -246,8 +252,12 @@ document.addEventListener("DOMContentLoaded", () => {
                 rawBtn.href = docUrl;
                 perItem.lastChild.appendChild(wrap);
               }
-            } catch {
-              perItem.lastChild.textContent = `Failed to load ${name}`;
+            } catch (err) {
+              perItem.lastChild.innerHTML = `
+                <p style="color:red">
+                  Failed to load <code>${docUrl}</code><br>
+                  Error: ${err.message}
+                </p>`;
             }
           });
 
@@ -279,8 +289,12 @@ document.addEventListener("DOMContentLoaded", () => {
               const { wrap, rawBtn } = codeBlock(text, "json", name);
               rawBtn.href = dataUrl;
               perItem.lastChild.appendChild(wrap);
-            } catch {
-              perItem.lastChild.textContent = `Failed to load ${name}`;
+            } catch (err) {
+              perItem.lastChild.innerHTML = `
+                <p style="color:red">
+                  Failed to load <code>${dataUrl}</code><br>
+                  Error: ${err.message}
+                </p>`;
             }
           });
 
@@ -312,7 +326,11 @@ document.addEventListener("DOMContentLoaded", () => {
               rawBtn.href = modelUrl;
               perItem.lastChild.appendChild(wrap);
             } catch (err) {
-              perItem.lastChild.innerHTML = `Failed to load <code>${dataUrl}</code>: ${err.message}`;
+              perItem.lastChild.innerHTML = `
+                <p style="color:red">
+                  Failed to load <code>${modelUrl}</code><br>
+                  Error: ${err.message}
+                </p>`;
             }
           });
 
