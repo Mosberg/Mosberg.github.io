@@ -5,7 +5,6 @@ document.addEventListener("DOMContentLoaded", () => {
   const main = document.getElementById("mainContent");
   if (!main) return;
 
-  // Configure marked (basic safety; for stricter sanitization, integrate DOMPurify)
   marked.setOptions({
     gfm: true,
     breaks: true,
@@ -13,43 +12,53 @@ document.addEventListener("DOMContentLoaded", () => {
     mangle: false,
   });
 
-  // In-memory cache
   const cache = new Map();
 
-  // Resolve path or full URL using mod.base if available
-  function resolve(pathOrUrl, base) {
+  function normalizeBase(base) {
+    if (!base) return location.href;
     try {
-      return new URL(pathOrUrl, base || location.href).toString();
+      const u = new URL(base);
+      if (!u.pathname.endsWith("/")) u.pathname += "/";
+      return u.toString();
+    } catch {
+      return base.endsWith("/") ? base : base + "/";
+    }
+  }
+
+  function resolve(pathOrUrl, base) {
+    const safeBase = normalizeBase(base);
+    try {
+      return new URL(pathOrUrl, safeBase).toString();
     } catch {
       return pathOrUrl;
     }
   }
 
-  // Fetch text with caching
   async function fetchText(url) {
-    if (cache.has(url)) return cache.get(url);
-    const res = await fetch(url, { cache: "no-cache" });
-    if (!res.ok) throw new Error(`Failed to fetch ${url}: ${res.status}`);
-    const text = await res.text();
-    cache.set(url, text);
-    return text;
+    try {
+      if (cache.has(url)) return cache.get(url);
+      const res = await fetch(url, { cache: "no-cache" });
+      if (!res.ok) throw new Error(`Failed to fetch ${url}: ${res.status}`);
+      const text = await res.text();
+      cache.set(url, text);
+      return text;
+    } catch (err) {
+      console.error("Fetch error:", url, err);
+      throw err;
+    }
   }
 
-  // Collapsible (<details>) utility
   function collapsible(title, contentEl, { open = false } = {}) {
     const details = document.createElement("details");
     details.className = "collapsible";
     details.open = open;
-
     const summary = document.createElement("summary");
     summary.textContent = title;
     details.appendChild(summary);
-
     details.appendChild(contentEl);
     return details;
   }
 
-  // Code block with hljs and copy/download tools
   function codeBlock(text, lang = "json", filename = "") {
     const pre = document.createElement("pre");
     const code = document.createElement("code");
@@ -80,7 +89,6 @@ document.addEventListener("DOMContentLoaded", () => {
     rawBtn.textContent = "Open raw";
     rawBtn.target = "_blank";
     rawBtn.rel = "noopener";
-    rawBtn.href = "#"; // set by caller if needed
 
     tools.append(copyBtn, downloadBtn, rawBtn);
 
@@ -90,7 +98,6 @@ document.addEventListener("DOMContentLoaded", () => {
     return { wrap, rawBtn };
   }
 
-  // Image grid item with lazy loading and modal
   function textureItem(src, alt) {
     const fig = document.createElement("figure");
     fig.className = "texture-item";
@@ -130,7 +137,6 @@ document.addEventListener("DOMContentLoaded", () => {
     modal.showModal();
   }
 
-  // Permalink utility
   function addPermalink(h2, id) {
     const a = document.createElement("a");
     a.href = `#${id}`;
@@ -180,7 +186,7 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
-  // Build sections
+  // Build sections dynamically from minecraft array
   minecraft.forEach((mod) => {
     const section = document.createElement("section");
     section.id = mod.id;
@@ -320,7 +326,7 @@ document.addEventListener("DOMContentLoaded", () => {
       section.appendChild(modelsDetails);
     }
 
-    // Textures grid with filter and modal (no fetch needed)
+    // Textures grid with filter and modal
     if (Array.isArray(mod.textures) && mod.textures.length) {
       const texturesWrap = document.createElement("div");
       texturesWrap.className = "textures-wrap";
@@ -354,10 +360,7 @@ document.addEventListener("DOMContentLoaded", () => {
       section.appendChild(texturesDetails);
     }
 
-    // Attach section
     main.appendChild(section);
-
-    // Active highlight tracking
     window.__navHelpers?.observer.observe(section);
   });
 
@@ -377,7 +380,7 @@ document.addEventListener("DOMContentLoaded", () => {
   scrollToHash();
   window.addEventListener("hashchange", scrollToHash);
 
-  // Site-wide search: tokenized matching
+  // Site-wide search
   window.addEventListener("site:search", (e) => {
     const q = (e.detail?.query || "").toLowerCase().trim();
     const tokens = q.split(/\s+/).filter(Boolean);
