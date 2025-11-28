@@ -6,10 +6,10 @@
   "description": "A fully data-driven Minecraft Fabric mod that introduces dynamic item rarities across crafting, loot, and drops.",
   "authors": ["Mosberg"],
   "contact": {
-    "homepage": "https://fabricmc.net/",
-    "sources": "https://github.com/FabricMC/fabric-example-mod"
+    "homepage": "https://mosberg.github.io/",
+    "sources": "https://mosberg.github.io/src/minecraft/mods/rarity/README"
   },
-  "license": "CC0-1.0",
+  "license": "Copyright (c) 2025 Mosberg, All rights reserved.",
   "icon": "assets/rarity/icon.png",
   "environment": "*",
   "entrypoints": {
