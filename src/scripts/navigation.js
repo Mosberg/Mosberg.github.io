@@ -9,7 +9,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   const search = document.createElement("input");
   search.type = "search";
-  search.placeholder = "Search minecraft, mods, docs, files...";
+  search.placeholder = "Search mods, docs, files...";
   search.id = "siteSearch";
   controls.appendChild(search);
 
@@ -27,7 +27,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   nav.appendChild(controls);
 
-  // Primary nav list
+  // Primary nav list under controls
   const ul = document.createElement("ul");
   ul.className = "primary-nav";
 
@@ -41,7 +41,6 @@ document.addEventListener("DOMContentLoaded", () => {
     ul.appendChild(li);
   });
 
-  // Append the list *after* the controls
   nav.appendChild(ul);
 
   // Active link highlighting via IntersectionObserver
