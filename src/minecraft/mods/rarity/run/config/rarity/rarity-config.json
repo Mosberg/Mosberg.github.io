@@ -1,0 +1,36 @@
+{
+  "hudSettings": {
+    "enabled": true,
+    "posX": 0,
+    "posY": -22,
+    "scale": 1.0,
+    "showGlow": true,
+    "glowLayers": 3
+  },
+  "effectSettings": {
+    "particlesEnabled": true,
+    "soundsEnabled": true,
+    "animationsEnabled": true,
+    "particleIntensity": 1.0
+  },
+  "statSettings": {
+    "damageBoost": {
+      "owner": 10.0,
+      "uncommon": 1.05,
+      "trassh": 0.6,
+      "transcendent": 1.16,
+      "common": 1.02,
+      "mythic": 1.2,
+      "legendary": 1.15,
+      "rare": 1.08,
+      "epic": 1.12,
+      "celestial": 1.35,
+      "divine": 1.45,
+      "ancient": 1.25
+    },
+    "speedBoost": {},
+    "luckBoost": {}
+  },
+  "persistRarities": true,
+  "debugMode": false
+}
