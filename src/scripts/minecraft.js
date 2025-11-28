@@ -1,11 +1,11 @@
-// src/scripts/mods.js
+// src/scripts/minecraft.js
 const minecraft = [
   {
     id: "beyond-the-bobber",
     title: "Beyond the Bobber",
     description:
       "**Beyond the Bobber** expands Minecraft’s fishing system into a full-fledged adventure.",
-    base: "https://github.com/Mosberg/minecraft/blob/main/beyond-the-bobber/",
+    base: "https://raw.githubusercontent.com/Mosberg/minecraft/main/beyond-the-bobber/",
     readme: "README.md",
   },
   {
@@ -13,7 +13,7 @@ const minecraft = [
     title: "Rarity",
     description:
       "Introduces rarity tiers to items, making progression more rewarding and loot more exciting.",
-    base: "https://github.com/Mosberg/minecraft/blob/main/rarity/",
+    base: "https://raw.githubusercontent.com/Mosberg/minecraft/main/rarity/",
     readme: "README.md",
     docs: [
       "docs/schemas/rarities.schema.json",
@@ -78,14 +78,14 @@ const minecraft = [
     title: "Rarity & Relics",
     description:
       "This mod combines unique relics with rarity mechanics, adding depth to exploration and loot.",
-    base: "https://github.com/Mosberg/minecraft/blob/main/rarity-and-relics/",
+    base: "https://raw.githubusercontent.com/Mosberg/minecraft/main/rarity-and-relics/",
     readme: "README.md",
   },
   {
     id: "relics-of-rarity",
     title: "Relics of Rarity",
     description: "",
-    base: "https://github.com/Mosberg/minecraft/blob/main/relics-of-rarity/",
+    base: "https://raw.githubusercontent.com/Mosberg/minecraft/main/relics-of-rarity/",
     readme: "",
     docs: [
       "schemas/modifiers.schema.json",
