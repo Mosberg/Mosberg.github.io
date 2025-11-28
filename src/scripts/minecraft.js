@@ -11,9 +11,8 @@ const minecraft = [
   {
     id: "rarity",
     title: "Rarity",
-    description:
-      "Introduces rarity tiers to items, making progression more rewarding and loot more exciting.",
-    base: "https://raw.githubusercontent.com/Mosberg/minecraft/main/rarity/",
+    description: "Introduces rarity tiers to items...",
+    base: "https://cdn.jsdelivr.net/gh/Mosberg/minecraft@main/rarity/",
     readme: "README.md",
     docs: [
       "docs/schemas/rarities.schema.json",
