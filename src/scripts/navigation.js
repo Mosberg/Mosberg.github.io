@@ -27,7 +27,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   nav.appendChild(controls);
 
-  // Primary nav
+  // Primary nav list
   const ul = document.createElement("ul");
   ul.className = "primary-nav";
 
@@ -41,6 +41,7 @@ document.addEventListener("DOMContentLoaded", () => {
     ul.appendChild(li);
   });
 
+  // Append the list *after* the controls
   nav.appendChild(ul);
 
   // Active link highlighting via IntersectionObserver
