@@ -79,7 +79,27 @@ p {
    Controls (buttons, selects)
    =========================== */
 nav {
-  margin-block-start: var(--space-sm);
+  display: flex;
+  flex-direction: column; /* stack controls and ul vertically */
+  align-items: center; /* center horizontally */
+  gap: 1rem; /* space between controls and list */
+}
+
+.nav-controls {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: var(--space-sm);
+  width: 90%;
+}
+
+.primary-nav {
+  display: flex;
+  gap: 1.5rem;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  justify-content: center;
 }
 
 select,
@@ -87,10 +107,10 @@ button {
   background: var(--bg-primary);
   color: var(--text-primary);
   border: 2px solid var(--text-secondary);
-  padding: var(--space-sm) var(--space-md);
+  padding: 0.4rem 0.6rem; /* smaller padding */
   border-radius: var(--radius);
-  margin-inline-end: var(--space-sm);
   cursor: pointer;
+  font-size: var(--font-sm);
   transition: background 0.2s ease, color 0.2s ease, border-color 0.2s ease,
     box-shadow 0.2s ease;
 }
