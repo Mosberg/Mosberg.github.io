@@ -151,7 +151,6 @@ document.addEventListener("DOMContentLoaded", () => {
     h2.appendChild(a);
   }
 
-  // Rewrite relative links inside rendered Markdown
   function rewriteLinks(container, baseUrl) {
     const base = new URL(baseUrl);
     container.querySelectorAll("a[href]").forEach((a) => {
@@ -169,7 +168,6 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
-  // Lazy fetch on <details> open
   function lazyFetchOnOpen(detailsEl, fetcher) {
     let loaded = false;
     detailsEl.addEventListener("toggle", async () => {
@@ -197,10 +195,9 @@ document.addEventListener("DOMContentLoaded", () => {
 
     const desc = document.createElement("p");
     desc.textContent = mod.description;
-
     section.append(h2, desc);
 
-    // README (lazy inline)
+    // README
     if (mod.readme) {
       const container = document.createElement("div");
       container.className = "readme";
@@ -220,7 +217,7 @@ document.addEventListener("DOMContentLoaded", () => {
       section.appendChild(details);
     }
 
-    // Docs (Markdown or JSON schema; lazy inline)
+    // Docs
     if (Array.isArray(mod.docs) && mod.docs.length) {
       const docsWrap = document.createElement("div");
       docsWrap.className = "docs-wrap";
@@ -262,7 +259,7 @@ document.addEventListener("DOMContentLoaded", () => {
       section.appendChild(docsDetails);
     }
 
-    // Data files (JSON; lazy inline)
+    // Data files
     if (Array.isArray(mod.data) && mod.data.length) {
       const dataWrap = document.createElement("div");
       dataWrap.className = "data-wrap";
@@ -294,7 +291,7 @@ document.addEventListener("DOMContentLoaded", () => {
       section.appendChild(dataDetails);
     }
 
-    // Models (JSON; lazy inline)
+    // Models
     if (Array.isArray(mod.models) && mod.models.length) {
       const modelsWrap = document.createElement("div");
       modelsWrap.className = "models-wrap";
@@ -326,7 +323,7 @@ document.addEventListener("DOMContentLoaded", () => {
       section.appendChild(modelsDetails);
     }
 
-    // Textures grid with filter and modal
+    // Textures
     if (Array.isArray(mod.textures) && mod.textures.length) {
       const texturesWrap = document.createElement("div");
       texturesWrap.className = "textures-wrap";
