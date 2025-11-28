@@ -1,0 +1,28 @@
+{
+  "sprites": [
+    "rarity:icons/trash",
+    "rarity:icons/common",
+    "rarity:icons/uncommon",
+    "rarity:icons/rare",
+    "rarity:icons/epic",
+    "rarity:icons/legendary",
+    "rarity:icons/mythic",
+    "rarity:icons/ancient",
+    "rarity:icons/celestial",
+    "rarity:icons/divine",
+    "rarity:icons/transcendent",
+    "rarity:icons/owner",
+    "rarity:frames/trash",
+    "rarity:frames/common",
+    "rarity:frames/uncommon",
+    "rarity:frames/rare",
+    "rarity:frames/epic",
+    "rarity:frames/legendary",
+    "rarity:frames/mythic",
+    "rarity:frames/ancient",
+    "rarity:frames/celestial",
+    "rarity:frames/divine",
+    "rarity:frames/transcendent",
+    "rarity:frames/owner"
+  ]
+}

@@ -1,0 +1,131 @@
+{
+  "$id": "https://mosberg.github.io/src/schemas/rarities.schema.json",
+  "rarities": [
+    {
+      "id": "trash",
+      "name": "Trash",
+      "color": "#4B371C",
+      "description": "Worthless items, often discarded.",
+      "assets": {
+        "icon": "rarity:icons/trash",
+        "frame": "rarity:frames/trash"
+      },
+      "dropRates": { "crafting": 0.1, "drop": 0.1, "loot": 0.1 }
+    },
+    {
+      "id": "common",
+      "name": "Common",
+      "color": "#969696",
+      "description": "Everyday items, easily found.",
+      "assets": {
+        "icon": "rarity:icons/common",
+        "frame": "rarity:frames/common"
+      },
+      "dropRates": { "crafting": 60.0, "drop": 60.0, "loot": 60.0 }
+    },
+    {
+      "id": "uncommon",
+      "name": "Uncommon",
+      "color": "#3DD20B",
+      "description": "Slightly harder to find, with minor improvements.",
+      "assets": {
+        "icon": "rarity:icons/uncommon",
+        "frame": "rarity:frames/uncommon"
+      },
+      "dropRates": { "crafting": 20.0, "drop": 20.0, "loot": 20.0 }
+    },
+    {
+      "id": "rare",
+      "name": "Rare",
+      "color": "#2F78FF",
+      "description": "Hard to find, with significant improvements.",
+      "assets": { "icon": "rarity:icons/rare", "frame": "rarity:frames/rare" },
+      "dropRates": { "crafting": 10.0, "drop": 10.0, "loot": 10.0 }
+    },
+    {
+      "id": "epic",
+      "name": "Epic",
+      "color": "#AB46FF",
+      "description": "Very rare, with powerful enhancements.",
+      "assets": { "icon": "rarity:icons/epic", "frame": "rarity:frames/epic" },
+      "dropRates": { "crafting": 5.0, "drop": 5.0, "loot": 5.0 }
+    },
+    {
+      "id": "legendary",
+      "name": "Legendary",
+      "color": "#FF9600",
+      "description": "Extremely rare, with legendary enhancements.",
+      "assets": {
+        "icon": "rarity:icons/legendary",
+        "frame": "rarity:frames/legendary"
+      },
+      "dropRates": { "crafting": 2.0, "drop": 2.0, "loot": 2.0 }
+    },
+    {
+      "id": "mythic",
+      "name": "Mythic",
+      "color": "#FF0B00",
+      "description": "Mythical items, with godlike enhancements.",
+      "assets": {
+        "icon": "rarity:icons/mythic",
+        "frame": "rarity:frames/mythic"
+      },
+      "dropRates": { "crafting": 1.0, "drop": 1.0, "loot": 1.0 }
+    },
+    {
+      "id": "ancient",
+      "name": "Ancient",
+      "color": "#00FFFF",
+      "description": "Ancient items, with immense power.",
+      "assets": {
+        "icon": "rarity:icons/ancient",
+        "frame": "rarity:frames/ancient"
+      },
+      "dropRates": { "crafting": 0.7, "drop": 0.9, "loot": 0.9 }
+    },
+    {
+      "id": "celestial",
+      "name": "Celestial",
+      "color": "#FF69B4",
+      "description": "Celestial items, with otherworldly power.",
+      "assets": {
+        "icon": "rarity:icons/celestial",
+        "frame": "rarity:frames/celestial"
+      },
+      "dropRates": { "crafting": 0.5, "drop": 0.7, "loot": 0.7 }
+    },
+    {
+      "id": "divine",
+      "name": "Divine",
+      "color": "#FFD700",
+      "description": "Divine items, with godlike power.",
+      "assets": {
+        "icon": "rarity:icons/divine",
+        "frame": "rarity:frames/divine"
+      },
+      "dropRates": { "crafting": 0.3, "drop": 0.5, "loot": 0.5 }
+    },
+    {
+      "id": "transcendent",
+      "name": "Transcendent",
+      "color": "#222222",
+      "description": "Transcendent items, with ultimate power.",
+      "assets": {
+        "icon": "rarity:icons/transcendent",
+        "frame": "rarity:frames/transcendent"
+      },
+      "dropRates": { "crafting": 0.1, "drop": 0.3, "loot": 0.3 }
+    },
+    {
+      "id": "owner",
+      "name": "Owner",
+      "color": "#00000022",
+      "description": "Unique to the owner, cannot be traded or sold.",
+      "assets": {
+        "icon": "rarity:icons/owner",
+        "frame": "rarity:frames/owner"
+      },
+      "dropRates": { "crafting": 0.0, "drop": 0.0, "loot": 0.0 }
+    }
+  ]
+}

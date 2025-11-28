@@ -1,0 +1,18 @@
+{
+  "hudSettings": {
+    "enabled": true,
+    "posX": 0,
+    "posY": -22,
+    "scale": 1.0,
+    "showGlow": true,
+    "glowLayers": 3
+  },
+  "effectSettings": {
+    "particlesEnabled": true,
+    "soundsEnabled": true,
+    "animationsEnabled": true,
+    "particleIntensity": 1.0
+  },
+  "persistRarities": true,
+  "debugMode": false
+}
