@@ -311,8 +311,8 @@ document.addEventListener("DOMContentLoaded", () => {
               const { wrap, rawBtn } = codeBlock(text, "json", name);
               rawBtn.href = modelUrl;
               perItem.lastChild.appendChild(wrap);
-            } catch {
-              perItem.lastChild.textContent = `Failed to load ${name}`;
+            } catch (err) {
+              perItem.lastChild.innerHTML = `Failed to load <code>${dataUrl}</code>: ${err.message}`;
             }
           });
 
