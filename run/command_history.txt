@@ -1,0 +1,22 @@
+/give @s minecraft:crafting_table
+/give @s minecraft:iron_ingot
+/give @s minecraft:iron_ingot 63
+/give @s minecraft:stick 64
+/random
+/random roll
+/rarity list
+/rarity
+/rarity give list
+/rarity give clear
+/rarity give trash stick
+/rarity give legendary diamond_sword
+/rarity list
+/rarity give owner stick
+/rarity help
+/rarity check
+/rarity info
+/rarity info common
+/rarity list
+/rarity stats
+/rarity reload
+/rarity help
