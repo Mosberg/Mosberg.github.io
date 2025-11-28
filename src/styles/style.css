@@ -1,10 +1,26 @@
-/* Reset & Base */
+/* ===========================
+   Reset & Base
+   =========================== */
 *,
 *::before,
 *::after {
   box-sizing: border-box;
   margin: 0;
   padding: 0;
+}
+
+:root {
+  --radius: 8px;
+  --shadow-sm: 0 2px 4px rgba(0, 0, 0, 0.1);
+  --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.15);
+  --shadow-lg: 0 2px 6px rgba(0, 0, 0, 0.2);
+  --space-xs: 0.25rem;
+  --space-sm: 0.5rem;
+  --space-md: 1rem;
+  --space-lg: 2rem;
+  --font-sm: 0.85rem;
+  --font-md: 0.9rem;
+  --font-lg: 1.8rem;
 }
 
 body {
@@ -19,55 +35,51 @@ body {
   min-block-size: 100vh;
 }
 
-/* Reduce motion for accessibility preferences */
+/* Accessibility: reduce motion */
 @media (prefers-reduced-motion: reduce) {
   * {
     transition: none !important;
   }
 }
 
-header {
-  background: var(--bg-secondary);
-  padding: 1rem 2rem;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  text-align: center;
-  font-size: 0.85rem;
-  color: var(--text-secondary);
-}
-
-/* Footer */
+/* ===========================
+   Layout
+   =========================== */
+header,
 footer {
   background: var(--bg-secondary);
-  padding: 1rem 2rem;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  padding: var(--space-md) var(--space-lg);
+  box-shadow: var(--shadow-sm);
   text-align: center;
-  font-size: 0.85rem;
+  font-size: var(--font-sm);
   color: var(--text-secondary);
 }
 
 main {
   flex: 1;
   max-inline-size: 800px;
-  margin: 2rem auto;
-  padding: 2rem;
+  margin: var(--space-lg) auto;
+  padding: var(--space-lg);
   background: var(--bg-secondary);
-  border-radius: 8px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-md);
 }
 
 h1 {
-  font-size: 1.8rem;
-  margin-block-end: 0.5rem;
+  font-size: var(--font-lg);
+  margin-block-end: var(--space-sm);
   color: var(--accent-primary);
 }
 
 p {
-  margin-block-end: 1rem;
+  margin-block-end: var(--space-md);
 }
 
-/* Controls */
+/* ===========================
+   Controls (buttons, selects)
+   =========================== */
 nav {
-  margin-block-start: 0.5rem;
+  margin-block-start: var(--space-sm);
 }
 
 select,
@@ -75,9 +87,9 @@ button {
   background: var(--bg-primary);
   color: var(--text-primary);
   border: 2px solid var(--text-secondary);
-  padding: 0.5rem 0.75rem;
-  border-radius: 6px;
-  margin-inline-end: 0.5rem;
+  padding: var(--space-sm) var(--space-md);
+  border-radius: var(--radius);
+  margin-inline-end: var(--space-sm);
   cursor: pointer;
   transition: background 0.2s ease, color 0.2s ease, border-color 0.2s ease,
     box-shadow 0.2s ease;
@@ -94,38 +106,43 @@ button:focus {
   box-shadow: 0 0 6px var(--accent-primary);
 }
 
+/* ===========================
+   Components
+   =========================== */
+
 /* Visit Counter */
 #visitCounter {
   display: inline-block;
-  margin-block-start: 0.5rem;
+  margin-block-start: var(--space-sm);
   padding: 0.4rem 0.8rem;
-  border-radius: 6px;
+  border-radius: var(--radius);
   background: var(--accent-primary);
   color: #fff;
-  font-size: 0.9rem;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+  font-size: var(--font-md);
+  box-shadow: var(--shadow-lg);
 }
 
+/* Assets grid */
 .assets {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-  gap: 1rem;
+  gap: var(--space-md);
 }
-
 .assets img {
   width: 100%;
-  border-radius: 8px;
+  border-radius: var(--radius);
+  object-fit: contain;
 }
 
+/* Markdown blocks (README, docs) */
 .readme,
 .doc {
-  margin-top: 1rem;
-  padding: 1rem;
+  margin-top: var(--space-md);
+  padding: var(--space-md);
   background: var(--bg-secondary);
-  border-radius: 6px;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-sm);
 }
-
 .readme h1,
 .doc h1,
 .readme h2,
@@ -133,30 +150,34 @@ button:focus {
 .readme h3,
 .doc h3 {
   color: var(--accent-primary);
-  margin-top: 1rem;
+  margin-top: var(--space-md);
 }
 
+/* Code blocks */
 pre {
   background: var(--bg-secondary);
-  padding: 1rem;
-  border-radius: 6px;
+  padding: var(--space-md);
+  border-radius: var(--radius);
   overflow-x: auto;
 }
 code {
   font-family: "Fira Code", monospace;
-  font-size: 0.9rem;
+  font-size: var(--font-md);
 }
 
 /* Navigation controls */
 .nav-controls {
   display: flex;
-  gap: 0.5rem;
+  gap: var(--space-sm);
   align-items: center;
-  margin-block-start: 0.5rem;
+  margin-block-start: var(--space-sm);
 }
 .nav-controls input[type="search"] {
   flex: 1;
   min-width: 160px;
+  padding: var(--space-sm);
+  border-radius: var(--radius);
+  border: 1px solid var(--text-secondary);
 }
 
 /* Active nav link */
@@ -167,9 +188,9 @@ code {
 
 /* Collapsibles */
 .collapsible {
-  margin: 1rem 0;
+  margin: var(--space-md) 0;
   border: 1px solid var(--text-secondary);
-  border-radius: 6px;
+  border-radius: var(--radius);
   overflow: hidden;
 }
 .collapsible summary {
@@ -181,13 +202,13 @@ code {
   user-select: none;
 }
 .collapsible > *:not(summary) {
-  padding: 0.8rem;
+  padding: var(--space-md);
 }
 
 /* Section highlight on deep-link */
 .highlight-section {
   outline: 2px solid var(--accent-primary);
-  border-radius: 6px;
+  border-radius: var(--radius);
 }
 
 /* Code wrap tools */
@@ -196,15 +217,15 @@ code {
 }
 .block-tools {
   display: flex;
-  gap: 0.5rem;
-  margin-bottom: 0.5rem;
+  gap: var(--space-sm);
+  margin-bottom: var(--space-sm);
 }
 
-/* Grid for textures */
+/* Textures grid */
 .assets.grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
-  gap: 0.75rem;
+  gap: var(--space-sm);
 }
 .texture-item {
   text-align: center;
@@ -212,20 +233,23 @@ code {
 .texture-item img {
   width: 100%;
   height: auto;
-  border-radius: 6px;
+  border-radius: var(--radius);
   border: 1px solid var(--text-secondary);
 }
 
 /* Texture filter input */
 .texture-filter {
   width: 100%;
-  margin-bottom: 0.75rem;
+  margin-bottom: var(--space-sm);
+  padding: var(--space-sm);
+  border-radius: var(--radius);
+  border: 1px solid var(--text-secondary);
 }
 
 /* Image modal */
 .image-modal {
   border: none;
-  border-radius: 8px;
+  border-radius: var(--radius);
   padding: 0;
   background: var(--bg-secondary);
   color: var(--text-primary);
@@ -238,19 +262,13 @@ code {
 }
 .modal-close {
   position: absolute;
-  top: 0.5rem;
-  right: 0.5rem;
+  top: var(--space-sm);
+  right: var(--space-sm);
 }
 
-/* Markdown blocks */
-.readme,
-.doc {
-  margin-top: 0.75rem;
-}
-
-/* Permalink icon on headings */
+/* Permalink icon */
 .permalink {
-  margin-left: 0.5rem;
+  margin-left: var(--space-sm);
   color: var(--text-secondary);
   text-decoration: none;
   font-weight: 700;
@@ -271,7 +289,9 @@ code {
   background: rgba(0, 0, 0, 0.5);
 }
 
-/* Themes */
+/* ===========================
+   Themes
+   =========================== */
 [data-theme="light"] {
   --bg-primary: #fafafa;
   --bg-secondary: #ffffff;
