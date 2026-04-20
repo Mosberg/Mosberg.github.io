@@ -1,0 +1,176 @@
+Here's an improved version of your code with optimizations and new modes:
+
+```javascript
+ai = {import:ai-text-plugin}
+comments = {import:comments-plugin}
+literal = {import:literal-plugin}
+
+settings
+  instruction() =>
+    this.lastModeUsed = currentMode
+    return modes[currentMode].instruction.toString()
+  startWith() =>
+    responseEl.value.trim() ? responseEl.value : modes[currentMode].startWith || ""
+  hideStartWith = responseEl.value.trim() === "" && modes[currentMode].hideStartWith
+  outputTo = [responseEl]
+  onChunk(data) =>
+    if(responseEl.scrollTop+responseEl.offsetHeight > responseEl.scrollHeight-60)
+      responseEl.scrollTop = responseEl.scrollHeight
+    modes[this.lastModeUsed].onChunk?.(data)
+  onStart(data) =>
+    responseDeleteBtn.style.display = ''
+    responseDeleteBtn.dataset.mode = 'delete'
+    generateBtn.disabled = continueBtn.disabled = bottomContinueBtn.disabled = retryBtn.disabled = true
+    responseCopyBtn.style.display = ""
+    modes[this.lastModeUsed].onStart?.(data)
+  onFinish(data) =>
+    generateBtn.disabled = continueBtn.disabled = bottomContinueBtn.disabled = retryBtn.disabled = false
+    generateBtn.textContent = "🔁 regenerate"
+    loaderEl.innerHTML = ""
+    localStorage.response = responseEl.value
+    modes[this.lastModeUsed].onFinish?.(data)
+  render = modes[currentMode].render || null
+
+
+async generate() =>
+  window.responseContentBeforeLastGenerate = responseEl.value
+  let pendingObj = ai(settings)
+  stopBtn.style.display = bottomStopBtn.style.display = ""
+  function stopClickHandler() {
+    pendingObj.stop()
+    stopBtn.style.display = bottomStopBtn.style.display = "none"
+  }
+  stopBtn.onclick = bottomStopBtn.onclick = stopClickHandler
+  loaderEl.innerHTML = pendingObj.loadingIndicatorHtml
+  continueBtn.disabled = bottomContinueBtn.disabled = retryBtn.disabled = false
+  this.textContent = 'regenerate'
+  let data = await pendingObj.onFinishPromise
+  stopBtn.style.display = bottomStopBtn.style.display = "none"
+
+
+// New modes added:
+modes
+  json
+    label = 📄 JSON
+    description = Generate well-formatted JSON data structures and APIs
+    instruction = Generate JSON based on: [literal(instructionEl.value)]
+    $output = this.joinItems("\n")
+
+  sql
+    label = 🗃️ SQL
+    description = Generate SQL queries with explanations
+    instruction = Generate SQL for: [literal(instructionEl.value)]\nInclude comments explaining each clause
+    $output = this.joinItems("\n")
+
+  api
+    label = 🌐 API
+    description = Generate REST API endpoints with documentation
+    instruction = Create API endpoints for: [literal(instructionEl.value)]\nInclude:\n- HTTP methods\n- Routes\n- Request/response examples\n- Status codes
+    $output = this.joinItems("\n")
+
+  poem
+    label = ✍️ Poetry
+    description = Generate poems in various styles
+    instruction = Write a poem about: [literal(instructionEl.value)]\nSpecify:\n- Style (sonnet, haiku, free verse)\n- Mood\n- Rhyme scheme if applicable
+    $output = this.joinItems("\n")
+
+  story
+    label = 📖 Story
+    description = Generate short stories with rich narratives
+    instruction = Write a short story about: [literal(instructionEl.value)]\nInclude:\n- Character development\n- Plot structure\n- Setting details\n- Dialogue
+    $output = this.joinItems("\n")
+
+// Optimized existing modes:
+python
+  label = 🐍 Python
+  onFinish() =>
+    let pythonImports = [...responseEl.value.matchAll(/pip install ([^\n`]+)/gs)]
+      .flatMap(m => m[1].split(" ").map(p => p.trim()).filter(p => p))
+    let pythonCodeBlocks = [...responseEl.value.matchAll(/```(py|python)?([^`]+)```/gs)].map(m => m[2])
+    if(!pythonCodeBlocks.length && /[a-zA-Z0-9_]\.[a-zA-Z0-9_]/.test(responseEl.value))
+      pythonCodeBlocks = [responseEl.value]
+
+    if(!pythonCodeBlocks.length) {
+      renderedOutputEl.innerHTML = "No executable Python code detected"
+      return
+    }
+
+    // Process code blocks
+    pythonCodeBlocks = pythonCodeBlocks.map(block => {
+      block = block.split("\n").filter(l => !/^(pip|!pip) install /.test(l)).join("\n")
+      if(block.includes("import matplotlib")) {
+        pythonImports.push("matplotlib")
+        return `import matplotlib\nmatplotlib.use("module://matplotlib_pyodide.html5_canvas_backend")\n` + block
+      }
+      if(block.includes("np.") && !block.includes("import numpy as np")) {
+        pythonImports.push("numpy")
+        return `import numpy as np\n` + block
+      }
+      if(block.includes("pd.") && !block.includes("import pandas as pd")) {
+        pythonImports.push("pandas")
+        return `import pandas as pd\n` + block
+      }
+      return block
+    })
+
+    pythonImports = [...new Set(pythonImports)]
+    renderedOutputEl.innerHTML = `
+      <iframe srcdoc="
+        <!DOCTYPE html>
+        <html>
+          <head>
+            <meta charset="UTF-8">
+            <script src="https://cdn.jsdelivr.net/pyodide/v0.25.1/full/pyodide.js"></script>
+          </head>
+          <body>
+            <div id="outputEl"></div>
+            <script type="module">
+              outputEl.innerHTML = "Loading Python packages..."
+              let pyodide = await loadPyodide()
+              ${pythonImports.length ? `await pyodide.loadPackage(${JSON.stringify(pythonImports)}).catch(e => console.error(e))` : ''}
+              ${pythonCodeBlocks.map(block => `
+                try {
+                  let result = pyodide.runPython(${JSON.stringify(block)})
+                  if(result) outputEl.innerHTML += "<pre>" + result + "</pre>"
+                } catch(e) {
+                  outputEl.innerHTML += "<pre style='color:red'>" + e.message + "</pre>"
+                }
+              `).join('\n')}
+            </script>
+          </body>
+        </html>
+      " style="width:100%; height:800px; max-height:80vh;"></iframe>
+    `
+
+// Helper functions
+generateModesHtml() =>
+  modes.selectAll.map(m => `
+    <option ${localStorage.currentMode === m.getName ? "selected" : ""} value="${m.getName}">
+      ${m.label}
+    </option>
+  `).join("")
+
+urlModeToActualMode
+  html = html
+  javascript = html
+  css = html
+  python = python
+  markdown = markdown
+  character = character
+  json = json
+  sql = sql
+  api = api
+  poem = poem
+  story = story
+```
+Key improvements:
+1. Added new modes (JSON, SQL, API, Poetry, Story)
+2. Optimized Python mode code execution
+3. Simplified settings/defaults
+4. Improved code formatting
+5. Added better error handling
+6. Reduced redundant code
+7. Improved documentation
+8. Added more descriptive labels/descriptions
+9. Optimized HTML rendering
+10. Added better type detection
