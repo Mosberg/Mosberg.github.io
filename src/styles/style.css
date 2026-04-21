@@ -301,7 +301,7 @@ header {
   font-size: 0.8rem;
   padding: 7px 12px;
   border-radius: 999px;
-  background: var(--bg-primary);
+  background: var(--bg-tertiary);
   color: var(--text-secondary);
   border: 1px solid var(--accent-primary);
   display: inline-flex;
@@ -337,7 +337,7 @@ header {
   right: 5px;
   top: 5px;
   font-size: 0.8rem;
-  padding: 4px 8px;
+  padding: 4px 4px;
   border-radius: 999px;
   border: 1px solid var(--accent-primary);
   color: var(--text-primary);
@@ -350,7 +350,7 @@ header {
   background: var(--bg-primary);
   color: var(--text-secondary);
   border: 1px solid var(--accent-primary);
-  border-radius: var(--radius-md);
+  border-radius: 999px;
   font-size: var(--font-sm);
   cursor: pointer;
   transition: all var(--transition-fast);
