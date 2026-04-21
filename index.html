@@ -22,7 +22,7 @@
     />
 
     <link rel="stylesheet" href="src/styles/style.css" />
- </head>
+  </head>
   <body>
     <main>
       <header>
@@ -63,7 +63,7 @@
 
         <!-- Theme Selector -->
         <div class="controls">
-          <label for="themeSelect" class="sr-only">Choose theme</label>
+          <label for="themeSelect" class="sr-only">Theme:</label>
           <select id="themeSelect" aria-label="Select website color theme">
             <option value="auto">Auto</option>
             <option value="light">Light</option>
@@ -515,29 +515,15 @@
               >Perchance</a
             >
             •
-            <a
-              href="LICENSE"
-              target="_blank"
-              rel="noopener"
-              >MIT License</a
-            >
+            <a href="LICENSE" target="_blank" rel="noopener">MIT License</a>
           </p>
           <div id="visitCounter" class="visit-counter"></div>
         </div>
       </div>
     </footer>
 
-    <script
-      type="module"
-      src="src/scripts/core/theme.js"
-    ></script>
-    <script
-      type="module"
-      src="src/scripts/core/dynamic-year.js"
-    ></script>
-    <script
-      type="module"
-      src="src/scripts/core/visit-counter.js"
-    ></script>
+    <script type="module" src="src/scripts/core/theme.js"></script>
+    <script type="module" src="src/scripts/core/dynamic-year.js"></script>
+    <script type="module" src="src/scripts/core/visit-counter.js"></script>
   </body>
 </html>
