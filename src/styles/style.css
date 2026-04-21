@@ -1,0 +1,153 @@
+:root {
+  --bg: #05060a;
+  --bg-alt: #0b0d14;
+  --card: #111522;
+  --accent: #ffcc33;
+  --accent-soft: rgba(255, 204, 51, 0.12);
+  --text: #f5f5f7;
+  --muted: #9ca3af;
+  --border: #1f2933;
+  --radius-lg: 14px;
+  --radius-md: 10px;
+  --shadow-soft: 0 18px 40px rgba(0, 0, 0, 0.55);
+  --shadow-subtle: 0 10px 25px rgba(0, 0, 0, 0.35);
+  --transition-fast: 160ms ease-out;
+  --font-main:
+    system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  --font-mono:
+    "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas,
+    "Liberation Mono", "Courier New", monospace;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: var(--font-main);
+  background: radial-gradient(
+    circle at top,
+    #141b2f 0,
+    #05060a 55%,
+    #020308 100%
+  );
+  color: var(--text);
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+main {
+  flex: 1;
+  max-width: 1120px;
+  margin: 0 auto;
+  padding: 32px 18px 40px;
+}
+
+header {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 18px;
+  margin-bottom: 28px;
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.brand-logo img {
+  width: 40px;
+  height: 40px;
+  border-radius: 12px;
+  background: conic-gradient(
+    from 210deg,
+    #ffcc33,
+    #ff7a3c,
+    #7b5cff,
+    #2dd4bf,
+    #ffcc33
+  );
+  padding: 2px;
+  box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.7);
+}
+
+.brand-logo-inner {
+  width: 100%;
+  height: 100%;
+  border-radius: 10px;
+  background: radial-gradient(
+    circle at 30% 20%,
+    #ffffff 0,
+    #facc15 18%,
+    #111827 70%
+  );
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-mono);
+  font-size: 18px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  color: #020617;
+  text-shadow: 0 0 6px rgba(255, 255, 255, 0.6);
+}
+
+.brand-text h1 {
+  font-size: 1.4rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  font-weight: 700;
+}
+
+.brand-text p {
+  font-size: 0.85rem;
+  color: var(--muted);
+  margin-top: 2px;
+}
+
+.top-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.pill-link {
+  font-size: 0.8rem;
+  padding: 7px 12px;
+  border-radius: 999px;
+  border: 1px solid rgba(148, 163, 184, 0.35);
+  color: var(--muted);
+  background: rgba(15, 23, 42, 0.7);
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  cursor: pointer;
+  transition:
+    background var(--transition-fast),
+    border-color var(--transition-fast),
+    transform var(--transition-fast),
+    color var(--transition-fast);
+}
+
+.pill-link span {
+  font-size: 0.9em;
+  opacity: 0.9;
+}
+
+.pill-link:hover {
+  background: rgba(30, 64, 175, 0.7);
+  border-color: rgba(191, 219, 254, 0.9);
+  color: #e5f0ff;
+  transform: translateY(-1px);
+}
