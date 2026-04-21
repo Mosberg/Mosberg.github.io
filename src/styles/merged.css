@@ -653,10 +653,17 @@ header {
   grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 14px;
   margin-bottom: 26px;
+  background:
+    radial-gradient(circle at top left, rgba(56, 189, 248, 0.18), transparent 55%),
+    radial-gradient(circle at top right, rgba(244, 114, 182, 0.18), transparent 55%),
+    linear-gradient(135deg, rgba(15, 23, 42, 0.96), rgba(15, 23, 42, 0.98));
+  border-radius: var(--radius-lg);
+  padding: 24px 24px 24px;
+  border: 1px solid var(--border-color);
 }
 
 .card {
-  background: var(--card-bg);
+  background: var(--bg-primary);
   border-radius: var(--radius-lg);
   padding: 12px 12px 11px;
   border: 1px solid var(--border-color);
@@ -674,7 +681,7 @@ header {
   transform: translateY(-3px);
   box-shadow: 0 18px 40px rgba(0, 0, 0, 0.7);
   border-color: color-mix(in srgb, var(--brand-gold) 65%, var(--border-color));
-  background: radial-gradient(circle at top left, rgba(250, 204, 21, 0.12), transparent 60%), color-mix(in srgb, var(--card-bg) 85%, #0f172a);
+  background: radial-gradient(circle at top left, rgba(250, 204, 21, 0.12), transparent 60%), color-mix(in srgb, var(--bg-primary) 85%, #0f172a);
 }
 
 .card-label {
@@ -786,9 +793,10 @@ footer a:hover {
 }
 
 .visit-counter {
-  padding: var(--space-sm) var(--space-lg);
-  background: var(--accent-secondary);
-  color: var(--text-primary);
+  padding: 4px 10px;
+  background: var(--bg-primary);
+  color: var(--text-secondary);
+  border: 1px solid var(--accent-primary);
   border-radius: var(--radius-full);
   font-weight: 600;
   box-shadow: var(--shadow-md);

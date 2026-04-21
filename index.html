@@ -1,69 +1,255 @@
 <!doctype html>
-<html lang="en">
+<html lang="en" data-theme="auto" data-motion="on">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta
       name="description"
-      content="A collection of projects and resources by Mosberg."
-    />
-    <meta
-      name="keywords"
-      content="Mosberg, projects, resources, coding, development, programming"
+      content="Mosberg Project Hub v2: searchable, customizable, and command-driven project explorer."
     />
     <meta name="author" content="Mosberg" />
-
-    <title>Mosberg's Project Hub</title>
+    <title>Mosberg Project Hub v2</title>
 
     <link
       rel="shortcut icon"
       href="https://raw.githubusercontent.com/Mosberg/Mosberg.github.io/refs/heads/main/src/img/icon.webp"
       type="image/x-icon"
     />
-
-    <link rel="stylesheet" href="src/styles/merged.css" />
+    <link rel="stylesheet" href="src/styles/merged-v2.css" />
   </head>
   <body>
-    <main>
-      <header>
+    <main class="page">
+      <header class="masthead">
         <div class="brand">
-          <div class="brand-logo">
-            <div class="brand-logo-inner">
-              <img
-                src="https://raw.githubusercontent.com/Mosberg/Mosberg.github.io/refs/heads/main/src/img/icon-animated.webp"
-                alt="animated logo"
-              />
-            </div>
-          </div>
-          <div class="brand-text">
-            <h1>Mosberg's Project Hub</h1>
-            <p>A collection of projects and resources by Mosberg.</p>
+          <img
+            src="https://raw.githubusercontent.com/Mosberg/Mosberg.github.io/refs/heads/main/src/img/icon-animated.webp"
+            alt="Mosberg animated logo"
+          />
+          <div>
+            <h1>Mosberg Project Hub v2</h1>
+            <p>Improved explorer with smart filters, favorites, command palette, and deep settings.</p>
           </div>
         </div>
-        <nav class="top-links">
-          <a class="pill-link" href="https://github.com/Mosberg">
-            <span>Github Profile</span> ↗
-          </a>
-          <a class="pill-link" href="https://perchance.org/mosberg">
-            <span>Perchance Profile</span> ↗
-          </a>
-          <a class="pill-link" href="#plugins">
-            <span>Plugins</span>
-          </a>
-          <a class="pill-link" href="#generators">
-            <span>Generators</span>
-          </a>
-          <a class="pill-link" href="#games">
-            <span>Games</span>
-          </a>
-          <a class="pill-link" href="#experiments">
-            <span>Labs</span>
-          </a>
-        </nav>
 
-        <!-- Theme Selector -->
-        <div class="controls">
-          <select id="themeSelect" aria-label="Select website color theme">
+        <nav class="quick-actions" aria-label="Quick links">
+          <a class="pill" href="https://github.com/Mosberg">GitHub</a>
+          <a class="pill" href="https://perchance.org/mosberg">Perchance</a>
+          <button class="pill" id="commandOpen" type="button">Command Palette</button>
+          <button class="pill" id="settingsToggle" type="button">Settings</button>
+        </nav>
+      </header>
+
+      <section class="hero" aria-label="Overview">
+        <div class="hero-grid">
+          <div>
+            <h2>One dashboard for <span>all project mechanics</span></h2>
+            <p>
+              This v2 build adds configurable logic layers: query relevance sorting,
+              persistent favorites, keyboard shortcuts, motion preferences, and a
+              command system for power navigation.
+            </p>
+          </div>
+          <div class="hero-stat-box">
+            <h3>Live Metrics</h3>
+            <strong><span id="visibleCount">0</span> visible projects</strong>
+            <span>Total: <span id="totalCount">0</span></span>
+            <span>Saved: <span id="favoriteCount">0</span></span>
+            <span id="visitCounterV2">0 visits</span>
+          </div>
+        </div>
+      </section>
+
+      <section class="toolbar" aria-label="Search and controls">
+        <div class="toolbar-row">
+          <input
+            id="searchInput"
+            class="search-input"
+            type="search"
+            placeholder="Search by title, tags, or mechanics..."
+            aria-label="Search projects"
+          />
+          <select id="sortSelect" class="select" aria-label="Sort projects">
+            <option value="rank">Sort: Curated</option>
+            <option value="relevance">Sort: Relevance</option>
+            <option value="title">Sort: Title</option>
+            <option value="updated">Sort: Recently Updated</option>
+            <option value="category">Sort: Category</option>
+          </select>
+          <button id="layoutToggle" class="pill" type="button">List View</button>
+          <button id="spotlightBtn" class="pill" type="button">Spotlight</button>
+        </div>
+
+        <div class="toolbar-row">
+          <button class="pill filter-chip active" data-filter="all" aria-pressed="true" type="button">All</button>
+          <button class="pill filter-chip" data-filter="plugins" aria-pressed="false" type="button">Plugins</button>
+          <button class="pill filter-chip" data-filter="generators" aria-pressed="false" type="button">Generators</button>
+          <button class="pill filter-chip" data-filter="games" aria-pressed="false" type="button">Games</button>
+          <button class="pill filter-chip" data-filter="experiments" aria-pressed="false" type="button">Experiments</button>
+
+          <label class="toggle" for="favoritesOnly">
+            <input id="favoritesOnly" type="checkbox" />
+            Favorites only
+          </label>
+        </div>
+
+        <div class="stats" aria-live="polite">
+          <span class="stat">Shortcuts: <span class="kbd">Ctrl+K</span> palette</span>
+          <span class="stat"><span class="kbd">/</span> search</span>
+          <span class="stat"><span class="kbd">?</span> quick commands</span>
+        </div>
+      </section>
+
+      <section id="projectGrid" class="project-grid" data-layout="grid" aria-label="Project cards">
+        <article class="project-card" data-id="plugin-hub" data-category="plugins" data-title="Mosberg Plugin Hub" data-tags="editor helpers modular snippets" data-rank="1" data-updated="20260418">
+          <div class="project-top">
+            <span class="project-category">Plugins</span>
+            <button class="favorite-btn" type="button" aria-pressed="false">Save</button>
+          </div>
+          <h3 class="project-title">Mosberg Plugin Hub</h3>
+          <p class="project-desc">Central index for plugin utilities, implementation notes, and copy-ready snippets.</p>
+          <div class="tags"><span class="tag">modular</span><span class="tag">editor</span><span class="tag">snippets</span></div>
+          <a class="project-link" href="https://perchance.org/mosberg-plugin-hub">Open project ↗</a>
+        </article>
+
+        <article class="project-card" data-id="framework" data-category="plugins" data-title="Modular Adventure Framework" data-tags="state inventory scenes system architecture" data-rank="2" data-updated="20260410">
+          <div class="project-top">
+            <span class="project-category">Plugins</span>
+            <button class="favorite-btn" type="button" aria-pressed="false">Save</button>
+          </div>
+          <h3 class="project-title">Modular Adventure Framework</h3>
+          <p class="project-desc">Reusable core architecture for scene routing, shared state, and extensible content modules.</p>
+          <div class="tags"><span class="tag">framework</span><span class="tag">state</span><span class="tag">scenes</span></div>
+          <a class="project-link" href="https://perchance.org/mosberg-dev-framework">Open project ↗</a>
+        </article>
+
+        <article class="project-card" data-id="ui-kit" data-category="plugins" data-title="UI and Layout Kit" data-tags="tabs panels logs responsive components" data-rank="3" data-updated="20260329">
+          <div class="project-top">
+            <span class="project-category">Plugins</span>
+            <button class="favorite-btn" type="button" aria-pressed="false">Save</button>
+          </div>
+          <h3 class="project-title">UI and Layout Kit</h3>
+          <p class="project-desc">Pattern library for high-density interfaces with tabs, panes, logs, and utility widgets.</p>
+          <div class="tags"><span class="tag">ui</span><span class="tag">components</span><span class="tag">responsive</span></div>
+          <a class="project-link" href="https://perchance.org/mosberg-ui-kit">Open project ↗</a>
+        </article>
+
+        <article class="project-card" data-id="worldbuilder" data-category="generators" data-title="Worldbuilder Toolkit" data-tags="factions regions hooks ttrpg" data-rank="4" data-updated="20260405">
+          <div class="project-top">
+            <span class="project-category">Generators</span>
+            <button class="favorite-btn" type="button" aria-pressed="false">Save</button>
+          </div>
+          <h3 class="project-title">Worldbuilder Toolkit</h3>
+          <p class="project-desc">Generate regions, factions, and conflict seeds for campaigns or narrative game scaffolds.</p>
+          <div class="tags"><span class="tag">worlds</span><span class="tag">ttrpg</span><span class="tag">hooks</span></div>
+          <a class="project-link" href="https://perchance.org/mosberg-worldbuilder">Open project ↗</a>
+        </article>
+
+        <article class="project-card" data-id="character-lab" data-category="generators" data-title="Character Lab" data-tags="npc personality arcs goals" data-rank="5" data-updated="20260318">
+          <div class="project-top">
+            <span class="project-category">Generators</span>
+            <button class="favorite-btn" type="button" aria-pressed="false">Save</button>
+          </div>
+          <h3 class="project-title">Character Lab</h3>
+          <p class="project-desc">Build playable and non-playable characters with motivation, flaws, and relationship tension.</p>
+          <div class="tags"><span class="tag">characters</span><span class="tag">story</span><span class="tag">hooks</span></div>
+          <a class="project-link" href="https://perchance.org/mosberg-character-lab">Open project ↗</a>
+        </article>
+
+        <article class="project-card" data-id="utility-pack" data-category="generators" data-title="Utility Pack" data-tags="loot names prompts helper tables" data-rank="6" data-updated="20260312">
+          <div class="project-top">
+            <span class="project-category">Generators</span>
+            <button class="favorite-btn" type="button" aria-pressed="false">Save</button>
+          </div>
+          <h3 class="project-title">Utility Pack</h3>
+          <p class="project-desc">Small composable utility generators for names, loot, prompts, and connector tables.</p>
+          <div class="tags"><span class="tag">utilities</span><span class="tag">tables</span><span class="tag">prompts</span></div>
+          <a class="project-link" href="https://perchance.org/mosberg-utility-pack">Open project ↗</a>
+        </article>
+
+        <article class="project-card" data-id="neon-vortex" data-category="games" data-title="NEON VORTEX" data-tags="arcade shooter action survival" data-rank="7" data-updated="20260420">
+          <div class="project-top">
+            <span class="project-category">Games</span>
+            <button class="favorite-btn" type="button" aria-pressed="false">Save</button>
+          </div>
+          <h3 class="project-title">NEON VORTEX</h3>
+          <p class="project-desc">A high-speed arcade loop with reactive controls and survival progression mechanics.</p>
+          <div class="tags"><span class="tag">arcade</span><span class="tag">action</span><span class="tag">survival</span></div>
+          <a class="project-link" href="https://perchance.org/neon-vortex">Open project ↗</a>
+        </article>
+
+        <article class="project-card" data-id="adventure" data-category="games" data-title="Branching Adventure" data-tags="story branch progression replayability" data-rank="8" data-updated="20260308">
+          <div class="project-top">
+            <span class="project-category">Games</span>
+            <button class="favorite-btn" type="button" aria-pressed="false">Save</button>
+          </div>
+          <h3 class="project-title">Branching Adventure</h3>
+          <p class="project-desc">Narrative flow with branching outcomes, session state, and multi-run path discovery.</p>
+          <div class="tags"><span class="tag">story</span><span class="tag">branching</span><span class="tag">state</span></div>
+          <a class="project-link" href="https://perchance.org/mosberg-adventure">Open project ↗</a>
+        </article>
+
+        <article class="project-card" data-id="systems-playground" data-category="games" data-title="Systems Playground" data-tags="combat progression sandbox" data-rank="9" data-updated="20260223">
+          <div class="project-top">
+            <span class="project-category">Games</span>
+            <button class="favorite-btn" type="button" aria-pressed="false">Save</button>
+          </div>
+          <h3 class="project-title">Systems Playground</h3>
+          <p class="project-desc">Sandbox for mechanics testing: combat resolution, inventory loops, and leveling logic.</p>
+          <div class="tags"><span class="tag">combat</span><span class="tag">sandbox</span><span class="tag">mechanics</span></div>
+          <a class="project-link" href="https://perchance.org/mosberg-systems-demo">Open project ↗</a>
+        </article>
+
+        <article class="project-card" data-id="lab" data-category="experiments" data-title="Perchance Lab" data-tags="experimental prototypes architecture" data-rank="10" data-updated="20260331">
+          <div class="project-top">
+            <span class="project-category">Experiments</span>
+            <button class="favorite-btn" type="button" aria-pressed="false">Save</button>
+          </div>
+          <h3 class="project-title">Perchance Lab</h3>
+          <p class="project-desc">Prototype field for mechanics, interaction patterns, and in-progress architecture experiments.</p>
+          <div class="tags"><span class="tag">prototype</span><span class="tag">lab</span><span class="tag">systems</span></div>
+          <a class="project-link" href="https://perchance.org/mosberg-lab">Open project ↗</a>
+        </article>
+
+        <article class="project-card" data-id="ai-shell" data-category="experiments" data-title="AI Character Shell" data-tags="agents ai dialogue shell" data-rank="11" data-updated="20260402">
+          <div class="project-top">
+            <span class="project-category">Experiments</span>
+            <button class="favorite-btn" type="button" aria-pressed="false">Save</button>
+          </div>
+          <h3 class="project-title">AI Character Shell</h3>
+          <p class="project-desc">Conversation shell for multi-agent style interactions, tuned for modular prompt routing.</p>
+          <div class="tags"><span class="tag">ai</span><span class="tag">agents</span><span class="tag">dialogue</span></div>
+          <a class="project-link" href="https://perchance.org/mosberg-ai-shell">Open project ↗</a>
+        </article>
+
+        <article class="project-card" data-id="scratchpad" data-category="experiments" data-title="Scratchpad and Notes" data-tags="notes ideas backlog seeds" data-rank="12" data-updated="20260212">
+          <div class="project-top">
+            <span class="project-category">Experiments</span>
+            <button class="favorite-btn" type="button" aria-pressed="false">Save</button>
+          </div>
+          <h3 class="project-title">Scratchpad and Notes</h3>
+          <p class="project-desc">Raw idea space for feature seeds, partial mechanics, and upcoming project concepts.</p>
+          <div class="tags"><span class="tag">notes</span><span class="tag">backlog</span><span class="tag">ideas</span></div>
+          <a class="project-link" href="https://perchance.org/mosberg-scratchpad">Open project ↗</a>
+        </article>
+      </section>
+
+      <footer class="site-footer">
+        <p>
+          Copyright <span id="currentYear">2026</span> Mosberg. Built with custom v2 mechanics.
+        </p>
+      </footer>
+    </main>
+
+    <aside id="settingsPanel" class="drawer" aria-hidden="true" hidden>
+      <div class="drawer-panel" role="dialog" aria-modal="true" aria-label="Settings panel">
+        <div class="drawer-header">
+          <h2>Settings</h2>
+          <button id="settingsClose" class="drawer-close" type="button">Close</button>
+        </div>
+
+        <div class="setting">
+          <label for="themeSelectV2">Theme</label>
+          <select id="themeSelectV2" class="select">
             <option value="auto">Auto</option>
             <option value="light">Light</option>
             <option value="dark">Dark</option>
@@ -75,454 +261,30 @@
             <option value="solarized">Solarized</option>
           </select>
         </div>
-      </header>
 
-      <section class="hero">
-        <div class="hero-inner">
-          <div>
-            <div class="hero-tagline">
-              <span class="hero-tagline-dot"></span>
-              <span>Active on Perchance.org</span>
-              <span>•</span>
-              <span>Modular tools & worlds</span>
-            </div>
-            <h2 class="hero-title">
-              A small hub for <span>big systems</span> on Perchance.org
-            </h2>
-            <p class="hero-subtitle">
-              Explore <strong>plugins</strong> that extend the editor,
-              <strong>generators</strong> for worlds and characters,
-              <strong>games</strong> you can play in the browser, and
-              <strong>experimental sandboxes</strong> for modular AI-driven
-              adventures.
-            </p>
-            <div class="hero-actions">
-              <a class="btn-primary" href="https://perchance.org/mosberg">
-                View Perchance profile
-                <span>↗</span>
-              </a>
-              <a class="btn-ghost" href="#plugins"> Jump into projects </a>
-            </div>
-            <div class="hero-meta">
-              <span class="hero-meta-badge">perchance.org/mosberg</span>
-              <span>⚙️ <span>Plugins & dev tools</span></span>
-              <span>🎲 <span>Interactive games</span></span>
-              <span>🧪 <span>Experimental frameworks</span></span>
-            </div>
-          </div>
-          <div class="hero-right">
-            <div class="hero-grid">
-              <a class="hero-card accent" href="#plugins">
-                <h3>Plugin & System Hub</h3>
-                <p>
-                  Editor helpers, modular frameworks, and building blocks for
-                  complex Perchance projects.
-                </p>
-                <span>Start here if you build things.</span>
-              </a>
-              <a class="hero-card" href="#games">
-                <h3>Playable Experiences</h3>
-                <p>
-                  RPG-style interfaces, adventure flows, and experimental game
-                  shells.
-                </p>
-                <span>For when you want to click around.</span>
-              </a>
-              <a class="hero-card" href="#generators">
-                <h3>Generators & Tools</h3>
-                <p>
-                  World seeds, character kits, prompts, and utility generators.
-                </p>
-                <span>Good for inspiration & scaffolding.</span>
-              </a>
-              <a class="hero-card" href="#experiments">
-                <h3>Labs & Prototypes</h3>
-                <p>
-                  Weird ideas, half-finished systems, and future frameworks.
-                </p>
-                <span>Enter at your own curiosity.</span>
-              </a>
-            </div>
-            <div class="hero-note">
-              <span>Tip:</span>
-              <span
-                >Most projects live on Perchance itself — links below go
-                straight to <code>perchance.org/…</code></span
-              >
-            </div>
-          </div>
+        <div class="setting">
+          <label for="accentSlider">Accent Hue</label>
+          <input id="accentSlider" class="range" type="range" min="0" max="360" value="42" />
         </div>
-      </section>
 
-      <section aria-label="Categories">
-        <div class="category-strip">
-          <div class="category-pill">
-            <strong>Plugins</strong>
-            <span>Editor helpers, frameworks, utilities</span>
-          </div>
-          <div class="category-pill">
-            <strong>Generators</strong>
-            <span>Worlds, characters, prompts</span>
-          </div>
-          <div class="category-pill">
-            <strong>Games</strong>
-            <span>Interfaces, adventures, systems</span>
-          </div>
-          <div class="category-pill">
-            <strong>Experiments</strong>
-            <span>Labs, prototypes, sandboxes</span>
-          </div>
-        </div>
-      </section>
-
-      <!-- PLUGINS -->
-      <section id="plugins">
-        <div class="section-header">
-          <h2>Plugins & Systems</h2>
-          <p>
-            Tools that extend Perchance and help you build bigger, cleaner
-            projects.
-          </p>
-        </div>
-        <div class="grid">
-          <!-- Example card – replace href + text with real projects -->
-          <a class="card" href="https://perchance.org/mosberg-plugin-hub">
-            <div class="card-label">
-              <span class="card-label-dot"></span>
-              <span>Plugin collection</span>
-            </div>
-            <div class="card-title">Mosberg Plugin Hub</div>
-            <div class="card-desc">
-              Central index of my Perchance plugins and utilities, with notes,
-              usage hints, and example snippets.
-            </div>
-            <div class="card-meta">
-              <span>⚙️ <span>Editor helpers</span></span>
-              <span>🧩 <span>Modular</span></span>
-            </div>
-            <div class="card-footer">
-              <span class="card-link">
-                Open on Perchance
-                <span class="card-link-icon">↗</span>
-              </span>
-              <span class="card-tag">Hub</span>
-            </div>
-          </a>
-
-          <a class="card" href="https://perchance.org/mosberg-dev-framework">
-            <div class="card-label">
-              <span class="card-label-dot"></span>
-              <span>Framework</span>
-            </div>
-            <div class="card-title">Modular Adventure Framework</div>
-            <div class="card-desc">
-              A reusable skeleton for multi-scene adventures with state,
-              inventory, and pluggable content modules.
-            </div>
-            <div class="card-meta">
-              <span>🧱 <span>Reusable</span></span>
-              <span>📦 <span>Drop-in structure</span></span>
-            </div>
-            <div class="card-footer">
-              <span class="card-link">
-                View framework
-                <span class="card-link-icon">↗</span>
-              </span>
-              <span class="card-tag">System</span>
-            </div>
-          </a>
-
-          <a class="card" href="https://perchance.org/mosberg-ui-kit">
-            <div class="card-label">
-              <span class="card-label-dot"></span>
-              <span>UI kit</span>
-            </div>
-            <div class="card-title">UI & Layout Kit</div>
-            <div class="card-desc">
-              A collection of UI patterns (tabs, panels, logs) you can copy into
-              your own Perchance projects.
-            </div>
-            <div class="card-meta">
-              <span>🎨 <span>Interface</span></span>
-              <span>🧩 <span>Copy-paste friendly</span></span>
-            </div>
-            <div class="card-footer">
-              <span class="card-link">
-                Browse components
-                <span class="card-link-icon">↗</span>
-              </span>
-              <span class="card-tag">Kit</span>
-            </div>
-          </a>
-        </div>
-      </section>
-
-      <!-- GENERATORS -->
-      <section id="generators">
-        <div class="section-header">
-          <h2>Generators & Tools</h2>
-          <p>
-            World seeds, character builders, and utility generators for your own
-            projects.
-          </p>
-        </div>
-        <div class="grid">
-          <a class="card" href="https://perchance.org/mosberg-worldbuilder">
-            <div class="card-label">
-              <span class="card-label-dot"></span>
-              <span>Worldbuilding</span>
-            </div>
-            <div class="card-title">Worldbuilder Toolkit</div>
-            <div class="card-desc">
-              Generate regions, factions, hooks, and conflicts for tabletop
-              campaigns or narrative games.
-            </div>
-            <div class="card-meta">
-              <span>🌍 <span>Setting design</span></span>
-              <span>🎲 <span>TTRPG-friendly</span></span>
-            </div>
-            <div class="card-footer">
-              <span class="card-link">
-                Open generator
-                <span class="card-link-icon">↗</span>
-              </span>
-              <span class="card-tag">Toolkit</span>
-            </div>
-          </a>
-
-          <a class="card" href="https://perchance.org/mosberg-character-lab">
-            <div class="card-label">
-              <span class="card-label-dot"></span>
-              <span>Characters</span>
-            </div>
-            <div class="card-title">Character Lab</div>
-            <div class="card-desc">
-              Build PCs, NPCs, and rivals with goals, flaws, and relationship
-              hooks baked in.
-            </div>
-            <div class="card-meta">
-              <span>🧬 <span>Personality</span></span>
-              <span>📖 <span>Story hooks</span></span>
-            </div>
-            <div class="card-footer">
-              <span class="card-link">
-                Generate characters
-                <span class="card-link-icon">↗</span>
-              </span>
-              <span class="card-tag">Generator</span>
-            </div>
-          </a>
-
-          <a class="card" href="https://perchance.org/mosberg-utility-pack">
-            <div class="card-label">
-              <span class="card-label-dot"></span>
-              <span>Utilities</span>
-            </div>
-            <div class="card-title">Utility Pack</div>
-            <div class="card-desc">
-              Small helpers: name lists, loot tables, prompts, and other glue
-              pieces for bigger systems.
-            </div>
-            <div class="card-meta">
-              <span>🧰 <span>Tools</span></span>
-              <span>🔗 <span>Composable</span></span>
-            </div>
-            <div class="card-footer">
-              <span class="card-link">
-                View utilities
-                <span class="card-link-icon">↗</span>
-              </span>
-              <span class="card-tag">Pack</span>
-            </div>
-          </a>
-        </div>
-      </section>
-
-      <!-- GAMES -->
-      <section id="games">
-        <div class="section-header">
-          <h2>Games & Interactive Shells</h2>
-          <p>Playable experiments, adventure shells, and UI-heavy projects.</p>
-        </div>
-        <div class="grid">
-          <a class="card" href="https://perchance.org/neon-vortex">
-            <div class="card-label">
-              <span class="card-label-dot"></span>
-              <span>Action, Shooter, Arcade</span>
-            </div>
-            <div class="card-title">NEON VORTEX</div>
-            <div class="card-desc">
-              A fast-paced arcade shooter with a custom engine built in
-              Perchance. Use the arrow keys to dodge and survive as long as you
-              can!
-            </div>
-            <div class="card-meta">
-              <span>🕹️ <span>Playable</span></span>
-              <span>🎛️ <span>UI-heavy</span></span>
-            </div>
-            <div class="card-footer">
-              <span class="card-link">
-                Launch NEON VORTEX
-                <span class="card-link-icon">↗</span>
-              </span>
-              <span class="card-tag">Game</span>
-            </div>
-          </a>
-
-          <a class="card" href="https://perchance.org/mosberg-adventure">
-            <div class="card-label">
-              <span class="card-label-dot"></span>
-              <span>Adventure</span>
-            </div>
-            <div class="card-title">Branching Adventure</div>
-            <div class="card-desc">
-              A narrative-focused adventure with branching paths, state, and
-              replayable routes.
-            </div>
-            <div class="card-meta">
-              <span>📚 <span>Story-driven</span></span>
-              <span>🔁 <span>Replayable</span></span>
-            </div>
-            <div class="card-footer">
-              <span class="card-link">
-                Play now
-                <span class="card-link-icon">↗</span>
-              </span>
-              <span class="card-tag">Story</span>
-            </div>
-          </a>
-
-          <a class="card" href="https://perchance.org/mosberg-systems-demo">
-            <div class="card-label">
-              <span class="card-label-dot"></span>
-              <span>Systems demo</span>
-            </div>
-            <div class="card-title">Systems Playground</div>
-            <div class="card-desc">
-              A sandbox showing combat, inventory, and progression systems wired
-              together in one place.
-            </div>
-            <div class="card-meta">
-              <span>⚔️ <span>Combat</span></span>
-              <span>📈 <span>Progression</span></span>
-            </div>
-            <div class="card-footer">
-              <span class="card-link">
-                Open playground
-                <span class="card-link-icon">↗</span>
-              </span>
-              <span class="card-tag">Demo</span>
-            </div>
-          </a>
-        </div>
-      </section>
-
-      <!-- EXPERIMENTS -->
-      <section id="experiments">
-        <div class="section-header">
-          <h2>Labs & Experiments</h2>
-          <p>
-            Prototype spaces, half-finished ideas, and future-facing frameworks.
-          </p>
-        </div>
-        <div class="grid">
-          <a class="card" href="https://perchance.org/mosberg-lab">
-            <div class="card-label">
-              <span class="card-label-dot"></span>
-              <span>Lab</span>
-            </div>
-            <div class="card-title">Perchance Lab</div>
-            <div class="card-desc">
-              A rotating collection of experiments: new UI patterns, mechanics,
-              and structural tests.
-            </div>
-            <div class="card-meta">
-              <span>🧪 <span>Experimental</span></span>
-              <span>🚧 <span>Work in progress</span></span>
-            </div>
-            <div class="card-footer">
-              <span class="card-link">
-                Enter lab
-                <span class="card-link-icon">↗</span>
-              </span>
-              <span class="card-tag">WIP</span>
-            </div>
-          </a>
-
-          <a class="card" href="https://perchance.org/mosberg-ai-shell">
-            <div class="card-label">
-              <span class="card-label-dot"></span>
-              <span>AI shell</span>
-            </div>
-            <div class="card-title">AI Character Shell</div>
-            <div class="card-desc">
-              A structure for AI-driven characters and multi-agent
-              conversations, tuned for Perchance workflows.
-            </div>
-            <div class="card-meta">
-              <span>🤖 <span>Agents</span></span>
-              <span>🧩 <span>Composable</span></span>
-            </div>
-            <div class="card-footer">
-              <span class="card-link">
-                View shell
-                <span class="card-link-icon">↗</span>
-              </span>
-              <span class="card-tag">Prototype</span>
-            </div>
-          </a>
-
-          <a class="card" href="https://perchance.org/mosberg-scratchpad">
-            <div class="card-label">
-              <span class="card-label-dot"></span>
-              <span>Scratchpad</span>
-            </div>
-            <div class="card-title">Scratchpad & Notes</div>
-            <div class="card-desc">
-              A messy space where new ideas land first — expect broken things
-              and future projects.
-            </div>
-            <div class="card-meta">
-              <span>📝 <span>Notes</span></span>
-              <span>🌱 <span>Seeds</span></span>
-            </div>
-            <div class="card-footer">
-              <span class="card-link">
-                Peek inside
-                <span class="card-link-icon">↗</span>
-              </span>
-              <span class="card-tag">Scratch</span>
-            </div>
-          </a>
-        </div>
-      </section>
-    </main>
-
-    <footer class="site-footer">
-      <div class="container">
-        <div class="footer-content">
-          <p>
-            &copy; <span id="currentYear">2025</span> Mosberg.
-            <a href="https://github.com/Mosberg" target="_blank" rel="noopener"
-              >GitHub</a
-            >
-            •
-            <a
-              href="https://perchance.org/mosberg"
-              target="_blank"
-              rel="noopener"
-              >Perchance</a
-            >
-            •
-            <a href="LICENSE" target="_blank" rel="noopener">MIT License</a>
-          </p>
-          <div id="visitCounter" class="visit-counter"></div>
-        </div>
+        <label class="toggle" for="motionToggle">
+          <input id="motionToggle" type="checkbox" checked />
+          Motion effects enabled
+        </label>
       </div>
-    </footer>
+    </aside>
 
-    <script type="module" src="src/scripts/core/theme.js"></script>
-    <script type="module" src="src/scripts/core/dynamic-year.js"></script>
-    <script type="module" src="src/scripts/core/visit-counter.js"></script>
+    <aside id="commandPalette" class="command" aria-hidden="true" hidden>
+      <div class="command-panel" role="dialog" aria-modal="true" aria-label="Command palette">
+        <div class="command-header">
+          <h2>Command Palette</h2>
+          <button id="commandClose" class="drawer-close" type="button">Close</button>
+        </div>
+        <input id="commandInput" class="command-input" type="text" placeholder="Type a command..." />
+        <div id="commandList" class="command-list"></div>
+      </div>
+    </aside>
+
+    <script type="module" src="src/scripts/v2/app.js"></script>
   </body>
 </html>
