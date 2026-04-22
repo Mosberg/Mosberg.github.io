@@ -1,0 +1,81 @@
+<div id="jsonEditorCtn"></div>
+<div id="controlsCtn" style="margin-top: 10px;">
+  <button id="getJsonBtn" onclick="getEditedJson()">Get Edited JSON</button>
+  <button id="toggleReadonlyBtn" onclick="toggleReadonly()">Toggle Read-only</button>
+  <button id="togglePasswordBtn" onclick="togglePassword()">Toggle Password Protection</button>
+  <button id="saveBtn" onclick="saveToLocalStorage()">Save to LocalStorage</button>
+  <button id="loadBtn" onclick="loadFromLocalStorage()">Load from LocalStorage</button>
+</div>
+<div id="outputCtn" style="margin-top: 10px; white-space: pre-wrap;"></div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jsoneditor/9.9.2/jsoneditor.min.js"></script>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/jsoneditor/9.9.2/jsoneditor.min.css" rel="stylesheet" type="text/css">
+
+<script>
+  let editor, isReadonly = false, isPasswordProtected = false;
+  const sampleJson = { "name": "John Doe", "age": 30, "city": "New York" };
+
+  function initEditor(json = sampleJson) {
+    const options = {
+      mode: 'tree',
+      modes: ['tree', 'view', 'form', 'code', 'text'],
+      onChangeJSON: () => { getJsonBtn.disabled = false; }
+    };
+    editor = new JSONEditor(jsonEditorCtn, options, json);
+  }
+
+  function getEditedJson() {
+    outputCtn.textContent = JSON.stringify(editor.get(), null, 2);
+  }
+
+  function toggleReadonly() {
+    isReadonly = !isReadonly;
+    editor.setMode(isReadonly ? 'view' : 'tree');
+    toggleReadonlyBtn.textContent = isReadonly ? 'Disable Read-only' : 'Enable Read-only';
+  }
+
+  function togglePassword() {
+    isPasswordProtected = !isPasswordProtected;
+    if (isPasswordProtected) {
+      const password = prompt('Enter password:');
+      if (password) {
+        editor.setMode('view');
+        togglePasswordBtn.textContent = 'Remove Password';
+      } else {
+        isPasswordProtected = false;
+        return;
+      }
+    } else {
+      editor.setMode('tree');
+      togglePasswordBtn.textContent = 'Add Password';
+    }
+  }
+
+  function saveToLocalStorage() {
+    localStorage.jsonEditorContent = JSON.stringify(editor.get());
+    alert('JSON saved to localStorage');
+  }
+
+  function loadFromLocalStorage() {
+    const savedJson = localStorage.jsonEditorContent;
+    if (savedJson) {
+      editor.set(JSON.parse(savedJson));
+      alert('JSON loaded from localStorage');
+    } else {
+      alert('No saved JSON found in localStorage');
+    }
+  }
+
+  window.onload = () => {
+    if (typeof JSONEditor === 'undefined') {
+      jsonEditorCtn.innerHTML = `
+        <p>JSONEditor library not found. Please use these links to download the required files:</p>
+        <a href="https://cdnjs.cloudflare.com/ajax/libs/jsoneditor/9.9.2/jsoneditor.min.js" download>Download JSONEditor JS</a><br>
+        <a href="https://cdnjs.cloudflare.com/ajax/libs/jsoneditor/9.9.2/jsoneditor.min.css" download>Download JSONEditor CSS</a><br>
+        <p>After downloading, include them in your HTML and refresh the page.</p>
+      `;
+    } else {
+      initEditor();
+    }
+  };
+</script>

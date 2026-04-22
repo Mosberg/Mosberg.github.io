@@ -1,0 +1,418 @@
+<h1>Text to JSON Converter</h1>
+
+<div id="appContainerEl" style="margin:1em auto; padding:0 1em; max-width:800px; text-align:left;">
+  <div class="tab-container" style="display:flex; gap:10px; margin-bottom:20px;">
+    <button id="textToJsonBtn" class="tab-button active" onclick="switchTab('textToJson')">Text to JSON</button>
+    <button id="jsonToTextBtn" class="tab-button" onclick="switchTab('jsonToText')">JSON to Text</button>
+  </div>
+
+  <!-- Text to JSON Tab -->
+  <div id="textToJsonTab" class="tab-content active">
+    <h2>Input Text</h2>
+
+    <div class="input-options" style="display:flex; gap:10px; margin-bottom:10px;">
+      <button onclick="showInputOption('text')">Paste Text</button>
+      <button onclick="showInputOption('file')">Upload File</button>
+      <button onclick="showInputOption('link')">From URL</button>
+    </div>
+
+    <div id="textInputOption">
+      <textarea id="textInputEl" style="width:100%; min-height:200px; margin:10px 0; padding:10px; border:1px solid #ddd; border-radius:5px; font-family:monospace;" placeholder="Paste your text here..."></textarea>
+    </div>
+
+    <div id="fileInputOption" style="display:none;">
+      <input type="file" id="fileInputEl" accept=".txt,.md,.csv,.html">
+    </div>
+
+    <div id="linkInputOption" style="display:none;">
+      <input type="url" id="linkInputEl" placeholder="Enter URL to fetch text from" style="width:100%; margin:10px 0; padding:5px;">
+      <button onclick="fetchFromUrl()">Fetch Text</button>
+    </div>
+
+    <div class="action-buttons" style="display:flex; gap:10px; margin-top:10px;">
+      <button onclick="convertTextToJson()">Convert to JSON</button>
+      <button onclick="clearText('textInputEl')">Clear</button>
+    </div>
+
+    <h2>Output JSON</h2>
+    <textarea id="jsonOutputEl" style="width:100%; min-height:200px; margin:10px 0; padding:10px; border:1px solid #ddd; border-radius:5px; font-family:monospace; background-color:#f9f9f9; color:black;" readonly></textarea>
+
+    <div class="action-buttons" style="display:flex; gap:10px; margin-top:10px;">
+      <button onclick="saveToFile('json')">Save JSON to File</button>
+      <button onclick="copyToClipboard('jsonOutputEl')">Copy to Clipboard</button>
+      <button onclick="prettyPrintJson('jsonOutputEl')">Pretty Print</button>
+    </div>
+
+    <div id="textToJsonMessageEl" style="margin:10px 0;"></div>
+  </div>
+
+  <!-- JSON to Text Tab -->
+  <div id="jsonToTextTab" class="tab-content" style="display:none;">
+    <h2>Input JSON</h2>
+
+    <div class="input-options" style="display:flex; gap:10px; margin-bottom:10px;">
+      <button onclick="showJsonInputOption('text')">Paste JSON</button>
+      <button onclick="showJsonInputOption('file')">Upload JSON File</button>
+      <button onclick="showJsonInputOption('link')">From URL</button>
+    </div>
+
+    <div id="jsonTextInputOption">
+      <textarea id="jsonInputEl" style="width:100%; min-height:200px; margin:10px 0; padding:10px; border:1px solid #ddd; border-radius:5px; font-family:monospace;" placeholder="Paste your JSON here..."></textarea>
+    </div>
+
+    <div id="jsonFileInputOption" style="display:none;">
+      <input type="file" id="jsonFileInputEl" accept=".json">
+    </div>
+
+    <div id="jsonLinkInputOption" style="display:none;">
+      <input type="url" id="jsonLinkInputEl" placeholder="Enter URL to fetch JSON from" style="width:100%; margin:10px 0; padding:5px;">
+      <button onclick="fetchJsonFromUrl()">Fetch JSON</button>
+    </div>
+
+    <div class="action-buttons" style="display:flex; gap:10px; margin-top:10px;">
+      <button onclick="convertJsonToText()">Convert to Text</button>
+      <button onclick="clearText('jsonInputEl')">Clear</button>
+      <button onclick="prettyPrintJson('jsonInputEl')">Pretty Print</button>
+    </div>
+
+    <h2>Output Text</h2>
+    <textarea id="textOutputEl" style="width:100%; min-height:200px; margin:10px 0; padding:10px; border:1px solid #ddd; border-radius:5px; font-family:monospace; background-color:#f9f9f9; color:black;" readonly></textarea>
+
+    <div class="action-buttons" style="display:flex; gap:10px; margin-top:10px;">
+      <button onclick="saveToFile('text')">Save Text to File</button>
+      <button onclick="copyToClipboard('textOutputEl')">Copy to Clipboard</button>
+    </div>
+
+    <div id="jsonToTextMessageEl" style="margin:10px 0;"></div>
+  </div>
+</div>
+
+<button onclick="update()">TEST</button>
+<br>
+
+<style>
+  .tab-button {
+    padding: 10px 20px;
+    background-color: #f1f1f1;
+    border: none;
+    cursor: pointer;
+    border-radius: 5px;
+    color: black; /* Ensure inactive tabs have black text */
+  }
+  .tab-button.active {
+    background-color: #4CAF50;
+    color: black; /* Changed from white to black per user request */
+  }
+  button {
+    padding: 8px 16px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+  button:hover {
+    background-color: #45a049;
+  }
+  .error {
+    color: red;
+  }
+  .success {
+    color: green;
+  }
+
+  /* The line below makes it so if your device is in dark mode, then the default text color is switched to white, and the default background color is switch to black. */
+  html { color-scheme: light dark; }
+</style>
+
+<script>
+  // Switch between tabs
+  function switchTab(tabId) {
+    // Hide all tab content
+    document.querySelectorAll('.tab-content').forEach(tab => {
+      tab.style.display = 'none';
+    });
+
+    // Remove active class from all tab buttons
+    document.querySelectorAll('.tab-button').forEach(button => {
+      button.classList.remove('active');
+    });
+
+    // Show selected tab content
+    if (tabId === 'textToJson') {
+      document.getElementById('textToJsonTab').style.display = 'block';
+      document.getElementById('textToJsonBtn').classList.add('active');
+    } else {
+      document.getElementById('jsonToTextTab').style.display = 'block';
+      document.getElementById('jsonToTextBtn').classList.add('active');
+    }
+  }
+
+  // Show input options based on selection
+  function showInputOption(option) {
+    document.getElementById('textInputOption').style.display = 'none';
+    document.getElementById('fileInputOption').style.display = 'none';
+    document.getElementById('linkInputOption').style.display = 'none';
+
+    document.getElementById(`${option}InputOption`).style.display = 'block';
+  }
+
+  // Show JSON input options based on selection
+  function showJsonInputOption(option) {
+    document.getElementById('jsonTextInputOption').style.display = 'none';
+    document.getElementById('jsonFileInputOption').style.display = 'none';
+    document.getElementById('jsonLinkInputOption').style.display = 'none';
+
+    document.getElementById(`json${option.charAt(0).toUpperCase() + option.slice(1)}InputOption`).style.display = 'block';
+  }
+
+  // Pretty print JSON with proper formatting
+  function prettyPrintJson(elementId) {
+    const element = document.getElementById(elementId);
+    try {
+      const jsonObj = JSON.parse(element.value);
+
+      // Get input lines for alignment
+      const inputLines = element.value.split('\n');
+      const lineCount = inputLines.length;
+
+      // Format JSON with proper indentation
+      const formattedJson = JSON.stringify(jsonObj, null, 2);
+
+      // Split the formatted JSON into lines
+      const formattedLines = formattedJson.split('\n');
+
+      element.value = formattedJson;
+
+      showMessage(elementId === 'jsonOutputEl' ? 'textToJsonMessageEl' : 'jsonToTextMessageEl',
+                  'JSON formatted successfully!', 'success');
+    } catch (error) {
+      // Show error message if the JSON is invalid
+      showMessage(elementId === 'jsonOutputEl' ? 'textToJsonMessageEl' : 'jsonToTextMessageEl',
+                  `Error: ${error.message}`, 'error');
+    }
+  }
+
+  // Fetch text from URL
+  async function fetchFromUrl() {
+    const url = document.getElementById('linkInputEl').value;
+    if (!url) {
+      showMessage('textToJsonMessageEl', 'Please enter a valid URL', 'error');
+      return;
+    }
+
+    try {
+      showMessage('textToJsonMessageEl', 'Fetching text...', 'success');
+      const response = await fetch(url);
+      if (!response.ok) {
+        throw new Error('Failed to fetch from URL');
+      }
+      const text = await response.text();
+      document.getElementById('textInputEl').value = text;
+      showInputOption('text');
+      showMessage('textToJsonMessageEl', 'Text fetched successfully!', 'success');
+    } catch (error) {
+      showMessage('textToJsonMessageEl', `Error: ${error.message}`, 'error');
+    }
+  }
+
+  // Fetch JSON from URL
+  async function fetchJsonFromUrl() {
+    const url = document.getElementById('jsonLinkInputEl').value;
+    if (!url) {
+      showMessage('jsonToTextMessageEl', 'Please enter a valid URL', 'error');
+      return;
+    }
+
+    try {
+      showMessage('jsonToTextMessageEl', 'Fetching JSON...', 'success');
+      const response = await fetch(url);
+      if (!response.ok) {
+        throw new Error('Failed to fetch from URL');
+      }
+      const jsonText = await response.text();
+      document.getElementById('jsonInputEl').value = jsonText;
+      showJsonInputOption('text');
+      showMessage('jsonToTextMessageEl', 'JSON fetched successfully!', 'success');
+    } catch (error) {
+      showMessage('jsonToTextMessageEl', `Error: ${error.message}`, 'error');
+    }
+  }
+
+  // Handle file input for text
+  document.addEventListener('DOMContentLoaded', function() {
+    document.getElementById('fileInputEl').addEventListener('change', function(event) {
+      const file = event.target.files[0];
+      if (file) {
+        const reader = new FileReader();
+        reader.onload = function(e) {
+          document.getElementById('textInputEl').value = e.target.result;
+          showInputOption('text');
+          showMessage('textToJsonMessageEl', `File "${file.name}" loaded successfully!`, 'success');
+        };
+        reader.onerror = function() {
+          showMessage('textToJsonMessageEl', 'Error reading file', 'error');
+        };
+        reader.readAsText(file);
+      }
+    });
+
+    // Handle file input for JSON
+    document.getElementById('jsonFileInputEl').addEventListener('change', function(event) {
+      const file = event.target.files[0];
+      if (file) {
+        const reader = new FileReader();
+        reader.onload = function(e) {
+          document.getElementById('jsonInputEl').value = e.target.result;
+          showJsonInputOption('text');
+          showMessage('jsonToTextMessageEl', `File "${file.name}" loaded successfully!`, 'success');
+        };
+        reader.onerror = function() {
+          showMessage('jsonToTextMessageEl', 'Error reading file', 'error');
+        };
+        reader.readAsText(file);
+      }
+    });
+  });
+
+  // Convert text to JSON
+  function convertTextToJson() {
+    const text = document.getElementById('textInputEl').value;
+    if (!text) {
+      showMessage('textToJsonMessageEl', 'Please enter some text to convert', 'error');
+      return;
+    }
+
+    try {
+      // Convert text to JSON by creating an object with a 'text' property
+      const jsonObj = { text: text };
+      const jsonString = JSON.stringify(jsonObj, null, 2);
+      document.getElementById('jsonOutputEl').value = jsonString;
+      showMessage('textToJsonMessageEl', 'Text converted to JSON successfully!', 'success');
+    } catch (error) {
+      showMessage('textToJsonMessageEl', `Error: ${error.message}`, 'error');
+    }
+  }
+
+  // Convert JSON to text
+  function convertJsonToText() {
+    const jsonInput = document.getElementById('jsonInputEl').value;
+    if (!jsonInput) {
+      showMessage('jsonToTextMessageEl', 'Please enter some JSON to convert', 'error');
+      return;
+    }
+
+    try {
+      const jsonObj = JSON.parse(jsonInput);
+      let textOutput = '';
+
+      if (typeof jsonObj === 'object' && jsonObj !== null) {
+        if (jsonObj.text) {
+          // If the JSON has a 'text' property, use that
+          textOutput = jsonObj.text;
+        } else {
+          // Otherwise, convert the entire JSON to a string representation
+          textOutput = JSON.stringify(jsonObj, null, 2);
+        }
+      } else {
+        textOutput = String(jsonObj);
+      }
+
+      document.getElementById('textOutputEl').value = textOutput;
+      showMessage('jsonToTextMessageEl', 'JSON converted to text successfully!', 'success');
+    } catch (error) {
+      showMessage('jsonToTextMessageEl', `Error: ${error.message}`, 'error');
+    }
+  }
+
+  // Save to file
+  function saveToFile(type) {
+    let content, filename, contentType;
+
+    if (type === 'json') {
+      content = document.getElementById('jsonOutputEl').value;
+      if (!content) {
+        showMessage('textToJsonMessageEl', 'No JSON content to save', 'error');
+        return;
+      }
+      filename = 'converted.json';
+      contentType = 'application/json';
+    } else {
+      content = document.getElementById('textOutputEl').value;
+      if (!content) {
+        showMessage('jsonToTextMessageEl', 'No text content to save', 'error');
+        return;
+      }
+      filename = 'converted.txt';
+      contentType = 'text/plain';
+    }
+
+    const blob = new Blob([content], { type: contentType });
+    const url = URL.createObjectURL(blob);
+
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = filename;
+    a.style.display = 'none';
+    document.body.appendChild(a);
+    a.click();
+
+    setTimeout(() => {
+      document.body.removeChild(a);
+      URL.revokeObjectURL(url);
+    }, 100);
+
+    showMessage(type === 'json' ? 'textToJsonMessageEl' : 'jsonToTextMessageEl',
+               `File saved as ${filename}`, 'success');
+  }
+
+  // Copy to clipboard
+  function copyToClipboard(elementId) {
+    const textArea = document.getElementById(elementId);
+    if (!textArea.value) {
+      showMessage(elementId === 'jsonOutputEl' ? 'textToJsonMessageEl' : 'jsonToTextMessageEl',
+                 'No content to copy', 'error');
+      return;
+    }
+
+    textArea.select();
+    document.execCommand('copy');
+
+    showMessage(elementId === 'jsonOutputEl' ? 'textToJsonMessageEl' : 'jsonToTextMessageEl',
+               'Content copied to clipboard!', 'success');
+  }
+
+  // Clear text
+  function clearText(elementId) {
+    document.getElementById(elementId).value = '';
+  }
+
+  // Show message
+  function showMessage(elementId, message, type) {
+    const messageElement = document.getElementById(elementId);
+    messageElement.textContent = message;
+    messageElement.className = type;
+
+    // Clear the message after 5 seconds
+    setTimeout(() => {
+      messageElement.textContent = '';
+      messageElement.className = '';
+    }, 5000);
+  }
+
+  // Original update function - now repurposed to generate random text for conversion
+  function update() {
+    const randomTexts = [
+      "Hello world! This is a sample text.",
+      "The quick brown fox jumps over the lazy dog.",
+      "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
+      "This is a text to JSON converter example.",
+      "Convert this random text to JSON format."
+    ];
+
+    const randomText = randomTexts[Math.floor(Math.random() * randomTexts.length)];
+    document.getElementById('textInputEl').value = randomText;
+    convertTextToJson();
+    switchTab('textToJson');
+  }
+</script>

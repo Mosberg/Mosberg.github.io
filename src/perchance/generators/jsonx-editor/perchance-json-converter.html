@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>JSON ↔ Perchance Converter</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins&display=swap" rel="stylesheet">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/jsoneditor/9.9.2/jsoneditor.min.css" rel="stylesheet" type="text/css">
+  <style>
+    body {
+      font-family: 'Poppins', sans-serif;
+      margin: 2em;
+      background: #f0f0f0;
+      color: #333;
+    }
+    textarea {
+      width: 100%;
+      height: 250px;
+      font-family: monospace;
+      margin-bottom: 1em;
+    }
+    label {
+      display: block;
+      margin: 0.5em 0;
+    }
+    select, input[type="checkbox"] {
+      margin-right: 1em;
+    }
+    button {
+      padding: 0.5em 1em;
+      font-size: 1em;
+      margin-top: 1em;
+    }
+    .json-viewer-modal {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0,0,0,0.7);
+      z-index: 1000;
+    }
+    .json-viewer-content {
+      position: relative;
+      width: 90%;
+      height: 90%;
+      margin: 2% auto;
+      background: white;
+      padding: 20px;
+      border-radius: 5px;
+    }
+    .json-viewer-container {
+      width: 100%;
+      height: calc(100% - 50px);
+    }
+    .close-btn {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      background: #f44336;
+      color: white;
+      border: none;
+      padding: 5px 10px;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+  <h2>JSON ↔ Perchance Converter</h2>
+  <p>{import:gspd}</p>
+  <label>Input (JSON or Perchance):</label>
+  <textarea id="input"></textarea>
+
+  <label>
+    Mode:
+    <select id="mode">
+      <option value="random">Random-pick</option>
+      <option value="list">List</option>
+    </select>
+    <input type="checkbox" id="oneIndexed"> Use 1-indexed
+    <input type="checkbox" id="forceString"> Force all values to string
+    <input type="checkbox" id="pretty"> Pretty-print JSON
+  </label>
+
+  <label>
+  Root name:
+  <input type="text" id="rootName" placeholder="e.g. myRoot">
+</label>
+<label>
+  <input type="checkbox" id="useItemX"> Use itemX instead of numbers
+</label>
+
+
+  <button onclick="convertToJSON()">Convert to JSON</button>
+  <button onclick="convertToPerchance()">Convert to Perchance</button>
+
+  <label>Output:</label>
+  <textarea id="output" readonly></textarea>
+
+  <a href="https://www.perchance.org/the-universe-data">Works even for 30k lines input!</a>
+
+  <div style="margin-top: 20px;">
+    <button onclick="viewInputAsJson()">View Input as JSON</button>
+    <button onclick="viewOutputAsJson()">View Output as JSON</button>
+  </div>
+
+  <!-- Input JSON Viewer Modal -->
+  <div id="inputJsonViewerModal" class="json-viewer-modal">
+    <div class="json-viewer-content">
+      <button class="close-btn" onclick="closeInputJsonViewer()">Close</button>
+      <div id="inputJsonViewerCtn" class="json-viewer-container"></div>
+    </div>
+  </div>
+
+  <!-- Output JSON Viewer Modal -->
+  <div id="outputJsonViewerModal" class="json-viewer-modal">
+    <div class="json-viewer-content">
+      <button class="close-btn" onclick="closeOutputJsonViewer()">Close</button>
+      <div id="outputJsonViewerCtn" class="json-viewer-container"></div>
+    </div>
+  </div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jsoneditor/9.9.2/jsoneditor.min.js"></script>
+  <script>
+    function escapeSpaces(str) {
+      if (typeof str !== 'string') return str;
+      return str.replace(/^ /, '\\s').replace(/ $/, '\\s');
+    }
+
+function convertToPerchance() {
+  const input = document.getElementById('input').value;
+  const mode = document.getElementById('mode').value;
+  const oneIndexed = document.getElementById('oneIndexed').checked;
+  const forceString = document.getElementById('forceString').checked;
+  const rootName = document.getElementById('rootName').value.trim();
+  const useItemX = document.getElementById('useItemX').checked;
+
+  let obj;
+  try {
+    obj = JSON.parse(input);
+  } catch (e) {
+    alert('Invalid JSON');
+    return;
+  }
+
+  function recurse(value, depth = 1) {
+    const pad = '  '.repeat(depth);
+    let result = '';
+
+    if (Array.isArray(value)) {
+      const isPrimitiveArray = value.every(v => typeof v !== 'object' || v === null);
+
+      if (mode === 'random' && isPrimitiveArray) {
+        const index = oneIndexed ? 1 : 0;
+        const label = useItemX ? `item${index}` : index;
+        result += `${pad}${label}\n`;
+        value.forEach(v => {
+          let val = forceString ? String(v) : v;
+          val = escapeSpaces(val);
+          result += `${pad}  ${val}\n`;
+        });
+      } else {
+        value.forEach((item, i) => {
+          const index = oneIndexed ? i + 1 : i;
+          const label = useItemX ? `item${index}` : index;
+          if (mode === 'list') {
+            if (typeof item === 'object' && item !== null) {
+              result += `${pad}${label}\n` + recurse(item, depth + 1);
+            } else {
+              let val = forceString ? String(item) : item;
+              val = escapeSpaces(val);
+              result += `${pad}${label} = ${val}\n`;
+            }
+          } else {
+            result += `${pad}${label}\n` + recurse(item, depth + 1);
+          }
+        });
+      }
+    } else if (typeof value === 'object' && value !== null) {
+      for (let key in value) {
+        const val = value[key];
+        if (Array.isArray(val)) {
+          result += `${pad}${key}\n` + recurse(val, depth + 1);
+        } else if (typeof val === 'object' && val !== null) {
+          result += `${pad}${key}\n` + recurse(val, depth + 1);
+        } else {
+          let strVal = forceString ? String(val) : val;
+          strVal = escapeSpaces(strVal);
+          result += `${pad}${key} = ${strVal}\n`;
+        }
+      }
+    }
+
+    return result;
+  }
+
+  let perchance = recurse(obj, 1);
+  if (rootName) {
+    perchance = `${rootName}\n` + perchance;
+  }
+  document.getElementById('output').value = perchance;
+}
+
+    function convertToJSON() {
+      const lines = document.getElementById('input').value.split('\n');
+      const pretty = document.getElementById('pretty').checked;
+      const forceString = document.getElementById('forceString').checked;
+
+      const stack = [];
+      let root = {};
+      let current = root;
+      let prevIndent = 0;
+
+      for (let line of lines) {
+        const raw = line.replace(/\s+$/, '');
+        const indent = raw.match(/^ */)[0].length;
+        const content = raw.trim();
+
+        if (!content) continue;
+
+        while (indent < prevIndent) {
+          stack.pop();
+          current = stack[stack.length - 1] || root;
+          prevIndent -= 2;
+        }
+
+        if (content.includes('=')) {
+          let [key, val] = content.split('=').map(s => s.trim());
+          val = val.replace(/^\\s/, ' ').replace(/\\s$/, ' ');
+
+          if (!forceString) {
+            if (val === 'true') val = true;
+            else if (val === 'false') val = false;
+            else if (!isNaN(val)) val = Number(val);
+          }
+
+          current[key] = val;
+        } else {
+          current[content] = {};
+          stack.push(current);
+          current = current[content];
+          prevIndent = indent;
+        }
+      }
+
+      const output = pretty ? JSON.stringify(root, null, 2) : JSON.stringify(root);
+      document.getElementById('output').value = output;
+    }
+
+    // JSON Viewer functionality
+    let inputJsonEditor, outputJsonEditor;
+
+    function viewInputAsJson() {
+      const inputText = document.getElementById('input').value;
+      let json;
+      try {
+        json = JSON.parse(inputText);
+      } catch (e) {
+        alert('Input is not valid JSON');
+        return;
+      }
+
+      document.getElementById('inputJsonViewerModal').style.display = 'block';
+
+      if (!inputJsonEditor) {
+        const options = {
+          mode: 'view',
+          modes: ['view', 'tree', 'code']
+        };
+        inputJsonEditor = new JSONEditor(document.getElementById('inputJsonViewerCtn'), options, json);
+      } else {
+        inputJsonEditor.set(json);
+      }
+    }
+
+    function viewOutputAsJson() {
+      const outputText = document.getElementById('output').value;
+      let json;
+      try {
+        json = JSON.parse(outputText);
+      } catch (e) {
+        alert('Output is not valid JSON');
+        return;
+      }
+
+      document.getElementById('outputJsonViewerModal').style.display = 'block';
+
+      if (!outputJsonEditor) {
+        const options = {
+          mode: 'view',
+          modes: ['view', 'tree', 'code']
+        };
+        outputJsonEditor = new JSONEditor(document.getElementById('outputJsonViewerCtn'), options, json);
+      } else {
+        outputJsonEditor.set(json);
+      }
+    }
+
+    function closeInputJsonViewer() {
+      document.getElementById('inputJsonViewerModal').style.display = 'none';
+    }
+
+    function closeOutputJsonViewer() {
+      document.getElementById('outputJsonViewerModal').style.display = 'none';
+    }
+  </script>
+</body>
+</html>

@@ -7,7 +7,7 @@ jsonX
     text = String(text || "")
     text = text.replace(/\/\/.*$/gm, "")
     text = text.replace(/\/\*[\s\S]*?\*\//g, "")
-    text
+    return text
 
   parse(text, fallback) =>
     let clean = this.stripJsonc(text)
@@ -15,7 +15,7 @@ jsonX
 
   parseStrict(text) =>
     let clean = this.stripJsonc(text)
-    JSON.parse(clean)
+    return JSON.parse(clean)
 
   stringify(value, space) =>
     try { return JSON.stringify(value, null, space || 0) } catch(e) { return "" }
