@@ -1,6 +1,6 @@
 import { APP_CONFIG, COMMANDS } from "./config.js";
-import { readJson, readSet, writeJson, writeSet } from "./v2/storage.js";
-import { createThemeEngine } from "./v2/theme-engine.js";
+import { readJson, readSet, writeJson, writeSet } from "./storage.js";
+import { createThemeEngine } from "./theme-engine.js";
 import { createProjectEngine } from "./project-engine.js";
 import { createCommandPalette } from "./command-palette.js";
 
@@ -8,7 +8,7 @@ import { createCommandPalette } from "./command-palette.js";
   const root = document.documentElement;
 
   const elements = {
-    themeSelect: document.getElementById("themeSelectV2"),
+    themeSelect: document.getElementById("themeSelect"),
     accentSlider: document.getElementById("accentSlider"),
     motionToggle: document.getElementById("motionToggle"),
     layoutToggle: document.getElementById("layoutToggle"),
@@ -31,7 +31,7 @@ import { createCommandPalette } from "./command-palette.js";
     commandInput: document.getElementById("commandInput"),
     commandList: document.getElementById("commandList"),
     currentYear: document.getElementById("currentYear"),
-    visitCounter: document.getElementById("visitCounterV2"),
+    visitCounter: document.getElementById("visitCounter"),
   };
 
   if (!elements.projectGrid || !elements.cards.length) {
@@ -121,7 +121,7 @@ import { createCommandPalette } from "./command-palette.js";
   }
 
   function updateVisitCounter() {
-    const key = "mosberg-v2-visit-count";
+    const key = "mosberg--visit-count";
     const count = Number(localStorage.getItem(key) || "0") + 1;
     localStorage.setItem(key, String(count));
 

@@ -1,6 +1,6 @@
 export const APP_CONFIG = {
-  storageKey: "mosberg-v2-settings",
-  favoritesKey: "mosberg-v2-favorites",
+  storageKey: "mosberg--settings",
+  favoritesKey: "mosberg--favorites",
   version: "2.0.0",
   themes: [
     "auto",
