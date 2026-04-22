@@ -44,7 +44,7 @@
   - 15 stk.
   - 28*15 = 420 DKK
 
-### Total
+## Total
 
 - Rammer: 168 + 340 + 235 = 743 DKK
 - Tangenter & afdækninger: 154 + 420 = 574 DKK
