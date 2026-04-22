@@ -1,6 +1,6 @@
 import { APP_CONFIG, COMMANDS } from "./config.js";
-import { readJson, readSet, writeJson, writeSet } from "./storage.js";
-import { createThemeEngine } from "./theme-engine.js";
+import { readJson, readSet, writeJson, writeSet } from "./v2/storage.js";
+import { createThemeEngine } from "./v2/theme-engine.js";
 import { createProjectEngine } from "./project-engine.js";
 import { createCommandPalette } from "./command-palette.js";
 
