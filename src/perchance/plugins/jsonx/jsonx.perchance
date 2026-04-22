@@ -5,25 +5,23 @@ jsonX
 
   stripJsonc(text) =>
     text = String(text || "")
-    text = text.replace(///[^
-
-]*/g, "")
-    text = text.replace(//*[sS]*?*//g, "")
+    text = text.replace(/\/\/.*$/gm, "")
+    text = text.replace(/\/\*[\s\S]*?\*\//g, "")
     text
 
   parse(text, fallback) =>
     let clean = this.stripJsonc(text)
-    try JSON.parse(clean) catch(e) fallback
+    try { return JSON.parse(clean) } catch(e) { return fallback }
 
   parseStrict(text) =>
     let clean = this.stripJsonc(text)
     JSON.parse(clean)
 
   stringify(value, space) =>
-    try JSON.stringify(value, null, space || 0) catch(e) ""
+    try { return JSON.stringify(value, null, space || 0) } catch(e) { return "" }
 
   clone(value) =>
-    try JSON.parse(JSON.stringify(value)) catch(e) value
+    try { return JSON.parse(JSON.stringify(value)) } catch(e) { return value }
 
   // ---------- TYPE HELPERS ----------
 
@@ -69,13 +67,15 @@ jsonX
 
   toBoolean(value, fallback) =>
     if(typeof value === "boolean") return value
-    if(typeof value === "string")
+    if(typeof value === "string") {
       let v = value.toLowerCase().trim()
       if(v === "true" || v === "1" || v === "yes" || v === "on") return true
       if(v === "false" || v === "0" || v === "no" || v === "off") return false
-    if(typeof value === "number")
+    }
+    if(typeof value === "number") {
       if(value === 0) return false
       if(value === 1) return true
+    }
     return fallback
 
   // ---------- PATH HELPERS (deep get/set) ----------
@@ -90,21 +90,23 @@ jsonX
     if(!obj) return fallback
     let parts = this.splitPath(path)
     let cur = obj
-    for(let i = 0; i < parts.length; i++)
+    for(let i = 0; i < parts.length; i++) {
       let key = parts[i]
       if(cur == null) return fallback
       if(!(key in cur)) return fallback
       cur = cur[key]
+    }
     return cur
 
   has(obj, path) =>
     if(!obj) return false
     let parts = this.splitPath(path)
     let cur = obj
-    for(let i = 0; i < parts.length; i++)
+    for(let i = 0; i < parts.length; i++) {
       let key = parts[i]
       if(cur == null || !(key in cur)) return false
       cur = cur[key]
+    }
     return true
 
   set(obj, path, value) =>
@@ -112,23 +114,25 @@ jsonX
     let parts = this.splitPath(path)
     if(parts.length === 0) return obj
     let cur = obj
-    for(let i = 0; i < parts.length - 1; i++)
+    for(let i = 0; i < parts.length - 1; i++) {
       let key = parts[i]
       if(!this.isObject(cur[key]) && !Array.isArray(cur[key]))
         cur[key] = {}
       cur = cur[key]
+    }
     cur[parts[parts.length - 1]] = value
     return obj
 
-  delete(obj, path) =>
+  del(obj, path) =>
     if(!obj) return obj
     let parts = this.splitPath(path)
     if(parts.length === 0) return obj
     let cur = obj
-    for(let i = 0; i < parts.length - 1; i++)
+    for(let i = 0; i < parts.length - 1; i++) {
       let key = parts[i]
       if(cur == null || !(key in cur)) return obj
       cur = cur[key]
+    }
     delete cur[parts[parts.length - 1]]
     return obj
 
@@ -286,13 +290,13 @@ jsonX
       .replace(/'/g, "&#39;")
 
   htmlBlock(text, className) =>
-    let cls = className ? " class="" + className + """ : ""
+    let cls = className ? " class=\"" + this.escapeHtml(className) + "\"" : ""
     return "<div" + cls + ">" + String(text || "") + "</div>"
 
   htmlAttr(name, value) =>
     if(value === undefined || value === null || value === false) return ""
     if(value === true) return " " + name
-    return " " + name + "="" + this.escapeHtml(value) + """
+    return " " + name + "=\"" + this.escapeHtml(value) + "\""
 
   htmlTag(tag, attrs, innerHtml) =>
     attrs = this.ensureObject(attrs)
