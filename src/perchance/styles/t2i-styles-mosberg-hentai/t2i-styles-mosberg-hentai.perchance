@@ -1,0 +1,223 @@
+// https://perchance.org/t2i-styles-mosberg-hentai
+// Remember unique prompt.
+// Remember unique negative.
+// Remember meta:tags
+// Remember meta:image
+// Remember modifiers
+
+$output
+  Hentai_Derpixon
+    prompt = [input.description], art by Derpixon, fluid animation, expressive faces, vibrant colors, explicit, 18+, nsfw
+    negative = [input.negative], low quality, bad anatomy, blurry, text, error, jpeg artifacts
+    meta:tags = [({animation:90, cartoonStyle:85, explicit:100, 18+:100, vibrantColors:80})]
+    meta:image = https://www.celebratehentai.com/images/hentai-artists/derpixon.webp
+    modifiers = [derpixonModifiers]
+
+  Hentai_Kamuo
+    prompt = [input.description], art by Kamuo, grim reaper waifus, supernatural elements, detailed costumes, 18+, nsfw
+    negative = [input.negative], low quality, bad anatomy, simple background
+    meta:tags = [({grimReaper:95, supernatural:85, busty:80, detailedOutfits:75})]
+    meta:image = https://www.celebratehentai.com/images/hentai-artists/kamuo.webp
+    modifiers = [kamuoModifiers]
+
+  Hentai_Zone
+    prompt = [input.description], art by Zone, anime parody, traditional art style, lifelike animation, 18+, nsfw
+    negative = [input.negative], low quality, simple shading, flat colors
+    meta:tags = [({parody:90, traditionalArt:85, lifelikeAnimation:80, recognizableCharacters:75})]
+    meta:image = https://www.celebratehentai.com/images/hentai-artists/zone.webp
+    modifiers = [zoneModifiers]
+
+  Hentai_Flou
+    prompt = [input.description], art by Flou, demon girls, monster girls, fanart, 18+, nsfw
+    negative = [input.negative], low quality, bad anatomy, simple background
+    meta:tags = [({demonGirls:95, monsterGirls:85, fanart:80, detailedOutfits:75})]
+    meta:image = https://www.celebratehentai.com/images/hentai-artists/flou.webp
+    modifiers = [flouModifiers]
+
+  Hentai_ShindoL
+    prompt = [input.description], art by ShindoL, realistic proportions, intense ahegao, dramatic lighting, 18+, nsfw
+    negative = [input.negative], cartoonish, simple shading, flat colors
+    meta:tags = [({realistic:95, ahegao:90, dramaticLighting:85, emotional:80})]
+    meta:image = https://www.celebratehentai.com/images/hentai-artists/shindol.webp
+    modifiers = [shindolModifiers]
+
+  Hentai_F4U
+    prompt = [input.description], art by F4U, black hair women with glasses, vanilla situations, detailed artwork, 18+, nsfw
+    negative = [input.negative], low quality, bad anatomy, simple background
+    meta:tags = [({glasses:95, blackHair:85, vanilla:80, detailedArtwork:75})]
+    meta:image = https://www.celebratehentai.com/images/hentai-artists/f4u.webp
+    modifiers = [f4uModifiers]
+
+  Hentai_Asanagi
+    prompt = [input.description], art by Asanagi, thick women, monster girls, futanari, steamy situations, 18+, nsfw
+    negative = [input.negative], low quality, bad anatomy, simple background
+    meta:tags = [({thickWomen:95, monsterGirls:85, futanari:80, steamySituations:75})]
+    meta:image = https://www.celebratehentai.com/images/hentai-artists/asanagi.webp
+    modifiers = [asanagiModifiers]
+
+  Hentai_UoDenim
+    prompt = [input.description], art by Uo Denim, realistic adult manga, detailed illustrations, expressive characters, 18+, nsfw
+    negative = [input.negative], low quality, cartoonish, simple shading
+    meta:tags = [({realistic:95, detailedIllustrations:85, expressiveCharacters:80, matureThemes:75})]
+    meta:image = https://www.celebratehentai.com/images/hentai-artists/uodenim.webp
+    modifiers = [uodenimModifiers]
+
+  Hentai_Meru
+    prompt = [input.description], art by Meru, succubus character, erotic scenarios, vibrant colors, 18+, nsfw
+    negative = [input.negative], low quality, bad anatomy, simple background
+    meta:tags = [({succubus:95, eroticScenarios:85, vibrantColors:80, detailedOutfits:75})]
+    meta:image = https://www.celebratehentai.com/images/hentai-artists/meru.webp
+    modifiers = [meruModifiers]
+
+  Hentai_Machiking
+    prompt = [input.description], art by Machiking, detailed illustrations, fluid animation, popular anime game series, 18+, nsfw
+    negative = [input.negative], low quality, bad anatomy, simple background
+    meta:tags = [({detailedIllustrations:95, fluidAnimation:85, animeGameSeries:80, popularCharacters:75})]
+    meta:image = https://www.celebratehentai.com/images/hentai-artists/michiking.webp
+    modifiers = [machikingModifiers]
+
+// Modifier subcategories
+derpixonModifiers
+  animationStyle
+    fluid = , smooth motion, flowing hair
+    expressive = , exaggerated facial expressions
+    dynamic = , action poses, movement lines
+
+kamuoModifiers
+  characterType
+    grimReaper = , scythe, supernatural aura
+    gamerGirl = , controller, headset
+    busty = , large breasts, jiggle physics
+
+zoneModifiers
+  parodyStyle
+    animeParody = , recognizable characters, signature outfits
+    lifelike = , realistic shading, detailed textures
+    traditional = , ink outlines, hand-painted look
+
+flouModifiers
+  characterType
+    demonGirl = , horns, tails, dark aura
+    monsterGirl = , unique features, hybrid anatomy
+    fanart = , popular characters, signature outfits
+
+shindolModifiers
+  intensity
+    psychological = , emotional trauma, tears
+    extreme = , rough sex, domination
+    vanilla = , consensual, romantic
+
+f4uModifiers
+  characterType
+    glassesGirl = , black hair, intellectual look
+    vanilla = , romantic, soft lighting
+    detailed = , intricate clothing, realistic shading
+
+asanagiModifiers
+  characterType
+    thickWomen = , curvy, voluptuous figures
+    monsterGirl = , unique features, hybrid anatomy
+    futanari = , both male and female anatomy
+
+uodenimModifiers
+  realism
+    detailed = , realistic shading, skin texture
+    expressive = , emotional faces, dynamic poses
+    mature = , sophisticated themes, adult situations
+
+meruModifiers
+  characterType
+    succubus = , horns, wings, seductive aura
+    erotic = , steamy scenarios, intimate poses
+    vibrant = , bright colors, glowing effects
+
+machikingModifiers
+  illustrationStyle
+    detailed = , intricate linework, realistic shading
+    fluid = , smooth motion, dynamic poses
+    popular = , recognizable characters, signature outfits
+
+hentaiModifiers
+  style
+    Vanilla = , vanilla, romantic, sensual
+    Hardcore = , hardcore, explicit, graphic, detailed genitalia
+    BDSM = , bondage, domination, submission, fetish
+    Monster = , monster girl, tentacles, fantasy
+    Yaoi/Yuri = , yaoi, yuri, homosexual, same-sex
+    Fetish = , foot fetish, latex, stockings, lingerie
+
+  effect
+    wet = , wet skin, glossy, sweat, drool
+    glow = , glowing skin, ethereal, divine beauty
+    outline = , outline, white outline, comic-style
+    motion = , dynamic pose, flowing hair, movement
+    texture = , realistic skin texture, detailed fabric
+    intimate = , close-up, intimate perspective
+
+  intensity
+    teasing = subtle suggestion, covered nudity
+    explicit = full nudity, graphic details
+    extreme = fetish focus, BDSM elements
+
+  artistic medium
+    classical = oil painting, marble sculpture
+    modern = digital painting, 3D render
+    retro = vintage photography, pulp illustration
+
+  lighting style
+    candlelit = warm golden tones, flickering shadows
+    clinical = bright examination lighting
+    neon = electric pinks and blues
+    moonlight = cool silver highlights
+
+  environment
+    boudoir = luxurious bedroom setting
+    dungeon = BDSM play space
+    outdoor = natural lighting in wilderness
+    urban = alleyways or rooftops
+
+  poses
+    missionary = , missionary position
+    doggy = , doggystyle position
+    cowgirl = , cowgirl riding
+    ahegao = , pleasure face
+    bondage = , restrained poses
+    group = , orgy composition
+    public = , outdoor exhibition
+    toys = , inserted objects
+
+  details
+    fluids = , visible secretions
+    genitals = , anatomical focus
+    penetration = , explicit entry
+    creampie = , internal climax
+    hyper = , exaggerated proportions
+    uncensored = , full visibility
+
+  shot
+    extreme close-up = , extreme close-up
+    low-angle = , low-angle shot
+    high-angle = , high-angle shot
+    aerial = , aerial shot
+    close-up = , close-up shot
+    portrait = , close-up portrait
+    macro = , macro shot
+    wide-angle = , wide-angle shot
+    establishing = , establishing shot
+    over-the-shoulder = , over-the-shoulder shot
+    telephoto = , telephoto shot
+    handheld = , handheld shot
+    panoramic = , panoramic shot
+    dramatic = , dramatic angle, extreme angle shot
+
+  color
+    vibrant = , vibrant color grading
+    warm = , warm color grading
+    cool = , cool-toned color grading
+    pastel = , pastel color grading
+    bright = , bright color grading
+    muted = , muted color grading
+    neon = , neon color grading
+    duotone = , duotone color grading
+    monochrome = , monochrome
+    sterile = , cool-toned sterile colors

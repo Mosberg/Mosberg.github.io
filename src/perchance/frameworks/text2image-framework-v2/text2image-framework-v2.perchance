@@ -95,9 +95,9 @@ $output(settings) =>
 	if(window.input.negative === undefined) window.input.negative = String(settings.defaultNegativePrompt || "");
 
 	let themeMap = {
-		aurora: {bgA:"#0d1b2a", bgB:"#1b263b", bgC:"#274060", panel:"rgba(16,26,40,0.78)", text:"#e7eef6", muted:"#9bb0ca", line:"rgba(170,196,228,0.3)", accent:"#59d4ff", accent2:"#ffd166"},
-		sunrise: {bgA:"#2d1b2e", bgB:"#6d2e46", bgC:"#b56576", panel:"rgba(54,27,42,0.78)", text:"#fff3eb", muted:"#f2d3c0", line:"rgba(255,218,191,0.35)", accent:"#9df7e5", accent2:"#ffd6a5"},
-		slate: {bgA:"#14171f", bgB:"#202534", bgC:"#2d3143", panel:"rgba(22,27,38,0.78)", text:"#f1f4fa", muted:"#b6becc", line:"rgba(160,174,199,0.3)", accent:"#80ed99", accent2:"#ffd166"},
+		aurora: {bgA:"#0d1b2a", bgB:"#1b263b", bgC:"#274060", panel:"rgba(16,26,40,0.78)", text:"#e7eef6", muted:"#9bb0ca", line:"rgba(170,196,228,0.3)", accent:"#59d4ff", accent2:"#ffd166", hover:"rgba(89,212,255,0.2)"},
+		sunrise: {bgA:"#2d1b2e", bgB:"#6d2e46", bgC:"#b56576", panel:"rgba(54,27,42,0.78)", text:"#fff3eb", muted:"#f2d3c0", line:"rgba(255,218,191,0.35)", accent:"#9df7e5", accent2:"#ffd6a5", hover:"rgba(157,247,229,0.2)"},
+		slate: {bgA:"#14171f", bgB:"#202534", bgC:"#2d3143", panel:"rgba(22,27,38,0.78)", text:"#f1f4fa", muted:"#b6becc", line:"rgba(160,174,199,0.3)", accent:"#80ed99", accent2:"#ffd166", hover:"rgba(128,237,153,0.2)"},
 	};
 	let theme = themeMap[settings.theme] || themeMap.aurora;
 
@@ -1174,8 +1174,8 @@ $output(settings) =>
 		shareModuleHtml = `
 		<div class="t2i-share-row48739">
 			<input id="t2iShareLinkEl48739" type="text" placeholder="Share link or token" />
-			<button type="button" onclick="window.__t2iExportShareLink48739()">Export</button>
-			<button type="button" onclick="window.__t2iImportShareLink48739()">Import</button>
+			<button id="t2iExportShareLinkBtn48739" type="button" onclick="window.__t2iExportShareLink48739()">Export</button>
+			<button id="t2iImportShareLinkBtn48739" type="button" onclick="window.__t2iImportShareLink48739()">Import</button>
 		</div>`;
 	}
 
@@ -1192,6 +1192,7 @@ $output(settings) =>
 			--t2i-line: ${theme.line};
 			--t2i-accent: ${theme.accent};
 			--t2i-accent2: ${theme.accent2};
+      --t2i-hover: ${theme.hover};
 		}
 		#t2iBg48739 {
 			position: fixed;
@@ -1238,12 +1239,12 @@ $output(settings) =>
 			padding:0.26rem 0.55rem; border-radius:999px; cursor:pointer; font-size:0.78rem;
 		}
 		#t2iButtons48739 { display:flex; gap:0.42rem; flex-wrap:wrap; justify-content:center; margin-top:0.3rem; }
-		#t2iButtons48739 button, #t2iPrivateGalleryBtn48739, .t2i-share-row48739 button {
+		#t2iButtons48739 button, #t2iPrivateGalleryBtn48739, .t2i-share-row48739, #t2iToggleStyleGridBtn48739 button {
 			border:1px solid var(--t2i-line); background:color-mix(in srgb, var(--t2i-panel) 80%, transparent); color:var(--t2i-text);
 			padding:0.36rem 0.68rem; border-radius:999px; cursor:pointer;
 		}
     #t2iTopActionButtons48739 { display:flex; gap:0.42rem; flex-wrap:wrap; justify-content:center; margin-top:0.3rem; }
-		#t2iTopActionButtons48739 button, #t2iPrivateGalleryBtn48739, .t2i-share-row48739 button {
+		#t2iTopActionButtons48739 button, #t2iPrivateGalleryBtn48739, .t2i-share-row48739, #t2iToggleStyleGridBtn48739 button {
 			border:1px solid var(--t2i-line); background:color-mix(in srgb, var(--t2i-panel) 80%, transparent); color:var(--t2i-text);
 			padding:0.36rem 0.68rem; border-radius:999px; cursor:pointer;
 		}
@@ -1281,13 +1282,23 @@ $output(settings) =>
 		#t2iPrivateGalleryWrap48739 {
 			position:fixed; left:0; right:0; bottom:0.55rem; text-align:center; z-index:90; pointer-events:none;
 		}
-		#t2iPrivateGalleryInner48739 { display:inline-flex; gap:0.35rem; align-items:center; pointer-events:auto; }
+		#t2iPrivateGalleryInner48739 { display:flex; gap:0.50rem; align-items:center; pointer-events:auto; justify-content: space-evenly;}
 		#t2iPrivateGalleryBtn48739 { pointer-events:auto; }
 		@media (max-width: 860px) {
 			.t2iSpan6, .t2iSpan4, .t2iSpan3 { grid-column:span 12; }
 		}
-    #t2iScrollTopBtn48739 { pointer-events:auto; border:1px solid var(--t2i-line); border-radius:12px; padding:0.35rem;
+    #t2iScrollTopBtn48739 { pointer-events:auto; border:1px solid var(--t2i-line); border-radius:999px; padding:0.35rem;
 			background:color-mix(in srgb, var(--t2i-panel) 66%, transparent);}
+
+    #t2iToggleStyleGridBtn48739 { pointer-events:auto; border:1px solid var(--t2i-line); border-radius:999px; padding:0.35rem;
+			background:color-mix(in srgb, var(--t2i-panel) 66%, transparent);}
+
+    #t2iExportShareLinkBtn48739, #t2iImportShareLinkBtn48739 { pointer-events:auto; border:1px solid var(--t2i-line); border-radius:999px; padding:0.35rem;
+			background:color-mix(in srgb, var(--t2i-panel) 66%, transparent);}
+
+    button:hover, #t2iClearOutputBtn48739:hover, #t2iGenerateBtn48739:hover, #t2iToggleStyleGridBtn48739:hover, #t2iPrivateGalleryBtn48739:hover, #t2iScrollTopBtn48739:hover, .random-input-btn:hover, .random-append-btn:hover, .ai-suggest-btn:hover, #t2iExportShareLinkBtn48739:hover, #t2iImportShareLinkBtn48739:hover, #t2iRandomStyleBtn48739:hover, #t2iRandomizeSeedBtn48739:hover {
+      background: color-mix(in srgb, var(--t2i-hover) 90%, transparent);
+    }
 	</style>
 
 	<div id="t2iBg48739"></div>
@@ -1303,8 +1314,8 @@ $output(settings) =>
 						<textarea id="t2iPromptEl48739">${settings.defaultPrompt}</textarea>
 						<div class="t2i-prompt-actions48739">
 							${settings.enableRandomInputButton ? `<button type="button" class="random-input-btn" onclick="window.__t2iRandomInput48739()">Random Input</button>` : ""}
-							${settings.enableAiSuggestButton ? `<button type="button" class="ai-suggest-btn" onclick="window.__t2iAiSuggest48739(this)">AI Suggest</button>` : ""}
-							${settings.enableRandomAppendButton ? `<button type="button" class="random-append-btn" onclick="window.__t2iRandomAppend48739()">Random Append</button>` : ""}
+              ${settings.enableRandomAppendButton ? `<button type="button" class="random-append-btn" onclick="window.__t2iRandomAppend48739()">Random Append</button>` : ""}
+              ${settings.enableAiSuggestButton ? `<button type="button" class="ai-suggest-btn" onclick="window.__t2iAiSuggest48739(this)">AI Suggest</button>` : ""}
 						</div>
 					</div>
 					<div class="t2iField48739 t2iSpan12">
@@ -1348,9 +1359,8 @@ $output(settings) =>
 				</div>
 
         <div id="t2iButtons48739">
-  				<button onclick="window.__t2iToggleStyleGrid48739(this)">Hide Style Grid</button>
-  				<button onclick="window.__t2iRandomStyle48739()">Random Style</button>
-  				<button onclick="window.__t2iRandomizeSeed48739()">Random Seed</button>
+  				<button id="t2iRandomStyleBtn48739" onclick="window.__t2iRandomStyle48739()">Random Style</button>
+  				<button id="t2iRandomizeSeedBtn48739" onclick="window.__t2iRandomizeSeed48739()">Random Seed</button>
   			</div>
 
 				<div id="t2iStyleVisualGrid48739">${styleVisualHtml}</div>
@@ -1364,12 +1374,13 @@ $output(settings) =>
 
 			<div id="t2iTopActionButtons48739">
 				<button id="t2iGenerateBtn48739" onclick="window.__t2iGenerate48739()">Generate</button>
-				<button onclick="window.__t2iClearOutput48739()">Clear Output</button>
-				<button onclick="window.__t2iToggleStyleGrid48739(this)">Hide Style Grid</button>
-				<button onclick="window.__t2iToggleComments48739()">Toggle Comments</button>
+				<button id="t2iClearOutputBtn48739" onclick="window.__t2iClearOutput48739()">Clear Output</button>
 			</div>
 
 			<div id="t2iOutputEl48739"><div class="t2i-empty48739">Set prompt and click Generate.</div></div>
+
+
+				<button onclick="window.__t2iToggleComments48739()" style="display: none;">Toggle Comments</button>
 
 			<div id="t2iCommentsWrap48739" data-hidden="${settings.showComments ? "0" : "1"}" style="${settings.showComments ? "" : "display:none;"}">
 				<div id="t2iComments48739"></div>
@@ -1379,8 +1390,9 @@ $output(settings) =>
 
 	<div id="t2iPrivateGalleryWrap48739">
 		<div id="t2iPrivateGalleryInner48739">
+			<button id="t2iToggleStyleGridBtn48739" onclick="window.__t2iToggleStyleGrid48739(this)">Hide Style Grid</button>
 			<button id="t2iPrivateGalleryBtn48739" ${settings.imageButtons.privateSave ? "" : "hidden"} onclick="window.__t2iOpenPrivateGallery48739()">Private Gallery</button>
-			<button id="t2iScrollTopBtn48739" onclick="window.scrollTo({top:0, behavior:'smooth'})">Top</button>
+			<button id="t2iScrollTopBtn48739" onclick="window.scrollTo({top:0, behavior:'smooth'})">Go To Top</button>
 		</div>
 	</div>
 
