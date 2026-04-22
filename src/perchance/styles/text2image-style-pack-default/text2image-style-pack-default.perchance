@@ -8,6 +8,7 @@ $output
     prompt = clean professional photo of [input.description], balanced composition, natural lighting, realistic detail
     negative = [input.negative]
     meta:tags = [({photo:95, portrait:70, clean:90})]
+    meta:image = https://mosberg.github.io/src/img/art_styles/no_style.jpg
     modifiers
       shot = [photoModifiers.shot]
       color = [photoModifiers.color]
@@ -18,6 +19,7 @@ $output
     prompt = cinematic film still of [input.description], dynamic framing, dramatic light, rich color grading, high production value
     negative = [input.negative]
     meta:tags = [({cinematic:100, photo:80, dramatic:90})]
+    meta:image = https://mosberg.github.io/src/img/art_styles/no_style.jpg
     modifiers
       shot = [cinemaModifiers.shot]
       mood = [cinemaModifiers.mood]
@@ -28,6 +30,7 @@ $output
     prompt = editorial portrait of [input.description], magazine quality, elegant styling, controlled studio light, premium detail
     negative = [input.negative]
     meta:tags = [({portrait:100, fashion:75, editorial:95})]
+    meta:image = https://mosberg.github.io/src/img/art_styles/no_style.jpg
     modifiers
       focus = [portraitModifiers.focus]
       pose = [portraitModifiers.pose]
@@ -38,6 +41,7 @@ $output
     prompt = epic fantasy matte painting of [input.description], layered environment, atmospheric depth, painterly detail, breathtaking composition
     negative = [input.negative]
     meta:tags = [({fantasy:100, painting:90, landscape:85})]
+    meta:image = https://mosberg.github.io/src/img/art_styles/no_style.jpg
     modifiers
       environment = [fantasyModifiers.environment]
       atmosphere = [fantasyModifiers.atmosphere]
@@ -48,6 +52,7 @@ $output
     prompt = concept illustration of [input.description], strong shape language, readable silhouette, production-ready visual development
     negative = [input.negative]
     meta:tags = [({conceptArt:100, illustration:95, design:90})]
+    meta:image = https://mosberg.github.io/src/img/art_styles/no_style.jpg
     modifiers
       framing = [compositionModifiers.framing]
       perspective = [compositionModifiers.perspective]
@@ -58,6 +63,7 @@ $output
     prompt = oil painting of [input.description], rich brush texture, layered pigment, gallery-grade composition, painterly realism
     negative = [input.negative]
     meta:tags = [({painting:100, oilPainting:100, classic:70})]
+    meta:image = https://mosberg.github.io/src/img/art_styles/no_style.jpg
     modifiers
       brushwork = [paintModifiers.brushwork]
       palette = [paintModifiers.palette]
@@ -68,6 +74,7 @@ $output
     prompt = nostalgic vintage snapshot of [input.description], analog look, natural imperfection, authentic old-camera character
     negative = [input.negative]
     meta:tags = [({vintage:100, photo:70, retro:95})]
+    meta:image = https://mosberg.github.io/src/img/art_styles/no_style.jpg
     modifiers
       era = [retroModifiers.era]
       stock = [retroModifiers.stock]
@@ -78,6 +85,7 @@ $output
     prompt = premium 3D render of [input.description], clean modeling, realistic materials, polished lighting, studio presentation
     negative = [input.negative]
     meta:tags = [({render:100, cgi:95, product:85})]
+    meta:image = https://mosberg.github.io/src/img/art_styles/no_style.jpg
     modifiers
       material = [renderModifiers.material]
       lighting = [renderModifiers.lighting]
@@ -88,6 +96,7 @@ $output
     prompt = polished pixel art of [input.description], deliberate pixel grid, strong readability, retro game aesthetic
     negative = [input.negative]
     meta:tags = [({pixelArt:100, retro:80, gameArt:90})]
+    meta:image = https://mosberg.github.io/src/img/art_styles/pixel_art.jpg
     modifiers
       scale = [pixelModifiers.scale]
       palette = [pixelModifiers.palette]
@@ -98,6 +107,7 @@ $output
     prompt = inked comic illustration of [input.description], expressive linework, controlled blacks, dynamic page-ready composition
     negative = [input.negative]
     meta:tags = [({comic:100, ink:95, drawing:90})]
+    meta:image = https://mosberg.github.io/src/img/art_styles/cartoon.jpg
     modifiers
       ink = [comicModifiers.ink]
       framing = [comicModifiers.framing]

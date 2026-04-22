@@ -8,6 +8,7 @@ $output
     prompt = anime key visual of [input.description], polished cel shading, expressive linework, cinematic framing, vibrant color design
     negative = [input.negative]
     meta:tags = [({anime:100, keyVisual:100, illustration:90})]
+    meta:image = https://mosberg.github.io/src/img/art_styles/anime.jpg
     modifiers
       style = [animeCoreModifiers.style]
       shot = [animeCoreModifiers.shot]
@@ -18,6 +19,7 @@ $output
     prompt = painterly anime artwork of [input.description], brushy texture, soft gradients, elegant lighting, high-end digital painting finish
     negative = [input.negative]
     meta:tags = [({anime:100, painting:95, painterly:100})]
+    meta:image = https://mosberg.github.io/src/img/art_styles/anime.jpg
     modifiers
       style = [animeCoreModifiers.style]
       paint = [animePaintModifiers.paint]
@@ -28,6 +30,7 @@ $output
     prompt = heroic shonen action scene of [input.description], dynamic pose, impact lines, dramatic perspective, high-energy anime composition
     negative = [input.negative]
     meta:tags = [({anime:100, shonen:100, action:100})]
+    meta:image = https://mosberg.github.io/src/img/art_styles/anime.jpg
     modifiers
       energy = [animeActionModifiers.energy]
       effects = [animeActionModifiers.effects]
@@ -38,6 +41,7 @@ $output
     prompt = soft shoujo anime portrait of [input.description], delicate linework, pastel harmony, romantic atmosphere, graceful expression
     negative = [input.negative]
     meta:tags = [({anime:100, shoujo:100, soft:95})]
+    meta:image = https://mosberg.github.io/src/img/art_styles/anime.jpg
     modifiers
       style = [animeCoreModifiers.style]
       mood = [animeMoodModifiers.mood]
@@ -48,6 +52,7 @@ $output
     prompt = mecha anime scene of [input.description], clean hard-surface design, mechanical detail, futuristic atmosphere, high-tech accents
     negative = [input.negative]
     meta:tags = [({anime:100, mecha:100, scifi:95})]
+    meta:image = https://mosberg.github.io/src/img/art_styles/anime.jpg
     modifiers
       chassis = [animeMechaModifiers.chassis]
       environment = [animeMechaModifiers.environment]
@@ -58,6 +63,7 @@ $output
     prompt = dark fantasy anime illustration of [input.description], gothic mood, ominous lighting, detailed costume design, atmospheric depth
     negative = [input.negative]
     meta:tags = [({anime:100, darkFantasy:100, gothic:90})]
+    meta:image = https://mosberg.github.io/src/img/art_styles/anime.jpg
     modifiers
       world = [animeDarkModifiers.world]
       atmosphere = [animeDarkModifiers.atmosphere]
@@ -68,6 +74,7 @@ $output
     prompt = warm storybook anime scene of [input.description], whimsical environment, hand-painted charm, cozy cinematic calm
     negative = [input.negative]
     meta:tags = [({anime:100, ghibli:100, whimsical:90})]
+    meta:image = https://mosberg.github.io/src/img/art_styles/anime.jpg
     modifiers
       style = [animeCoreModifiers.style]
       mood = [animeMoodModifiers.mood]
@@ -78,6 +85,7 @@ $output
     prompt = manga ink panel of [input.description], black and white line art, screentone texture, dramatic contrast, panel-ready composition
     negative = [input.negative]
     meta:tags = [({manga:100, ink:100, monochrome:95})]
+    meta:image = https://mosberg.github.io/src/img/art_styles/anime.jpg
     modifiers
       inking = [animeMangaModifiers.inking]
       panel = [animeMangaModifiers.panel]
@@ -88,6 +96,7 @@ $output
     prompt = cyberpunk anime shot of [input.description], neon-lit night city, reflective surfaces, electric color contrast, cinematic tension
     negative = [input.negative]
     meta:tags = [({anime:100, cyberpunk:100, neon:100})]
+    meta:image = https://mosberg.github.io/src/img/art_styles/anime.jpg
     modifiers
       style = [animeCoreModifiers.style]
       city = [animeCyberModifiers.city]
@@ -98,6 +107,7 @@ $output
     prompt = adorable chibi anime illustration of [input.description], oversized head, tiny body proportions, clean linework, colorful and playful design
     negative = [input.negative]
     meta:tags = [({anime:100, chibi:100, cute:100})]
+    meta:image = https://mosberg.github.io/src/img/art_styles/anime.jpg
     modifiers
       expression = [animeCuteModifiers.expression]
       styling = [animeCuteModifiers.styling]

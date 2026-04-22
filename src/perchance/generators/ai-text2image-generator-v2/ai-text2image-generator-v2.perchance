@@ -89,10 +89,10 @@ settings
         meta:import
           from = {import:t2i-styles-mosberg-anime}
 
-      Hentai Styles
-        color = #ff31a8
+      Hentai Artist Styles
+        color = #a8ff31
         meta:import
-          from = {import:t2i-styles-mosberg-hentai}
+          from = {import:hentai-artist-styles}
 
       NSFW / Adult Styles
         color = #ff4444

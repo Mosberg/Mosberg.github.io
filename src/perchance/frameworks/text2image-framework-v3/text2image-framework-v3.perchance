@@ -1,4 +1,4 @@
-// https://perchance.org/text2image-framework-v2
+// https://perchance.org/text2image-framework-v3
 // text2image-framework
 // Standalone framework with advanced modules:
 // - share-link export/import
@@ -18,7 +18,7 @@ $output(settings) =>
 	if(!settings) settings = {};
 
 	if(!settings.pageTitle) settings.pageTitle = "TextToImage Framework";
-	if(!settings.subtitle) settings.subtitle = "Advanced generation workspace with share links, modifiers, and persona/chat tools.";
+	if(!settings.subtitle) settings.subtitle = "Advanced generation workspace with share links, robust grouped modifiers, search, sort, favorites, and persona/chat tools.";
 	if(!settings.theme) settings.theme = "aurora";
 	if(settings.showComments === undefined) settings.showComments = false;
 	if(settings.enableShareLinks === undefined) settings.enableShareLinks = true;
@@ -40,6 +40,26 @@ $output(settings) =>
 	if(settings.aiSuggestMaxCharacters === undefined) settings.aiSuggestMaxCharacters = 220;
 	if(!settings.randomPromptPool) settings.randomPromptPool = ["cinematic portrait, dramatic rim light, high detail", "fantasy hero in a ruined temple, volumetric light", "stylized anime character, vibrant color palette", "pixel art creature design, clean silhouette"];
 	if(!settings.randomAppendPool) settings.randomAppendPool = ["highly detailed", "dynamic composition", "sharp focus", "rich color grading", "volumetric lighting"];
+	if(settings.enableStyleSearch === undefined) settings.enableStyleSearch = true;
+	if(settings.enableStyleSort === undefined) settings.enableStyleSort = true;
+	if(settings.enableStyleFavorites === undefined) settings.enableStyleFavorites = true;
+	if(settings.enableFavoritesOnlyToggle === undefined) settings.enableFavoritesOnlyToggle = true;
+	if(settings.enableStyleCounts === undefined) settings.enableStyleCounts = true;
+	if(settings.enableRecentStyles === undefined) settings.enableRecentStyles = true;
+	if(settings.randomStyleRespectsFilters === undefined) settings.randomStyleRespectsFilters = false;
+	if(!settings.styleSearchPlaceholder) settings.styleSearchPlaceholder = "Search styles by name, group, or tags";
+	if(!settings.defaultStyleSort) settings.defaultStyleSort = "featured";
+	if(!settings.favoriteStorageKey) settings.favoriteStorageKey = "t2i-framework-v3:favorites";
+	if(!settings.styleSortOptions) {
+		settings.styleSortOptions = [
+			{value:"featured", label:"Featured"},
+			{value:"favorites", label:"Favorites First"},
+			{value:"recent", label:"Recent"},
+			{value:"alphabetical", label:"A-Z"},
+			{value:"group", label:"Group"},
+			{value:"random", label:"Random"},
+		];
+	}
 	if(!settings.styleOptions) {
 		settings.styleOptions = [
 			{name:"none", label:"None"},
@@ -96,19 +116,29 @@ $output(settings) =>
 	if(window.input.negative === undefined) window.input.negative = String(settings.defaultNegativePrompt || "");
 
 	let themeMap = {
-		aurora: {bgA:"#0d1b2a", bgB:"#1b263b", bgC:"#274060", panel:"rgba(16,26,40,0.78)", text:"#e7eef6", muted:"#9bb0ca", line:"rgba(170,196,228,0.3)", accent:"#59d4ff", accent2:"#ffd166", hover:"rgba(89,212,255,0.2)"},
-		sunrise: {bgA:"#2d1b2e", bgB:"#6d2e46", bgC:"#b56576", panel:"rgba(54,27,42,0.78)", text:"#fff3eb", muted:"#f2d3c0", line:"rgba(255,218,191,0.35)", accent:"#9df7e5", accent2:"#ffd6a5", hover:"rgba(157,247,229,0.2)"},
-		slate: {bgA:"#14171f", bgB:"#202534", bgC:"#2d3143", panel:"rgba(22,27,38,0.78)", text:"#f1f4fa", muted:"#b6becc", line:"rgba(160,174,199,0.3)", accent:"#80ed99", accent2:"#ffd166", hover:"rgba(128,237,153,0.2)"},
+		aurora: {bgA:"#0d1b2a", bgB:"#1b263b", bgC:"#274060", panel:"rgba(16,26,40,0.78)", text:"#e7eef6", muted:"#9bb0ca", line:"rgba(170,196,228,0.3)", accent:"#59d4ff", accent2:"#ffd166", hover:"rgba(89,212,255,0.2)", fixedpanel:"rgba(16,26,54)"},
+		sunrise: {bgA:"#2d1b2e", bgB:"#6d2e46", bgC:"#b56576", panel:"rgba(54,27,42,0.78)", text:"#fff3eb", muted:"#f2d3c0", line:"rgba(255,218,191,0.35)", accent:"#9df7e5", accent2:"#ffd6a5", hover:"rgba(157,247,229,0.2)", fixedpanel:"rgba(54,27,42)"},
+		slate: {bgA:"#14171f", bgB:"#202534", bgC:"#2d3143", panel:"rgba(22,27,38,0.78)", text:"#f1f4fa", muted:"#b6becc", line:"rgba(160,174,199,0.3)", accent:"#80ed99", accent2:"#ffd166", hover:"rgba(128,237,153,0.2)", fixedpanel:"rgba(22,54,38)"},
 	};
 	let theme = themeMap[settings.theme] || themeMap.aurora;
 
 	if(!window.__t2iFrameworkState48739) {
 		window.__t2iFrameworkState48739 = {
-			version: "5.0.0",
-			buildDate: "2026-04-12",
+			version: "6.0.0",
+			buildDate: "2026-04-22",
 			privateGallery: null,
+			favoriteStyles: new Set(),
+			recentStyles: [],
+			lastStyleSearch: "",
+			lastStyleSort: String(settings.defaultStyleSort || "featured"),
+			showFavoritesOnly: false,
 		};
 	}
+	if(!(window.__t2iFrameworkState48739.favoriteStyles instanceof Set)) window.__t2iFrameworkState48739.favoriteStyles = new Set();
+	if(!Array.isArray(window.__t2iFrameworkState48739.recentStyles)) window.__t2iFrameworkState48739.recentStyles = [];
+	if(window.__t2iFrameworkState48739.lastStyleSearch === undefined) window.__t2iFrameworkState48739.lastStyleSearch = "";
+	if(window.__t2iFrameworkState48739.lastStyleSort === undefined) window.__t2iFrameworkState48739.lastStyleSort = String(settings.defaultStyleSort || "featured");
+	if(window.__t2iFrameworkState48739.showFavoritesOnly === undefined) window.__t2iFrameworkState48739.showFavoritesOnly = false;
 
 	if(settings.imageButtons.privateSave && !window.__t2iFrameworkState48739.privateGallery) {
 		window.__t2iFrameworkState48739.privateGallery = createMediaGalleryPlugin();
@@ -170,6 +200,71 @@ $output(settings) =>
 		return {name:"none", label:"None"};
 	};
 
+	window.__t2iGetFavoriteStorageKey48739 = function() {
+		return String(window.__t2iFrameworkSettings48739.favoriteStorageKey || "t2i-framework-v3:favorites");
+	};
+
+	window.__t2iLoadFavoriteStyles48739 = function() {
+		if(!window.__t2iFrameworkSettings48739.enableStyleFavorites) return new Set();
+		try {
+			let raw = localStorage.getItem(window.__t2iGetFavoriteStorageKey48739());
+			if(!raw) return new Set();
+			let parsed = JSON.parse(raw);
+			if(Array.isArray(parsed)) return new Set(parsed.map(v => String(v)));
+			return new Set();
+		} catch(e) {
+			console.error(e);
+			return new Set();
+		}
+	};
+
+	window.__t2iSaveFavoriteStyles48739 = function() {
+		if(!window.__t2iFrameworkSettings48739.enableStyleFavorites) return;
+		try {
+			let state = window.__t2iFrameworkState48739 || {};
+			let values = [...(state.favoriteStyles || new Set())];
+			localStorage.setItem(window.__t2iGetFavoriteStorageKey48739(), JSON.stringify(values));
+		} catch(e) {
+			console.error(e);
+		}
+	};
+
+	window.__t2iIsStyleFavorite48739 = function(styleName) {
+		let state = window.__t2iFrameworkState48739 || {};
+		if(!(state.favoriteStyles instanceof Set)) state.favoriteStyles = new Set();
+		return state.favoriteStyles.has(String(styleName || ""));
+	};
+
+	window.__t2iToggleFavoriteStyle48739 = function(styleName) {
+		if(!window.__t2iFrameworkSettings48739.enableStyleFavorites) return;
+		let key = String(styleName || "");
+		if(!key) return;
+		let state = window.__t2iFrameworkState48739 || {};
+		if(!(state.favoriteStyles instanceof Set)) state.favoriteStyles = new Set();
+		if(state.favoriteStyles.has(key)) {
+			state.favoriteStyles.delete(key);
+		} else {
+			state.favoriteStyles.add(key);
+		}
+		window.__t2iSaveFavoriteStyles48739();
+		window.__t2iRefreshStyleCards48739();
+	};
+
+	window.__t2iMarkStyleUsed48739 = function(styleName) {
+		if(!window.__t2iFrameworkSettings48739.enableRecentStyles) return;
+		let key = String(styleName || "");
+		if(!key) return;
+		let state = window.__t2iFrameworkState48739 || {};
+		if(!Array.isArray(state.recentStyles)) state.recentStyles = [];
+		state.recentStyles = state.recentStyles.filter(v => v !== key);
+		state.recentStyles.unshift(key);
+		if(state.recentStyles.length > 40) state.recentStyles = state.recentStyles.slice(0, 40);
+	};
+
+	window.__t2iNormalizeSearchText48739 = function(text) {
+		return String(text || "").trim().toLowerCase().replace(/\s+/g, " ");
+	};
+
 	window.__t2iGetSelectedStyleNode48739 = function() {
 		let styleKey = document.querySelector("#t2iStyleEl48739")?.value || "";
 		return window.__t2iGetStyleNodeByKey48739(styleKey);
@@ -194,73 +289,102 @@ $output(settings) =>
 	window.__t2iGetStyleModifierGroups48739 = function(styleNode) {
 		if(!styleNode || !styleNode.modifiers) return [];
 		let modifiersRoot = styleNode.modifiers;
-		let rootKeys = window.__t2iGetNodeKeys48739(modifiersRoot);
-		if(rootKeys.length === 0) return [];
 
-		function collectModifierOptions(node, out = [], seen = new Set()) {
-			if(!node || seen.has(node)) return out;
-			seen.add(node);
+		function isHelperKey(keyText) {
+			return keyText === "color" || keyText === "label" || keyText === "tagWeights" || keyText === "name";
+		}
 
+		function isIgnoredKey(keyText) {
+			if(keyText.startsWith("meta:")) return true;
+			return isHelperKey(keyText);
+		}
+
+		function getEntries(node) {
+			if(!node) return [];
 			let keys = window.__t2iGetNodeKeys48739(node);
-			if(keys.length === 0) return out;
-
+			let entries = [];
 			for(let key of keys) {
 				let keyText = String(key);
-				if(keyText === "color" || keyText === "label" || keyText === "tagWeights" || keyText === "name") continue;
-
 				if(keyText.startsWith("meta:import")) {
 					let importNode = node[key];
 					let sourceNode = importNode?.from || importNode;
-					collectModifierOptions(sourceNode, out, seen);
+					if(sourceNode) entries.push({key:keyText, value:sourceNode, isImport:true});
 					continue;
 				}
-
-				if(keyText.startsWith("meta:")) continue;
-
+				if(isIgnoredKey(keyText)) continue;
 				let value = node[key];
 				if(value === undefined || value === null) continue;
+				entries.push({key:keyText, value, isImport:false});
+			}
+			return entries;
+		}
 
-				let valueKeys = window.__t2iGetNodeKeys48739(value);
-				let isLeafOptionNode = value.prompt !== undefined || value.negative !== undefined || value.mode !== undefined;
-				if(isLeafOptionNode) {
-					let modeText = String(window.__t2iEvaluateStyleField48739(value.mode || "append")).trim().toLowerCase();
-					out.push({
-						name: String(window.__t2iEvaluateStyleField48739(value.name || keyText) || keyText),
-						prompt: String(window.__t2iEvaluateStyleField48739(value.prompt || "")),
-						negative: String(window.__t2iEvaluateStyleField48739(value.negative || "")),
-						mode: modeText === "prepend" ? "prepend" : "append",
-						selected: window.__t2iEvaluateBoolean48739(value["meta:selected"]),
-						disabled: window.__t2iEvaluateBoolean48739(value["meta:disabled"]),
-					});
-					continue;
+		function isLeafOptionValue(value) {
+			if(value === undefined || value === null) return false;
+			if(value.prompt !== undefined || value.negative !== undefined || value.mode !== undefined || value.name !== undefined) return true;
+			let nestedEntries = getEntries(value);
+			return nestedEntries.length === 0;
+		}
+
+		function normalizeOption(keyText, value) {
+			if(value === undefined || value === null) return null;
+			let isRichOption = value.prompt !== undefined || value.negative !== undefined || value.mode !== undefined || value.name !== undefined;
+			let name = String(window.__t2iEvaluateStyleField48739(isRichOption ? (value.name || keyText) : keyText) || keyText || "Option");
+			let prompt = String(window.__t2iEvaluateStyleField48739(isRichOption ? (value.prompt || "") : value || ""));
+			let negative = String(window.__t2iEvaluateStyleField48739(isRichOption ? (value.negative || "") : ""));
+			let modeText = String(window.__t2iEvaluateStyleField48739(isRichOption ? (value.mode || "append") : "append")).trim().toLowerCase();
+			return {
+				name,
+				prompt,
+				negative,
+				mode: modeText === "prepend" ? "prepend" : "append",
+				selected: window.__t2iEvaluateBoolean48739(value["meta:selected"]),
+				disabled: window.__t2iEvaluateBoolean48739(value["meta:disabled"]),
+			};
+		}
+
+		function collectLeafOptions(node, out = [], seen = new Set()) {
+			if(!node || seen.has(node)) return out;
+			seen.add(node);
+			let entries = getEntries(node);
+			if(entries.length === 0) return out;
+
+			for(let entry of entries) {
+				if(isLeafOptionValue(entry.value)) {
+					let option = normalizeOption(entry.key, entry.value);
+					if(option) out.push(option);
+				} else {
+					collectLeafOptions(entry.value, out, seen);
 				}
-
-				if(valueKeys.length > 0) {
-					collectModifierOptions(value, out, seen);
-					continue;
-				}
-
-				out.push({
-					name: keyText,
-					prompt: String(window.__t2iEvaluateStyleField48739(value)),
-					negative: "",
-					mode: "append",
-					selected: window.__t2iEvaluateBoolean48739(value["meta:selected"]),
-					disabled: window.__t2iEvaluateBoolean48739(value["meta:disabled"]),
-				});
 			}
 
 			return out;
 		}
 
-		let groups = [];
-		for(let groupName of rootKeys) {
-			let groupKey = String(groupName);
-			if(groupKey.startsWith("meta:")) continue;
-			let groupNode = modifiersRoot[groupName];
-			if(!groupNode) continue;
+		function buildGroupId(pathParts) {
+			let raw = pathParts.filter(Boolean).join("_").replace(/[^a-zA-Z0-9_-]/g, "_");
+			return raw || "modifier_group";
+		}
 
-			let options = collectModifierOptions(groupNode, []).filter(o => !o.disabled);
+		function resolveGroupLabel(pathParts, node) {
+			let fallback = String(pathParts[pathParts.length - 1] || "modifier");
+			let resolved = String(window.__t2iEvaluateStyleField48739(node?.label || node?.name || fallback) || fallback);
+			if(resolved && !/^\d+$/.test(resolved)) return resolved;
+			if(pathParts.length > 1) {
+				let parent = String(pathParts[pathParts.length - 2] || "Group");
+				let child = String(pathParts[pathParts.length - 1] || "Modifier");
+				let readableParent = /^\d+$/.test(parent) ? `Group ${Number(parent) + 1}` : parent;
+				let readableChild = /^\d+$/.test(child) ? `Option ${Number(child) + 1}` : child;
+				return `${readableParent}: ${readableChild}`;
+			}
+			return resolved || "Modifier";
+		}
+
+		let groups = [];
+
+		function addGroup(node, pathParts) {
+			let options = collectLeafOptions(node, []).filter(o => !o.disabled);
+			if(options.length === 0) return;
 			let hasSelected = options.some(o => o.selected);
 			options.unshift({
 				name: "None",
@@ -270,16 +394,62 @@ $output(settings) =>
 				selected: !hasSelected,
 				disabled: false,
 			});
+			groups.push({
+				id: buildGroupId(pathParts),
+				label: resolveGroupLabel(pathParts, node),
+				options,
+			});
+		}
 
-			if(options.length > 0) {
-				let label = String(window.__t2iEvaluateStyleField48739(groupNode.label || groupNode.name || groupKey) || groupKey);
-				groups.push({
-					id: groupKey.replace(/[^a-zA-Z0-9_-]/g, "_"),
-					label,
-					options,
-				});
+		function traverse(node, pathParts = [], seen = new Set()) {
+			if(!node || seen.has(node)) return;
+			seen.add(node);
+
+			let entries = getEntries(node);
+			if(entries.length === 0) return;
+
+			let directLeafCount = 0;
+			let containerCount = 0;
+			for(let entry of entries) {
+				if(isLeafOptionValue(entry.value)) {
+					directLeafCount++;
+				} else {
+					containerCount++;
+				}
+			}
+
+			let shouldBeGroup = directLeafCount > 0;
+			if(shouldBeGroup) {
+				addGroup(node, pathParts.length > 0 ? pathParts : ["modifiers"]);
+			}
+
+			for(let entry of entries) {
+				if(!isLeafOptionValue(entry.value)) {
+					let nextPart = entry.isImport ? (pathParts[pathParts.length - 1] || "import") : entry.key;
+					let nextPath = pathParts.length > 0 ? pathParts.concat([nextPart]) : [nextPart];
+					traverse(entry.value, nextPath, seen);
+				}
 			}
 		}
+
+		traverse(modifiersRoot, []);
+
+		if(groups.length === 0) {
+			addGroup(modifiersRoot, ["modifiers"]);
+		}
+
+		let seenIds = new Set();
+		for(let i = 0; i < groups.length; i++) {
+			let baseId = groups[i].id || `modifier_group_${i + 1}`;
+			let id = baseId;
+			let suffix = 2;
+			while(seenIds.has(id)) {
+				id = `${baseId}_${suffix++}`;
+			}
+			seenIds.add(id);
+			groups[i].id = id;
+		}
+
 		return groups;
 	};
 
@@ -417,7 +587,10 @@ $output(settings) =>
 	window.__t2iRandomStyle48739 = function() {
 		let selectEl = document.querySelector("#t2iStyleEl48739");
 		if(!selectEl) return;
-		let enabledStyles = window.__t2iGetStyleCatalog48739().filter(style => !style.disabled);
+		let filteredStyles = window.__t2iGetFilteredSortedStyles48739().styles.filter(style => !style.disabled);
+		let enabledStyles = window.__t2iFrameworkSettings48739.randomStyleRespectsFilters
+			? filteredStyles
+			: window.__t2iGetStyleCatalog48739().filter(style => !style.disabled);
 		if(enabledStyles.length === 0) return;
 
 		let randomKey = "";
@@ -444,6 +617,7 @@ $output(settings) =>
 
 		if(randomKey) {
 			selectEl.value = randomKey;
+			window.__t2iMarkStyleUsed48739(randomKey);
 			window.__t2iRefreshStyleCards48739();
 		}
 	};
@@ -543,12 +717,16 @@ $output(settings) =>
 		let styleEl = document.querySelector("#t2iStyleEl48739");
 		let countEl = document.querySelector("#t2iCountEl48739");
 		let modEffects = window.__t2iCollectModifierEffects48739();
+		let styleTools = window.__t2iGetStyleToolState48739();
 		return {
 			v: 1,
 			prompt: document.querySelector("#t2iPromptEl48739")?.value || "",
 			negativePrompt: document.querySelector("#t2iNegativeEl48739")?.value || "",
 			seed: document.querySelector("#t2iSeedEl48739")?.value || "",
 			style: styleEl?.value || "none",
+			styleSearch: styleTools.search || "",
+			styleSort: styleTools.sortMode || settings.defaultStyleSort || "featured",
+			favoritesOnly: Boolean(styleTools.favoritesOnly),
 			count: Number(countEl?.value || window.__t2iFrameworkSettings48739.defaultImageCount || 6),
 			width: document.querySelector("#t2iWidthEl48739")?.value || "",
 			height: document.querySelector("#t2iHeightEl48739")?.value || "",
@@ -568,6 +746,15 @@ $output(settings) =>
 		apply("#t2iNegativeEl48739", data.negativePrompt);
 		apply("#t2iSeedEl48739", data.seed);
 		apply("#t2iStyleEl48739", data.style);
+		apply("#t2iStyleSearchEl48739", data.styleSearch);
+		apply("#t2iStyleSortEl48739", data.styleSort);
+		let favoritesOnlyEl = document.querySelector("#t2iFavoritesOnlyEl48739");
+		if(favoritesOnlyEl && data.favoritesOnly !== undefined) favoritesOnlyEl.checked = Boolean(data.favoritesOnly);
+		window.__t2iApplyStyleToolState48739({
+			search: document.querySelector("#t2iStyleSearchEl48739")?.value || "",
+			sortMode: document.querySelector("#t2iStyleSortEl48739")?.value || settings.defaultStyleSort || "featured",
+			favoritesOnly: Boolean(document.querySelector("#t2iFavoritesOnlyEl48739")?.checked),
+		});
 		window.__t2iRenderStyleModifierInputs48739();
 		apply("#t2iCountEl48739", data.count);
 		apply("#t2iWidthEl48739", data.width);
@@ -689,6 +876,133 @@ $output(settings) =>
 		}
 	};
 
+	window.__t2iGetStyleToolState48739 = function() {
+		let state = window.__t2iFrameworkState48739 || {};
+		let searchEl = document.querySelector("#t2iStyleSearchEl48739");
+		let sortEl = document.querySelector("#t2iStyleSortEl48739");
+		let favoritesOnlyEl = document.querySelector("#t2iFavoritesOnlyEl48739");
+		return {
+			search: searchEl ? searchEl.value : (state.lastStyleSearch || ""),
+			sortMode: sortEl ? sortEl.value : (state.lastStyleSort || settings.defaultStyleSort || "featured"),
+			favoritesOnly: favoritesOnlyEl ? favoritesOnlyEl.checked : Boolean(state.showFavoritesOnly),
+		};
+	};
+
+	window.__t2iApplyStyleToolState48739 = function(nextState) {
+		let state = window.__t2iFrameworkState48739 || {};
+		state.lastStyleSearch = String(nextState?.search || "");
+		state.lastStyleSort = String(nextState?.sortMode || settings.defaultStyleSort || "featured");
+		state.showFavoritesOnly = Boolean(nextState?.favoritesOnly);
+	};
+
+	window.__t2iGetFilteredSortedStyles48739 = function() {
+		let catalog = window.__t2iGetStyleCatalog48739();
+		let toolState = window.__t2iGetStyleToolState48739();
+		let search = window.__t2iNormalizeSearchText48739(toolState.search);
+		let sortMode = String(toolState.sortMode || settings.defaultStyleSort || "featured");
+		let favoritesOnly = Boolean(toolState.favoritesOnly);
+
+		let state = window.__t2iFrameworkState48739 || {};
+		let favorites = state.favoriteStyles instanceof Set ? state.favoriteStyles : new Set();
+		let recentStyles = Array.isArray(state.recentStyles) ? state.recentStyles : [];
+		let recentRank = new Map();
+		for(let i = 0; i < recentStyles.length; i++) {
+			recentRank.set(recentStyles[i], i);
+		}
+
+		let rows = catalog.filter(style => {
+			if(favoritesOnly && !favorites.has(style.name)) return false;
+			if(!search) return true;
+			let haystack = style.searchText || window.__t2iNormalizeSearchText48739(`${style.name || ""} ${style.label || ""} ${style.group || ""} ${style.tagsText || ""}`);
+			return String(haystack).includes(search);
+		});
+
+		let sorted = [...rows];
+		let byFeatured = (a, b) => Number(a.disabled) - Number(b.disabled) || Number(a.sortIndex || 0) - Number(b.sortIndex || 0);
+
+		if(sortMode === "alphabetical") {
+			sorted.sort((a, b) => Number(a.disabled) - Number(b.disabled) || String(a.label || "").localeCompare(String(b.label || ""), undefined, {sensitivity:"base"}));
+		} else if(sortMode === "group") {
+			sorted.sort((a, b) => Number(a.disabled) - Number(b.disabled)
+				|| Number(a.groupIndex || 0) - Number(b.groupIndex || 0)
+				|| String(a.group || "").localeCompare(String(b.group || ""), undefined, {sensitivity:"base"})
+				|| String(a.label || "").localeCompare(String(b.label || ""), undefined, {sensitivity:"base"}));
+		} else if(sortMode === "favorites") {
+			sorted.sort((a, b) => Number(favorites.has(b.name)) - Number(favorites.has(a.name)) || byFeatured(a, b));
+		} else if(sortMode === "recent") {
+			sorted.sort((a, b) => {
+				let aRank = recentRank.has(a.name) ? recentRank.get(a.name) : Number.MAX_SAFE_INTEGER;
+				let bRank = recentRank.has(b.name) ? recentRank.get(b.name) : Number.MAX_SAFE_INTEGER;
+				return Number(a.disabled) - Number(b.disabled) || aRank - bRank || byFeatured(a, b);
+			});
+		} else if(sortMode === "random") {
+			let enabled = sorted.filter(s => !s.disabled).sort(() => Math.random() - 0.5);
+			let disabled = sorted.filter(s => s.disabled).sort(() => Math.random() - 0.5);
+			sorted = [...enabled, ...disabled];
+		} else {
+			sorted.sort(byFeatured);
+		}
+
+		return {
+			styles: sorted,
+			total: catalog.length,
+			visible: sorted.length,
+			search,
+			sortMode,
+			favoritesOnly,
+		};
+	};
+
+	window.__t2iRenderStyleCards48739 = function() {
+		let gridEl = document.querySelector("#t2iStyleVisualGrid48739");
+		if(!gridEl) return;
+
+		let selectEl = document.querySelector("#t2iStyleEl48739");
+		let selected = selectEl?.value || "none";
+		let data = window.__t2iGetFilteredSortedStyles48739();
+		window.__t2iApplyStyleToolState48739(data);
+
+		let statsEl = document.querySelector("#t2iStyleStatsEl48739");
+		if(statsEl && settings.enableStyleCounts) {
+			statsEl.textContent = `${data.visible} / ${data.total} styles`;
+		}
+
+		if(data.styles.length === 0) {
+			gridEl.innerHTML = `<div class="t2i-empty48739">No styles matched your current search/filter.</div>`;
+			return;
+		}
+
+		gridEl.innerHTML = data.styles.map(style => {
+			let safeStyleName = window.__t2iEscapeAttr48739(style.name);
+			let safeStyleLabel = window.__t2iEscapeAttr48739(style.label);
+			let safeGroupLabel = window.__t2iEscapeAttr48739(style.group || "");
+			let safeImage = String(style.image || "").replaceAll("'", "%27");
+			let preview = style.image
+				? `<div class="t2i-style-preview48739" style="background-image:url('${safeImage}')"></div>`
+				: `<div class="t2i-style-preview48739" style="background:${style.swatch || "linear-gradient(135deg, #4f46e5, #10b981)"}"></div>`;
+
+			let isFavorite = window.__t2iIsStyleFavorite48739(style.name);
+			let favoriteBtn = "";
+			if(settings.enableStyleFavorites && !style.disabled) {
+				favoriteBtn = `<button type="button" class="t2i-style-fav-btn48739 ${isFavorite ? "active" : ""}" data-style-name="${safeStyleName}" onclick="event.stopPropagation(); window.__t2iToggleFavoriteStyle48739(this.dataset.styleName);" aria-label="Toggle favorite">${isFavorite ? "★" : "☆"}</button>`;
+			}
+
+			let cardClasses = `t2i-style-card48739${style.disabled ? " disabled" : ""}${style.name === selected ? " active" : ""}`;
+			let clickAttrs = style.disabled
+				? ""
+				: `onclick=\"window.__t2iSetStyle48739(this.dataset.styleName)\" onkeydown=\"if(event.key==='Enter'||event.key===' '){event.preventDefault();window.__t2iSetStyle48739(this.dataset.styleName);}\"`;
+
+			return `<div role="button" tabindex="${style.disabled ? "-1" : "0"}" class="${cardClasses}" data-style-name="${safeStyleName}" ${clickAttrs}>${preview}${favoriteBtn}<span class="t2i-style-label48739">${safeStyleLabel}</span>${style.group ? `<span class="t2i-style-meta48739">${safeGroupLabel}</span>` : ""}</div>`;
+		}).join("\n");
+	};
+
+	window.__t2iClearStyleSearch48739 = function() {
+		let searchEl = document.querySelector("#t2iStyleSearchEl48739");
+		if(!searchEl) return;
+		searchEl.value = "";
+		window.__t2iRefreshStyleCards48739();
+	};
+
 	window.__t2iSetStyle48739 = function(styleName) {
 		let selectEl = document.querySelector("#t2iStyleEl48739");
 		if(selectEl) {
@@ -696,6 +1010,7 @@ $output(settings) =>
 			if(optionEl && optionEl.disabled) return;
 			selectEl.value = styleName;
 		}
+		window.__t2iMarkStyleUsed48739(styleName);
 		window.__t2iRefreshStyleCards48739();
 	};
 
@@ -706,15 +1021,8 @@ $output(settings) =>
 			selectEl.value = window.__t2iDefaultStyleKey48739;
 			selectedOption = selectEl.selectedOptions?.[0] || null;
 		}
-		let selected = selectedOption?.value || selectEl?.value || "none";
 		window.__t2iRenderStyleModifierInputs48739();
-		document.querySelectorAll(".t2i-style-card48739").forEach(el => {
-			if(el.dataset.styleName === selected) {
-				el.classList.add("active");
-			} else {
-				el.classList.remove("active");
-			}
-		});
+		window.__t2iRenderStyleCards48739();
 	};
 
 	window.__t2iGeneratePersona48739 = async function(btn, imageCtn) {
@@ -882,6 +1190,43 @@ $output(settings) =>
 
 	window.__t2iBoot48739 = function() {
 		window.__t2iMountComments48739();
+
+		let state = window.__t2iFrameworkState48739 || {};
+		state.favoriteStyles = window.__t2iLoadFavoriteStyles48739();
+		if(!Array.isArray(state.recentStyles)) state.recentStyles = [];
+
+		let searchEl = document.querySelector("#t2iStyleSearchEl48739");
+		if(searchEl) {
+			if(searchEl.dataset.bound !== "1") {
+				searchEl.dataset.bound = "1";
+				searchEl.addEventListener("input", () => window.__t2iRefreshStyleCards48739());
+			}
+			searchEl.value = String(state.lastStyleSearch || "");
+		}
+
+		let sortEl = document.querySelector("#t2iStyleSortEl48739");
+		if(sortEl) {
+			if(sortEl.dataset.bound !== "1") {
+				sortEl.dataset.bound = "1";
+				sortEl.addEventListener("change", () => window.__t2iRefreshStyleCards48739());
+			}
+			let desired = String(state.lastStyleSort || settings.defaultStyleSort || "featured");
+			if(Array.from(sortEl.options || []).some(o => o.value === desired)) {
+				sortEl.value = desired;
+			} else {
+				sortEl.value = String(settings.defaultStyleSort || "featured");
+			}
+		}
+
+		let favoritesOnlyEl = document.querySelector("#t2iFavoritesOnlyEl48739");
+		if(favoritesOnlyEl) {
+			if(favoritesOnlyEl.dataset.bound !== "1") {
+				favoritesOnlyEl.dataset.bound = "1";
+				favoritesOnlyEl.addEventListener("change", () => window.__t2iRefreshStyleCards48739());
+			}
+			favoritesOnlyEl.checked = Boolean(state.showFavoritesOnly);
+		}
+
 		let styleEl = document.querySelector("#t2iStyleEl48739");
 		if(styleEl && window.__t2iDefaultStyleKey48739) {
 			let selectedOption = styleEl.selectedOptions?.[0] || null;
@@ -889,8 +1234,11 @@ $output(settings) =>
 				styleEl.value = window.__t2iDefaultStyleKey48739;
 			}
 		}
+
+		window.__t2iMarkStyleUsed48739(styleEl?.value || window.__t2iDefaultStyleKey48739);
 		window.__t2iRefreshStyleCards48739();
 		window.__t2iImportFromHash48739();
+		window.__t2iRefreshStyleCards48739();
 	};
 
 	let styleCatalog = [];
@@ -898,6 +1246,20 @@ $output(settings) =>
 	let styleNameToKey = {};
 	let styleOptionHtml = "";
 	let defaultStyleKey = "";
+
+	function resolveStyleTagsText48739(node) {
+		try {
+			let raw = node?.["meta:tags"];
+			if(raw === undefined || raw === null) return "";
+			if(raw.evaluateItem !== undefined) raw = raw.evaluateItem;
+			if(Array.isArray(raw)) return raw.map(v => String(v)).join(" ");
+			if(typeof raw === "string") return raw;
+			if(typeof raw === "object") return Object.keys(raw).join(" ");
+		} catch(e) {
+			console.error(e);
+		}
+		return "";
+	}
 
 	if(settings.artStyle?.options?.getAllKeys || settings.artStyle?.options?.getChildNames) {
 		let thereAreImports = false;
@@ -1062,7 +1424,7 @@ $output(settings) =>
 			entries.splice(target, 0, removed);
 		}
 
-		styleCatalog = entries.map(([name, node]) => {
+		styleCatalog = entries.map(([name, node], sortIndex) => {
 			let key = String(name);
 			styleMap[key] = node;
 			if(!styleNameToKey[name]) styleNameToKey[name] = key;
@@ -1072,6 +1434,7 @@ $output(settings) =>
 			let swatch = window.__t2iEvaluateStyleField48739(node.swatch || node["meta:swatch"] || "");
 			if(!swatch && groupColor) swatch = `linear-gradient(135deg, ${groupColor}, #0ea5e9)`;
 			let image = window.__t2iEvaluateStyleField48739(node["meta:image"] || node.image || "");
+			let tagsText = resolveStyleTagsText48739(node);
 			let selected = window.__t2iEvaluateBoolean48739(node["meta:selected"]);
 			let disabled = window.__t2iEvaluateBoolean48739(node["meta:disabled"]);
 			if(selected && !disabled && !defaultStyleKey) defaultStyleKey = key;
@@ -1083,6 +1446,9 @@ $output(settings) =>
 				groupIndex: Number(node.___groupIndex || 0),
 				swatch: String(swatch || ""),
 				image: String(image || ""),
+				sortIndex,
+				tagsText: String(tagsText || ""),
+				searchText: window.__t2iNormalizeSearchText48739(`${key} ${label} ${String(node.___groupLabel || "")} ${String(tagsText || "")}`),
 				selected,
 				disabled,
 				promptPrefix: "",
@@ -1116,20 +1482,47 @@ $output(settings) =>
 	}
 
 	if(styleCatalog.length === 0) {
-		styleCatalog = settings.styleOptions.map(item => {
-			if(typeof item === "string") return {name:item, label:item, promptPrefix:"", promptSuffix:"", negativeSuffix:"", swatch:"", image:"", selected:false, disabled:false, group:"", groupIndex:0};
+		styleCatalog = settings.styleOptions.map((item, sortIndex) => {
+			if(typeof item === "string") {
+				let normalized = String(item);
+				return {
+					name: normalized,
+					label: normalized,
+					promptPrefix: "",
+					promptSuffix: "",
+					negativeSuffix: "",
+					swatch: "",
+					image: "",
+					selected: false,
+					disabled: false,
+					group: "",
+					groupIndex: 0,
+					sortIndex,
+					tagsText: "",
+					searchText: window.__t2iNormalizeSearchText48739(normalized),
+				};
+			}
 			let selected = window.__t2iEvaluateBoolean48739(item.selected || item["meta:selected"]);
 			let disabled = window.__t2iEvaluateBoolean48739(item.disabled || item["meta:disabled"]);
 			let name = item.name || item.label || "style";
+			let label = item.label || item.name || "Style";
+			let tagsRaw = item.tags || item["meta:tags"] || "";
+			let tagsText = "";
+			if(Array.isArray(tagsRaw)) tagsText = tagsRaw.map(v => String(v)).join(" ");
+			else if(typeof tagsRaw === "object") tagsText = Object.keys(tagsRaw || {}).join(" ");
+			else tagsText = String(tagsRaw || "");
 			if(selected && !disabled && !defaultStyleKey) defaultStyleKey = String(name);
 			return {
 				name,
-				label: item.label || item.name || "Style",
+				label,
 				promptPrefix: item.promptPrefix || "",
 				promptSuffix: item.promptSuffix || "",
 				negativeSuffix: item.negativeSuffix || "",
 				swatch: item.swatch || "",
 				image: item.image || "",
+				sortIndex,
+				tagsText,
+				searchText: window.__t2iNormalizeSearchText48739(`${String(name)} ${String(label)} ${tagsText}`),
 				selected,
 				disabled,
 				group: "",
@@ -1150,15 +1543,57 @@ $output(settings) =>
 	window.__t2iArtStyleKeyByName48739 = styleNameToKey;
 	window.__t2iArtStyleOptionsRoot48739 = settings.artStyle?.options || null;
 
-	let styleVisualHtml = styleCatalog.map(style => {
-		let safeStyleName = window.__t2iEscapeAttr48739(style.name);
-		let safeStyleLabel = window.__t2iEscapeAttr48739(style.label);
-		let safeImage = String(style.image || "").replaceAll("'", "%27");
-		let preview = style.image
-			? `<div class="t2i-style-preview48739" style="background-image:url('${safeImage}')"></div>`
-			: `<div class="t2i-style-preview48739" style="background:${style.swatch || "linear-gradient(135deg, #4f46e5, #10b981)"}"></div>`;
-		return `<button type="button" class="t2i-style-card48739${style.disabled ? " disabled" : ""}" data-style-name="${safeStyleName}" ${style.disabled ? "disabled" : ""} onclick="window.__t2iSetStyle48739(this.dataset.styleName)">${preview}<span>${safeStyleLabel}</span></button>`;
+	let styleVisualHtml = "";
+
+	let styleSortItems = [];
+	if(Array.isArray(settings.styleSortOptions)) {
+		styleSortItems = settings.styleSortOptions;
+	} else if(settings.styleSortOptions && (settings.styleSortOptions.getAllKeys || settings.styleSortOptions.getChildNames)) {
+		for(let key of window.__t2iGetNodeKeys48739(settings.styleSortOptions)) {
+			let keyText = String(key);
+			if(keyText.startsWith("meta:")) continue;
+			let node = settings.styleSortOptions[key];
+			if(node && (node.value !== undefined || node.label !== undefined)) {
+				styleSortItems.push({
+					value: String(window.__t2iEvaluateStyleField48739(node.value || keyText) || keyText),
+					label: String(window.__t2iEvaluateStyleField48739(node.label || keyText) || keyText),
+				});
+			} else {
+				styleSortItems.push({
+					value: keyText,
+					label: String(window.__t2iEvaluateStyleField48739(node || keyText) || keyText),
+				});
+			}
+		}
+	}
+	if(styleSortItems.length === 0) {
+		styleSortItems = [
+			{value:"featured", label:"Featured"},
+			{value:"favorites", label:"Favorites First"},
+			{value:"recent", label:"Recent"},
+			{value:"alphabetical", label:"A-Z"},
+			{value:"group", label:"Group"},
+			{value:"random", label:"Random"},
+		];
+	}
+
+	let styleSortOptionsHtml = styleSortItems.map(item => {
+		let value = String(item?.value || item || "featured");
+		let label = String(item?.label || value);
+		let selected = value === String(settings.defaultStyleSort || "featured") ? "selected" : "";
+		return `<option value="${window.__t2iEscapeAttr48739(value)}" ${selected}>${window.__t2iEscapeAttr48739(label)}</option>`;
 	}).join("\n");
+
+	let styleToolsHtml = "";
+	if(settings.enableStyleSearch || settings.enableStyleSort || settings.enableFavoritesOnlyToggle || settings.enableStyleCounts) {
+		styleToolsHtml = `
+		<div id="t2iStyleTools48739">
+			${settings.enableStyleSearch ? `<div class="t2i-style-tool48739"><label>Style Search</label><div class="t2i-style-search-row48739"><input id="t2iStyleSearchEl48739" type="text" placeholder="${window.__t2iEscapeAttr48739(settings.styleSearchPlaceholder || "Search styles")}" /><button type="button" id="t2iStyleSearchClearBtn48739" onclick="window.__t2iClearStyleSearch48739()">Clear</button></div></div>` : ""}
+			${settings.enableStyleSort ? `<div class="t2i-style-tool48739"><label>Style Sort</label><select id="t2iStyleSortEl48739">${styleSortOptionsHtml}</select></div>` : ""}
+			${settings.enableFavoritesOnlyToggle ? `<label class="t2i-style-tool-inline48739"><input id="t2iFavoritesOnlyEl48739" type="checkbox" /> Favorites only</label>` : ""}
+			${settings.enableStyleCounts ? `<div id="t2iStyleStatsEl48739" class="t2i-style-tool-inline48739 t2i-style-stats48739">0 / 0 styles</div>` : ""}
+		</div>`;
+	}
 
 	let modifierGroupHtml = "";
 	if(settings.enableModifierGroups) {
@@ -1194,6 +1629,7 @@ $output(settings) =>
 			--t2i-accent: ${theme.accent};
 			--t2i-accent2: ${theme.accent2};
       --t2i-hover: ${theme.hover};
+			--t2i-fixedpanel: ${theme.fixedpanel};
 		}
 		#t2iBg48739 {
 			position: fixed;
@@ -1245,21 +1681,48 @@ $output(settings) =>
 			padding:0.36rem 0.68rem; border-radius:999px; cursor:pointer;
 		}
     #t2iTopActionButtons48739 { display:flex; gap:0.42rem; flex-wrap:wrap; justify-content:center; margin-top:0.3rem; }
-		#t2iTopActionButtons48739 button, #t2iPrivateGalleryBtn48739, .t2i-share-row48739, #t2iToggleStyleGridBtn48739 button {
+		#t2iTopActionButtons48739 button, .t2i-share-row48739, #t2iToggleStyleGridBtn48739 button {
 			border:1px solid var(--t2i-line); background:color-mix(in srgb, var(--t2i-panel) 80%, transparent); color:var(--t2i-text);
 			padding:0.36rem 0.68rem; border-radius:999px; cursor:pointer;
 		}
 		#t2iGenerateBtn48739 { border-color: color-mix(in srgb, var(--t2i-accent) 45%, var(--t2i-line)); }
+		#t2iStyleTools48739 { display:flex; flex-wrap:wrap; gap:0.45rem; align-items:flex-end; }
+		.t2i-style-tool48739 { display:grid; gap:0.28rem; min-width:220px; flex:1 1 260px; }
+		.t2i-style-tool48739 label { font-size:0.79rem; letter-spacing:0.02em; color:var(--t2i-muted); }
+		.t2i-style-search-row48739 { display:flex; gap:0.35rem; align-items:center; }
+		.t2i-style-search-row48739 input, #t2iStyleSortEl48739 {
+			width:100%; box-sizing:border-box; padding:0.52rem 0.6rem; border-radius:10px; border:1px solid var(--t2i-line);
+			background:color-mix(in srgb, var(--t2i-panel) 88%, transparent); color:var(--t2i-text);
+		}
+		#t2iStyleSearchClearBtn48739 {
+			border:1px solid var(--t2i-line); background:color-mix(in srgb, var(--t2i-panel) 80%, transparent); color:var(--t2i-text);
+			padding:0.36rem 0.68rem; border-radius:999px; cursor:pointer;
+		}
+		.t2i-style-tool-inline48739 { display:flex; align-items:center; gap:0.35rem; font-size:0.82rem; color:var(--t2i-muted); padding:0.28rem 0.25rem; }
+		.t2i-style-stats48739 { margin-left:auto; white-space:nowrap; }
 		#t2iStyleVisualGrid48739 { display:grid; grid-template-columns:repeat(auto-fit, minmax(200px, 1fr)); gap:0.45rem; }
+		#t2iStyleVisualGrid48739 .t2i-empty48739 { grid-column:1 / -1; margin:0; padding:0.8rem; }
 		#t2iStyleModifiersRow48739 { display:grid; grid-template-columns:repeat(12, minmax(0, 1fr)); gap:0.5rem; }
 		.t2i-style-card48739 {
+			position:relative;
 			display:grid; gap:0.32rem; border:1px solid var(--t2i-line); background:color-mix(in srgb, var(--t2i-panel) 72%, transparent);
 			padding:0.42rem; border-radius:12px; color:var(--t2i-text); cursor:pointer; text-align:left;
 		}
+		.t2i-style-card48739:focus-visible { outline:2px solid color-mix(in srgb, var(--t2i-accent) 60%, transparent); outline-offset:2px; }
 		.t2i-style-card48739.active { border-color: color-mix(in srgb, var(--t2i-accent) 70%, var(--t2i-line)); box-shadow:0 0 0 1px color-mix(in srgb, var(--t2i-accent) 45%, transparent) inset; }
 		.t2i-style-card48739.disabled { opacity:0.45; cursor:not-allowed; filter:saturate(0.7); }
 		.t2i-style-preview48739 { width:100%; aspect-ratio: 16/9; border-radius:8px; background-size:cover; background-position:center; }
-		.t2i-style-card48739 span { font-size:0.82rem; color:var(--t2i-muted); }
+		.t2i-style-label48739 { font-size:0.84rem; color:var(--t2i-text); font-weight:600; line-height:1.2; padding-right:1.5rem; }
+		.t2i-style-meta48739 { font-size:0.74rem; color:var(--t2i-muted); }
+		.t2i-style-fav-btn48739 {
+			position:absolute; top:0.35rem; right:0.35rem;
+			border:1px solid var(--t2i-line); background:color-mix(in srgb, var(--t2i-panel) 88%, transparent); color:var(--t2i-muted);
+			border-radius:999px; width:1.75rem; height:1.75rem; cursor:pointer; font-size:0.95rem; line-height:1;
+		}
+		.t2i-style-fav-btn48739.active {
+			color:var(--t2i-accent2);
+			border-color:color-mix(in srgb, var(--t2i-accent2) 55%, var(--t2i-line));
+		}
 		.t2i-share-row48739 { display:flex; gap:0.35rem; margin-top:0.35rem; flex-wrap:wrap; align-items:center; }
 		.t2i-share-row48739 input {
 			flex:1 1 300px; min-width:220px; box-sizing:border-box; padding:0.52rem 0.6rem;
@@ -1287,18 +1750,15 @@ $output(settings) =>
 		#t2iPrivateGalleryBtn48739 { pointer-events:auto; }
 		@media (max-width: 860px) {
 			.t2iSpan6, .t2iSpan4, .t2iSpan3 { grid-column:span 12; }
+			.t2i-style-tool48739 { min-width:100%; flex:1 1 100%; }
+			.t2i-style-stats48739 { margin-left:0; }
 		}
-    #t2iScrollTopBtn48739 { pointer-events:auto; border:1px solid var(--t2i-line); border-radius:999px; padding:0.35rem;
-			background:color-mix(in srgb, var(--t2i-panel) 66%, transparent);}
 
-    #t2iToggleStyleGridBtn48739 { pointer-events:auto; border:1px solid var(--t2i-line); border-radius:999px; padding:0.35rem;
-			background:color-mix(in srgb, var(--t2i-panel) 66%, transparent);}
+    #t2iExportShareLinkBtn48739, #t2iPrivateGalleryBtn48739, #t2iToggleStyleGridBtn48739, #t2iScrollTopBtn48739 #t2iImportShareLinkBtn48739, #t2iGenerateBtn48739, #t2iClearOutputBtn48739, #t2iScrollTopBtn48739 { pointer-events:auto; border:1px solid var(--t2i-line); border-radius:999px; padding:1rem;
+			background:color-mix(in srgb, var(--t2i-fixedpanel) 0%, transparent);}
 
-    #t2iExportShareLinkBtn48739, #t2iImportShareLinkBtn48739 { pointer-events:auto; border:1px solid var(--t2i-line); border-radius:999px; padding:0.35rem;
-			background:color-mix(in srgb, var(--t2i-panel) 66%, transparent);}
-
-    button:hover, #t2iClearOutputBtn48739:hover, #t2iGenerateBtn48739:hover, #t2iToggleStyleGridBtn48739:hover, #t2iPrivateGalleryBtn48739:hover, #t2iScrollTopBtn48739:hover, .random-input-btn:hover, .random-append-btn:hover, .ai-suggest-btn:hover, #t2iExportShareLinkBtn48739:hover, #t2iImportShareLinkBtn48739:hover, #t2iRandomStyleBtn48739:hover, #t2iRandomizeSeedBtn48739:hover {
-      background: color-mix(in srgb, var(--t2i-hover) 90%, transparent);
+		button:hover, #t2iClearOutputBtn48739:hover, #t2iGenerateBtn48739:hover, #t2iToggleStyleGridBtn48739:hover, #t2iPrivateGalleryBtn48739:hover, #t2iScrollTopBtn48739:hover, .random-input-btn:hover, .random-append-btn:hover, .ai-suggest-btn:hover, #t2iExportShareLinkBtn48739:hover, #t2iImportShareLinkBtn48739:hover, #t2iRandomStyleBtn48739:hover, #t2iRandomizeSeedBtn48739:hover, #t2iStyleSearchClearBtn48739:hover, .t2i-style-fav-btn48739:hover {
+      background: color-mix(in srgb, var(--t2i-hover) 66%, transparent);
     }
 	</style>
 
@@ -1364,6 +1824,8 @@ $output(settings) =>
   				<button id="t2iRandomizeSeedBtn48739" onclick="window.__t2iRandomizeSeed48739()">Random Seed</button>
   			</div>
 
+			${styleToolsHtml}
+
 				<div id="t2iStyleVisualGrid48739">${styleVisualHtml}</div>
 
 				<div id="t2iStyleModifiersRow48739"></div>
@@ -1371,11 +1833,6 @@ $output(settings) =>
 				${settings.enableModifierGroups ? `<div class="t2iRow48739">${modifierGroupHtml}</div>` : ""}
 
 				${shareModuleHtml}
-			</div>
-
-			<div id="t2iTopActionButtons48739">
-				<button id="t2iGenerateBtn48739" onclick="window.__t2iGenerate48739()">Generate</button>
-				<button id="t2iClearOutputBtn48739" onclick="window.__t2iClearOutput48739()">Clear Output</button>
 			</div>
 
 			<div id="t2iOutputEl48739"><div class="t2i-empty48739">Set prompt and click Generate.</div></div>
@@ -1392,8 +1849,10 @@ $output(settings) =>
 	<div id="t2iPrivateGalleryWrap48739">
 		<div id="t2iPrivateGalleryInner48739">
 			<button id="t2iToggleStyleGridBtn48739" onclick="window.__t2iToggleStyleGrid48739(this)">Hide Style Grid</button>
+      <button id="t2iGenerateBtn48739" onclick="window.__t2iGenerate48739()">Generate</button>
 			<button id="t2iPrivateGalleryBtn48739" ${settings.imageButtons.privateSave ? "" : "hidden"} onclick="window.__t2iOpenPrivateGallery48739()">Private Gallery</button>
-			<button id="t2iScrollTopBtn48739" onclick="window.scrollTo({top:0, behavior:'smooth'})">Go To Top</button>
+			<button id="t2iClearOutputBtn48739" onclick="window.__t2iClearOutput48739()">Clear Output</button>
+      <button id="t2iScrollTopBtn48739" onclick="window.scrollTo({top:0, behavior:'smooth'})">Go To Top</button>
 		</div>
 	</div>
 
