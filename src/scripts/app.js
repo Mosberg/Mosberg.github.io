@@ -1,8 +1,8 @@
-import { APP_CONFIG, COMMANDS } from "./config.js";
-import { readJson, readSet, writeJson, writeSet } from "./storage.js";
-import { createThemeEngine } from "./theme-engine.js";
-import { createProjectEngine } from "./project-engine.js";
-import { createCommandPalette } from "./command-palette.js";
+import { APP_CONFIG, COMMANDS } from "../scripts/config.js";
+import { readJson, readSet, writeJson, writeSet } from "../scripts/storage.js";
+import { createThemeEngine } from "../scripts/theme-engine.js";
+import { createProjectEngine } from "../scripts/project-engine.js";
+import { createCommandPalette } from "../scripts/command-palette.js";
 
 (() => {
   const root = document.documentElement;

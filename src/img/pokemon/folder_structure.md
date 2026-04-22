@@ -1,7 +1,9 @@
 # Folder Structure
 
 ## 📁 pokemon
+
 ## 📁 badges
+
 - badges/1.png
 - badges/2.png
 - badges/3.png
@@ -10,8 +12,11 @@
 - badges/6.png
 - badges/7.png
 - badges/8.png
+
 ## 📁 normal
+
 ## 📁 normal/back
+
 - normal/back/1.png
 - normal/back/2.png
 - normal/back/3.png
@@ -163,7 +168,9 @@
 - normal/back/149.png
 - normal/back/150.png
 - normal/back/151.png
+
 ## 📁 normal/front
+
 - normal/front/1.png
 - normal/front/2.png
 - normal/front/3.png
@@ -315,8 +322,11 @@
 - normal/front/149.png
 - normal/front/150.png
 - normal/front/151.png
+
 ## 📁 shiny
+
 ## 📁 shiny/back
+
 - shiny/back/1.png
 - shiny/back/2.png
 - shiny/back/3.png
@@ -468,7 +478,9 @@
 - shiny/back/149.png
 - shiny/back/150.png
 - shiny/back/151.png
+
 ## 📁 shiny/front
+
 - shiny/front/1.png
 - shiny/front/2.png
 - shiny/front/3.png
@@ -620,7 +632,9 @@
 - shiny/front/149.png
 - shiny/front/150.png
 - shiny/front/151.png
+
 ## 📁 types
+
 - types/1.png
 - types/2.png
 - types/3.png
