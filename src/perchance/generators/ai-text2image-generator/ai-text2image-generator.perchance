@@ -69,17 +69,17 @@ settings
       Default Styles
         color = #a831ff
         meta:import
-          from = {import:t2i-styles-moss}
+          from = {import:t2i-styles-mosberg-default}
 
       Anime Styles
         color = #31ffa8
         meta:import
-          from = {import:t2i-styles-moss-anime}
+          from = {import:t2i-styles-mosberg-anime}
 
       NSFW / Adult Styles
         color = #ff4444
         meta:import
-          from = {import:t2i-styles-moss-nsfw}
+          from = {import:t2i-styles-mosberg-nsfw}
 
       Moss Default Styles
         color = #ffa8ff
@@ -115,6 +115,29 @@ settings
     fantasy hero in a ruined temple, volumetric sunlight
     anime key visual, expressive character pose, vivid palette
     pixel art creature concept, clean silhouette, retro colors
+    cinematic still, dramatic lighting, ultra detailed
+    anime character concept, expressive pose, vivid palette
+    fantasy creature concept, ultra detailed, dynamic pose
+    cinematic landscape, dramatic lighting, ultra detailed
+    anime key visual, expressive character pose, vivid palette
+    pixel art creature concept, clean silhouette, retro colors
+    cinematic portrait, dramatic rim light, ultra detailed
+    fantasy hero in a ruined temple, volumetric sunlight
+    anime key visual, expressive character pose, vivid palette
+    pixel art creature concept, clean silhouette, retro colors
+    cinematic still, dramatic lighting, ultra detailed
+    anime character concept, expressive pose, vivid palette
+    pixel art creature concept, clean silhouette, retro colors
+    cinematic portrait, dramatic rim light, ultra detailed
+    fantasy hero in a ruined temple, volumetric sunlight
+    anime key visual, expressive character pose, vivid palette
+    pixel art creature concept, clean silhouette, retro colors
+    cinematic still, dramatic lighting, ultra detailed
+    anime character concept, expressive pose, vivid palette
+    pixel art creature concept, clean silhouette, retro colors
+    cinematic portrait, dramatic rim light, ultra detailed
+    fantasy hero in a ruined temple, volumetric sunlight
+    anime key visual, expressive character pose, vivid
 
   randomAppendPool
     highly detailed
