@@ -1,0 +1,32 @@
+{
+  "custom_plugins": [
+    {
+      "label": "tabbed-comments-plugin-v1",
+      "description": "A plugin that adds tabbed comments to a webpage, allowing users to organize and view comments in different categories or sections.",
+      "url": "https://perchance.org/tabbed-comments-plugin-v1",
+      "url_edit": "https://perchance.org/tabbed-comments-plugin-v1#edit",
+      "snippet": "tabbedCommentsPlugin = {import:tabbed-comments-plugin-v1}"
+    },
+    {
+      "label": "create-media-gallery-plugin",
+      "description": "A plugin that allows users to create and manage media galleries, including images, videos, and other media types.",
+      "url": "https://perchance.org/create-media-gallery-plugin",
+      "url_edit": "https://perchance.org/create-media-gallery-plugin#edit",
+      "snippet": "createMediaGalleryPlugin = {import:create-media-gallery-plugin}"
+    },
+    {
+      "label": "ai-character-chat-dependencies-v1",
+      "description": "A plugin that loads the necessary dependencies for AI character chat functionality.",
+      "url": "https://perchance.org/ai-character-chat-dependencies-v1",
+      "url_edit": "https://perchance.org/ai-character-chat-dependencies-v1#edit",
+      "snippet": "loadDependencies = {import:ai-character-chat-dependencies-v1}"
+    },
+    {
+      "label": "text2image-framework",
+      "description": "A framework for generating HTML for text-to-image applications.",
+      "url": "https://perchance.org/text2image-framework",
+      "url_edit": "https://perchance.org/text2image-framework#edit",
+      "snippet": "generateHTML = {import:text2image-framework}"
+    }
+  ]
+}
