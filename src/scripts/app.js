@@ -1,8 +1,8 @@
-import { APP_CONFIG, COMMANDS } from "../scripts/config.js";
-import { readJson, readSet, writeJson, writeSet } from "../scripts/storage.js";
-import { createThemeEngine } from "../scripts/theme-engine.js";
-import { createProjectEngine } from "../scripts/project-engine.js";
-import { createCommandPalette } from "../scripts/command-palette.js";
+import { APP_CONFIG, COMMANDS } from "https://mosberg.github.io/src/scripts/config.js";
+import { readJson, readSet, writeJson, writeSet } from "https://mosberg.github.io/src/scripts/storage.js";
+import { createThemeEngine } from "https://mosberg.github.io/src/scripts/theme-engine.js";
+import { createProjectEngine } from "https://mosberg.github.io/src/scripts/project-engine.js";
+import { createCommandPalette } from "https://mosberg.github.io/src/scripts/command-palette.js";
 
 (() => {
   const root = document.documentElement;
