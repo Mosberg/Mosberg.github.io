@@ -134,6 +134,7 @@ settings
           meta:import
             from = {import:t2i-styles-mosberg-nsfw}
 
+
     shape
       label = 🖼️ Shape
       type = select
