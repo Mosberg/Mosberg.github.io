@@ -1,0 +1,93 @@
+const DND5eCharacterSchema = {
+  name: "DND5eCharacter",
+  fields: {
+    // Identity
+    charName: "string",
+    classLevel: "string",
+    background: "string",
+    playerName: "string",
+    faction: "string",
+    race: "string",
+    alignment: "string",
+    xp: "number",
+    dci: "string",
+
+    // Abilities
+    strScore: "number",
+    dexScore: "number",
+    conScore: "number",
+    intScore: "number",
+    wisScore: "number",
+    chaScore: "number",
+
+    // Core mechanics
+    inspiration: "number",
+    profBonus: "number",
+
+    // Saving throw proficiencies (booleans)
+    saveProfStr: "boolean",
+    saveProfDex: "boolean",
+    saveProfCon: "boolean",
+    saveProfInt: "boolean",
+    saveProfWis: "boolean",
+    saveProfCha: "boolean",
+
+    // Skill proficiencies (booleans)
+    profAcrobatics: "boolean",
+    profAnimal: "boolean",
+    // ... all other skills you wired in HTML ...
+    profSurvival: "boolean",
+
+    // Other proficiencies
+    otherProfs: "string",
+
+    // Defenses & movement
+    ac: "number",
+    initiative: "number",
+    speed: "number",
+
+    // HP & hit dice
+    hpMax: "number",
+    hpCurrent: "number",
+    hpTemp: "number",
+    hitDice: "string",
+    hitDiceTotal: "number",
+
+    // Death saves
+    dsSucc1: "boolean",
+    dsSucc2: "boolean",
+    dsSucc3: "boolean",
+    dsFail1: "boolean",
+    dsFail2: "boolean",
+    dsFail3: "boolean",
+
+    // Attacks
+    atk1Name: "string",
+    atk1Bonus: "string",
+    atk1Dmg: "string",
+    atk2Name: "string",
+    atk2Bonus: "string",
+    atk2Dmg: "string",
+    atk3Name: "string",
+    atk3Bonus: "string",
+    atk3Dmg: "string",
+    attackNotes: "string",
+
+    // Currency
+    cp: "number",
+    sp: "number",
+    ep: "number",
+    gp: "number",
+    pp: "number",
+
+    // Equipment
+    equipment: "string",
+
+    // Personality
+    personalityTraits: "string",
+    ideals: "string",
+    bonds: "string",
+    flaws: "string",
+    featuresTraits: "string"
+  }
+};
