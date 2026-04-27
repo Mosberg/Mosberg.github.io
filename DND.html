@@ -1,0 +1,567 @@
+<!-- You can omit <!DOCTYPE> / <html> / <head> in Perchance if you want only the inner content -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>D&D 5e Character Sheet (Perchance)</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body { padding: 20px; }
+        .ability-box { text-align: center; margin-bottom: 1rem; }
+        .ability-score { font-size: 1.5rem; font-weight: bold; }
+        .ability-mod { font-size: 1.1rem; }
+        .section-title { font-weight: bold; letter-spacing: 0.08em; font-size: 0.8rem; text-transform: uppercase; }
+        .small-label { font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.08em; }
+        .hp-box { text-align: center; }
+        .bordered { border: 1px solid #ccc; border-radius: .25rem; padding: .5rem; }
+        .table-sm td, .table-sm th { padding: .25rem .4rem; }
+        input[type="number"] { max-width: 70px; }
+        .form-control, .form-control-sm { padding: .15rem .35rem; font-size: .85rem; }
+    </style>
+</head>
+<body>
+  
+  <div class="bordered my-3 p-2">
+    <button class="btn btn-sm btn-primary" id="exportJsonBtn">Export JSON</button>
+    <button class="btn btn-sm btn-secondary" id="importJsonBtn">Import JSON</button>
+    <input type="file" id="importJsonFile" accept="application/json" style="display:none;">
+</div>
+
+<button class="btn btn-sm btn-warning" id="randomizeBtn">Randomize Character</button>
+
+<div class="container-fluid" id="dnd-sheet">
+    <h2 class="mb-3">D&D 5e Character Sheet</h2>
+
+    <!-- Top info -->
+    <div class="row g-2 mb-3">
+        <div class="col-md-4">
+            <div class="bordered">
+                <div class="small-label">Character Name</div>
+                <input type="text" class="form-control form-control-sm autosave" id="charName">
+            </div>
+        </div>
+        <div class="col-md-2">
+            <div class="bordered">
+                <div class="small-label">Class & Level</div>
+                <input type="text" class="form-control form-control-sm autosave" id="classLevel">
+            </div>
+        </div>
+        <div class="col-md-2">
+            <div class="bordered">
+                <div class="small-label">Background</div>
+                <input type="text" class="form-control form-control-sm autosave" id="background">
+            </div>
+        </div>
+        <div class="col-md-2">
+            <div class="bordered">
+                <div class="small-label">Player Name</div>
+                <input type="text" class="form-control form-control-sm autosave" id="playerName">
+            </div>
+        </div>
+        <div class="col-md-2">
+            <div class="bordered">
+                <div class="small-label">Faction</div>
+                <input type="text" class="form-control form-control-sm autosave" id="faction">
+            </div>
+        </div>
+    </div>
+
+    <div class="row g-2 mb-4">
+        <div class="col-md-4">
+            <div class="bordered">
+                <div class="small-label">Race</div>
+                <input type="text" class="form-control form-control-sm autosave" id="race">
+            </div>
+        </div>
+        <div class="col-md-2">
+            <div class="bordered">
+                <div class="small-label">Alignment</div>
+                <input type="text" class="form-control form-control-sm autosave" id="alignment">
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="bordered">
+                <div class="small-label">Experience Points</div>
+                <input type="number" class="form-control form-control-sm autosave" id="xp">
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="bordered">
+                <div class="small-label">DCI Number</div>
+                <input type="text" class="form-control form-control-sm autosave" id="dci">
+            </div>
+        </div>
+    </div>
+
+    <div class="row g-3">
+        <!-- Abilities -->
+        <div class="col-md-2">
+            <div class="ability-box bordered">
+                <div class="section-title mb-1">Strength</div>
+                <input type="number" class="form-control form-control-sm mb-1 ability-input autosave" data-ability="str" id="strScore" value="10">
+                <div class="ability-mod" id="mod-str">+0</div>
+            </div>
+            <div class="ability-box bordered">
+                <div class="section-title mb-1">Dexterity</div>
+                <input type="number" class="form-control form-control-sm mb-1 ability-input autosave" data-ability="dex" id="dexScore" value="10">
+                <div class="ability-mod" id="mod-dex">+0</div>
+            </div>
+            <div class="ability-box bordered">
+                <div class="section-title mb-1">Constitution</div>
+                <input type="number" class="form-control form-control-sm mb-1 ability-input autosave" data-ability="con" id="conScore" value="10">
+                <div class="ability-mod" id="mod-con">+0</div>
+            </div>
+            <div class="ability-box bordered">
+                <div class="section-title mb-1">Intelligence</div>
+                <input type="number" class="form-control form-control-sm mb-1 ability-input autosave" data-ability="int" id="intScore" value="10">
+                <div class="ability-mod" id="mod-int">+0</div>
+            </div>
+            <div class="ability-box bordered">
+                <div class="section-title mb-1">Wisdom</div>
+                <input type="number" class="form-control form-control-sm mb-1 ability-input autosave" data-ability="wis" id="wisScore" value="10">
+                <div class="ability-mod" id="mod-wis">+0</div>
+            </div>
+            <div class="ability-box bordered">
+                <div class="section-title mb-1">Charisma</div>
+                <input type="number" class="form-control form-control-sm mb-1 ability-input autosave" data-ability="cha" id="chaScore" value="10">
+                <div class="ability-mod" id="mod-cha">+0</div>
+            </div>
+        </div>
+
+        <!-- Middle column -->
+        <div class="col-md-4">
+            <div class="bordered mb-2">
+                <div class="d-flex justify-content-between align-items-center">
+                    <span class="section-title">Inspiration</span>
+                    <input type="number" class="form-control form-control-sm autosave" id="inspiration" value="0">
+                </div>
+            </div>
+
+            <div class="bordered mb-2">
+                <div class="d-flex justify-content-between align-items-center">
+                    <span class="section-title">Proficiency Bonus</span>
+                    <input type="number" class="form-control form-control-sm autosave" id="profBonus" value="2">
+                </div>
+            </div>
+
+            <div class="bordered mb-2">
+                <div class="section-title mb-1">Saving Throws</div>
+                <div class="row g-1 small">
+                    <div class="col-6 d-flex align-items-center">
+                        <input type="checkbox" class="form-check-input me-1 save-prof autosave" data-ability="str" id="saveProfStr">
+                        <span>Strength</span>
+                        <span class="ms-auto" id="save-str">+0</span>
+                    </div>
+                    <div class="col-6 d-flex align-items-center">
+                        <input type="checkbox" class="form-check-input me-1 save-prof autosave" data-ability="dex" id="saveProfDex">
+                        <span>Dexterity</span>
+                        <span class="ms-auto" id="save-dex">+0</span>
+                    </div>
+                    <div class="col-6 d-flex align-items-center">
+                        <input type="checkbox" class="form-check-input me-1 save-prof autosave" data-ability="con" id="saveProfCon">
+                        <span>Constitution</span>
+                        <span class="ms-auto" id="save-con">+0</span>
+                    </div>
+                    <div class="col-6 d-flex align-items-center">
+                        <input type="checkbox" class="form-check-input me-1 save-prof autosave" data-ability="int" id="saveProfInt">
+                        <span>Intelligence</span>
+                        <span class="ms-auto" id="save-int">+0</span>
+                    </div>
+                    <div class="col-6 d-flex align-items-center">
+                        <input type="checkbox" class="form-check-input me-1 save-prof autosave" data-ability="wis" id="saveProfWis">
+                        <span>Wisdom</span>
+                        <span class="ms-auto" id="save-wis">+0</span>
+                    </div>
+                    <div class="col-6 d-flex align-items-center">
+                        <input type="checkbox" class="form-check-input me-1 save-prof autosave" data-ability="cha" id="saveProfCha">
+                        <span>Charisma</span>
+                        <span class="ms-auto" id="save-cha">+0</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="bordered mb-2">
+                <div class="section-title mb-1">Skills</div>
+                <div class="row g-1 small">
+                    <div class="col-12 d-flex align-items-center">
+                        <input type="checkbox" class="form-check-input me-1 skill-prof autosave" data-ability="dex" data-skill="acrobatics" id="profAcrobatics">
+                        <span>Acrobatics (Dex)</span>
+                        <span class="ms-auto" id="skill-acrobatics">+0</span>
+                    </div>
+                    <div class="col-12 d-flex align-items-center">
+                        <input type="checkbox" class="form-check-input me-1 skill-prof autosave" data-ability="wis" data-skill="animal" id="profAnimal">
+                        <span>Animal Handling (Wis)</span>
+                        <span class="ms-auto" id="skill-animal">+0</span>
+                    </div>
+                    <!-- ... keep the rest identical to previous answer ... -->
+                    <div class="col-12 d-flex align-items-center">
+                        <input type="checkbox" class="form-check-input me-1 skill-prof autosave" data-ability="wis" data-skill="survival" id="profSurvival">
+                        <span>Survival (Wis)</span>
+                        <span class="ms-auto" id="skill-survival">+0</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="bordered mb-2">
+                <div class="d-flex justify-content-between align-items-center">
+                    <span class="section-title">Passive Wisdom (Perception)</span>
+                    <span id="passivePerception">10</span>
+                </div>
+            </div>
+
+            <div class="bordered">
+                <div class="section-title mb-1">Other Proficiencies and Languages</div>
+                <textarea class="form-control form-control-sm autosave" id="otherProfs" rows="4"></textarea>
+            </div>
+        </div>
+
+        <!-- Right columns: AC, HP, etc. -->
+        <div class="col-md-3">
+            <div class="bordered mb-2">
+                <div class="row text-center g-1">
+                    <div class="col-4">
+                        <div class="small-label">Armor Class</div>
+                        <input type="number" class="form-control form-control-sm autosave" id="ac" value="10">
+                    </div>
+                    <div class="col-4">
+                        <div class="small-label">Initiative</div>
+                        <input type="number" class="form-control form-control-sm autosave" id="initiative" value="0">
+                    </div>
+                    <div class="col-4">
+                        <div class="small-label">Speed</div>
+                        <input type="number" class="form-control form-control-sm autosave" id="speed" value="30">
+                    </div>
+                </div>
+            </div>
+
+            <div class="bordered mb-2 hp-box">
+                <div class="small-label">Hit Point Maximum</div>
+                <input type="number" class="form-control form-control-sm autosave" id="hpMax" value="10">
+                <div class="small-label mt-1">Current Hit Points</div>
+                <input type="number" class="form-control form-control-sm autosave" id="hpCurrent" value="10">
+            </div>
+
+            <div class="bordered mb-2 hp-box">
+                <div class="small-label">Temporary Hit Points</div>
+                <input type="number" class="form-control form-control-sm autosave" id="hpTemp" value="0">
+            </div>
+
+            <div class="bordered mb-2">
+                <div class="row g-1">
+                    <div class="col-6">
+                        <div class="small-label">Hit Dice</div>
+                        <input type="text" class="form-control form-control-sm autosave" id="hitDice" value="1d8">
+                        <div class="small-label mt-1">Total</div>
+                        <input type="number" class="form-control form-control-sm autosave" id="hitDiceTotal" value="1">
+                    </div>
+                    <div class="col-6">
+                        <div class="small-label mb-1">Death Saves</div>
+                        <div class="small">Successes:
+                            <input type="checkbox" class="form-check-input ms-1 autosave" id="dsSucc1">
+                            <input type="checkbox" class="form-check-input ms-1 autosave" id="dsSucc2">
+                            <input type="checkbox" class="form-check-input ms-1 autosave" id="dsSucc3">
+                        </div>
+                        <div class="small mt-1">Failures:
+                            <input type="checkbox" class="form-check-input ms-1 autosave" id="dsFail1">
+                            <input type="checkbox" class="form-check-input ms-1 autosave" id="dsFail2">
+                            <input type="checkbox" class="form-check-input ms-1 autosave" id="dsFail3">
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="bordered mb-2">
+                <div class="section-title mb-1">Attacks & Spellcasting</div>
+                <table class="table table-sm table-bordered align-middle">
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Atk Bonus</th>
+                            <th>Damage/Type</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><input type="text" class="form-control form-control-sm autosave" id="atk1Name"></td>
+                            <td><input type="text" class="form-control form-control-sm autosave" id="atk1Bonus"></td>
+                            <td><input type="text" class="form-control form-control-sm autosave" id="atk1Dmg"></td>
+                        </tr>
+                        <tr>
+                            <td><input type="text" class="form-control form-control-sm autosave" id="atk2Name"></td>
+                            <td><input type="text" class="form-control form-control-sm autosave" id="atk2Bonus"></td>
+                            <td><input type="text" class="form-control form-control-sm autosave" id="atk2Dmg"></td>
+                        </tr>
+                        <tr>
+                            <td><input type="text" class="form-control form-control-sm autosave" id="atk3Name"></td>
+                            <td><input type="text" class="form-control form-control-sm autosave" id="atk3Bonus"></td>
+                            <td><input type="text" class="form-control form-control-sm autosave" id="atk3Dmg"></td>
+                        </tr>
+                    </tbody>
+                </table>
+                <textarea class="form-control form-control-sm autosave" id="attackNotes" rows="3" placeholder="Notes, spellcasting details, etc."></textarea>
+            </div>
+
+            <div class="bordered">
+                <div class="section-title mb-1">Equipment</div>
+                <div class="row g-1 mb-1 small">
+                    <div class="col-2 text-center">
+                        <div>CP</div>
+                        <input type="number" class="form-control form-control-sm autosave" id="cp" value="0">
+                    </div>
+                    <div class="col-2 text-center">
+                        <div>SP</div>
+                        <input type="number" class="form-control form-control-sm autosave" id="sp" value="0">
+                    </div>
+                    <div class="col-2 text-center">
+                        <div>EP</div>
+                        <input type="number" class="form-control form-control-sm autosave" id="ep" value="0">
+                    </div>
+                    <div class="col-2 text-center">
+                        <div>GP</div>
+                        <input type="number" class="form-control form-control-sm autosave" id="gp" value="0">
+                    </div>
+                    <div class="col-2 text-center">
+                        <div>PP</div>
+                        <input type="number" class="form-control form-control-sm autosave" id="pp" value="0">
+                    </div>
+                </div>
+                <textarea class="form-control form-control-sm autosave" id="equipment" rows="4"></textarea>
+            </div>
+        </div>
+
+        <!-- Far right: personality, features -->
+        <div class="col-md-3">
+            <div class="bordered mb-2">
+                <div class="section-title mb-1">Personality Traits</div>
+                <textarea class="form-control form-control-sm autosave" id="personalityTraits" rows="3"></textarea>
+            </div>
+            <div class="bordered mb-2">
+                <div class="section-title mb-1">Ideals</div>
+                <textarea class="form-control form-control-sm autosave" id="ideals" rows="3"></textarea>
+            </div>
+            <div class="bordered mb-2">
+                <div class="section-title mb-1">Bonds</div>
+                <textarea class="form-control form-control-sm autosave" id="bonds" rows="3"></textarea>
+            </div>
+            <div class="bordered mb-2">
+                <div class="section-title mb-1">Flaws</div>
+                <textarea class="form-control form-control-sm autosave" id="flaws" rows="3"></textarea>
+            </div>
+            <div class="bordered">
+                <div class="section-title mb-1">Features & Traits</div>
+                <textarea class="form-control form-control-sm autosave" id="featuresTraits" rows="6"></textarea>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script>
+    const STORAGE_KEY = "dnd5e_sheet_v1";
+
+    function abilityMod(score) {
+        const s = parseInt(score, 10);
+        if (isNaN(s)) return 0;
+        return Math.floor((s - 10) / 2);
+    }
+
+    function formatMod(n) {
+        return (n >= 0 ? "+" : "") + n;
+    }
+
+    function recalc() {
+        const prof = parseInt(document.getElementById("profBonus").value, 10) || 0;
+
+        const abilities = {};
+        document.querySelectorAll(".ability-input").forEach(input => {
+            const key = input.dataset.ability;
+            const score = parseInt(input.value, 10) || 10;
+            const mod = abilityMod(score);
+            abilities[key] = mod;
+            document.getElementById("mod-" + key).textContent = formatMod(mod);
+        });
+
+        document.querySelectorAll(".save-prof").forEach(cb => {
+            const ab = cb.dataset.ability;
+            const base = abilities[ab] || 0;
+            const total = base + (cb.checked ? prof : 0);
+            const el = document.getElementById("save-" + ab);
+            if (el) el.textContent = formatMod(total);
+        });
+
+        document.querySelectorAll(".skill-prof").forEach(cb => {
+            const ab = cb.dataset.ability;
+            const skill = cb.dataset.skill;
+            const base = abilities[ab] || 0;
+            const total = base + (cb.checked ? prof : 0);
+            const el = document.getElementById("skill-" + skill);
+            if (el) el.textContent = formatMod(total);
+        });
+
+        const perceptionEl = document.getElementById("skill-perception");
+        let perceptionBonus = 0;
+        if (perceptionEl) {
+            const txt = perceptionEl.textContent.trim();
+            perceptionBonus = parseInt(txt, 10) || 0;
+        }
+        document.getElementById("passivePerception").textContent = 10 + perceptionBonus;
+    }
+
+    function saveSheet() {
+        const data = {};
+        document.querySelectorAll(".autosave").forEach(el => {
+            if (!el.id) return;
+            if (el.type === "checkbox") {
+                data[el.id] = el.checked;
+            } else {
+                data[el.id] = el.value;
+            }
+        });
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
+    }
+
+    function loadSheet() {
+        const raw = localStorage.getItem(STORAGE_KEY);
+        if (!raw) return;
+        let data;
+        try {
+            data = JSON.parse(raw);
+        } catch (e) {
+            return;
+        }
+        Object.keys(data).forEach(id => {
+            const el = document.getElementById(id);
+            if (!el) return;
+            if (el.type === "checkbox") {
+                el.checked = !!data[id];
+            } else {
+                el.value = data[id];
+            }
+        });
+    }
+
+    document.addEventListener("input", function (e) {
+        if (e.target.classList.contains("ability-input") || e.target.id === "profBonus") {
+            recalc();
+        }
+        if (e.target.classList.contains("autosave")) {
+            saveSheet();
+        }
+    });
+
+    document.addEventListener("change", function (e) {
+        if (e.target.classList.contains("save-prof") || e.target.classList.contains("skill-prof")) {
+            recalc();
+        }
+        if (e.target.classList.contains("autosave")) {
+            saveSheet();
+        }
+    });
+
+    document.addEventListener("DOMContentLoaded", function () {
+        loadSheet();
+        recalc();
+    });
+</script>
+
+<script>
+function collectSheetData() {
+    const data = {};
+    document.querySelectorAll(".autosave").forEach(el => {
+        if (!el.id) return;
+        if (el.type === "checkbox") {
+            data[el.id] = el.checked;
+        } else {
+            data[el.id] = el.value;
+        }
+    });
+    return data;
+}
+
+function applySheetData(data) {
+    Object.keys(data).forEach(id => {
+        const el = document.getElementById(id);
+        if (!el) return;
+        if (el.type === "checkbox") {
+            el.checked = !!data[id];
+        } else {
+            el.value = data[id];
+        }
+    });
+    recalc();
+    saveSheet();
+}
+
+// EXPORT
+document.getElementById("exportJsonBtn").addEventListener("click", () => {
+    const data = collectSheetData();
+    const blob = new Blob([JSON.stringify(data, null, 2)], {type: "application/json"});
+    const url = URL.createObjectURL(blob);
+
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = (data.charName || "character") + ".json";
+    a.click();
+
+    URL.revokeObjectURL(url);
+});
+
+// IMPORT
+document.getElementById("importJsonBtn").addEventListener("click", () => {
+    document.getElementById("importJsonFile").click();
+});
+
+document.getElementById("importJsonFile").addEventListener("change", function () {
+    const file = this.files[0];
+    if (!file) return;
+
+    const reader = new FileReader();
+    reader.onload = function (e) {
+        try {
+            const data = JSON.parse(e.target.result);
+            applySheetData(data);
+        } catch (err) {
+            alert("Invalid JSON file");
+        }
+    };
+    reader.readAsText(file);
+});
+</script>
+
+<script>
+const rand = arr => arr[Math.floor(Math.random() * arr.length)];
+
+const tables = {
+    races: ["Human", "Elf", "Dwarf", "Halfling", "Tiefling", "Dragonborn", "Gnome", "Half-Orc"],
+    classes: ["Fighter 1", "Wizard 1", "Rogue 1", "Cleric 1", "Barbarian 1", "Ranger 1", "Paladin 1", "Bard 1"],
+    backgrounds: ["Soldier", "Sage", "Criminal", "Noble", "Hermit", "Acolyte", "Outlander"],
+    alignments: ["LG", "NG", "CG", "LN", "N", "CN", "LE", "NE", "CE"],
+    names: ["Arin", "Belwyn", "Cade", "Dorian", "Elira", "Fenric", "Galen", "Hestia"],
+    abilityRoll: () => Math.floor(Math.random() * 10) + 8 // 8–18
+};
+
+document.getElementById("randomizeBtn").addEventListener("click", () => {
+    // Identity
+    document.getElementById("charName").value = rand(tables.names);
+    document.getElementById("race").value = rand(tables.races);
+    document.getElementById("classLevel").value = rand(tables.classes);
+    document.getElementById("background").value = rand(tables.backgrounds);
+    document.getElementById("alignment").value = rand(tables.alignments);
+
+    // Abilities
+    ["str","dex","con","int","wis","cha"].forEach(ab => {
+        document.getElementById(ab + "Score").value = tables.abilityRoll();
+    });
+
+    // Skills & saves: random proficiency
+    document.querySelectorAll(".save-prof, .skill-prof").forEach(cb => {
+        cb.checked = Math.random() < 0.3; // 30% chance
+    });
+
+    recalc();
+    saveSheet();
+});
+</script>
+
+</body>
+</html>
