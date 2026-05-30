@@ -2658,3 +2658,287 @@ If you want, I can also generate:
 - A self‑update module for MSAHU  
 
 Just tell me what direction you want next.
+
+---***---
+
+`markdown
+
+🧱 MSAHU — Signing, Versioning, CI, and Self‑Update
+
+Below are all requested pieces, ready to drop into your repo:
+
+- sign.ps1 — automatic MSI signing  
+- version.ps1 — auto‑increment versioning  
+- .github/workflows/build-msahu.yml — GitHub Actions CI  
+- msahu_update.py — self‑update module (Python)
+
+---
+
+1️⃣ sign.ps1 — Automatic MSI Signing
+
+Save as: sign.ps1
+
+`powershell
+param(
+    [Parameter(Mandatory = $true)]
+    [string]$FilePath
+)
+
+<#
+    sign.ps1
+    Signs an MSI or EXE using a code-signing certificate.
+
+    Requirements:
+    - signtool.exe in PATH (from Windows SDK)
+    - A valid code-signing certificate installed or PFX available
+
+>
+
+Write-Host "=== Signing $FilePath ===" -ForegroundColor Cyan
+
+Optional: use a specific PFX file
+
+$certPath = "C:\certs\codesign.pfx"
+
+$certPass = "your-password"
+
+$certArgs = "/f "$certPath" /p "$certPass""
+
+$timestampUrl = "http://timestamp.digicert.com"
+
+$arguments = @(
+    "sign",
+    "/a",                    # automatically select best certificate
+    "/tr", $timestampUrl,
+    "/td", "sha256",
+    "/fd", "sha256",
+    ""$FilePath""
+)
+
+& signtool.exe $arguments
+
+if ($LASTEXITCODE -ne 0) {
+    Write-Host "Signing failed." -ForegroundColor Red
+    exit 1
+}
+
+Write-Host "Signing completed successfully." -ForegroundColor Green
+`
+
+---
+
+2️⃣ version.ps1 — Auto‑Increment Versioning
+
+Save as: version.ps1
+
+`powershell
+<#
+    version.ps1
+    Auto-increments the build number in installer.wxs and returns the new version.
+
+    Version format: Major.Minor.Build.Revision
+    This script increments the Build component.
+
+>
+
+param(
+    [string]$WxsFile = "installer.wxs"
+)
+
+if (!(Test-Path $WxsFile)) {
+    Write-Host "File not found: $WxsFile" -ForegroundColor Red
+    exit 1
+}
+
+$content = Get-Content $WxsFile -Raw
+
+$match = [regex]::Match($content, 'Version="([0-9]+)\.([0-9]+)\.([0-9]+)\.([0-9]+)"')
+if (-not $match.Success) {
+    Write-Host "Could not find Version attribute in $WxsFile" -ForegroundColor Red
+    exit 1
+}
+
+$major = [int]$match.Groups[1].Value
+$minor = [int]$match.Groups[2].Value
+$build = [int]$match.Groups[3].Value
+$rev   = [int]$match.Groups[4].Value
+
+$build++
+
+$newVersion = "$major.$minor.$build.$rev"
+
+Write-Host "Old version: $($match.Value)" -ForegroundColor Yellow
+Write-Host "New version: $newVersion" -ForegroundColor Green
+
+$newContent = $content -replace 'Version="([0-9]+\.[0-9]+\.[0-9]+\.[0-9]+)"', "Version=""$newVersion"""
+$newContent | Set-Content $WxsFile
+
+Output new version for CI
+$newVersion
+`
+
+---
+
+3️⃣ GitHub Actions CI — Build MSI on Every Push
+
+Save as: .github/workflows/build-msahu.yml
+
+`yaml
+name: Build MSAHU MSI
+
+on:
+  push:
+    branches:
+      - main
+      - master
+
+jobs:
+  build-msi:
+    runs-on: windows-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install WiX Toolset
+        run: |
+          choco install wixtoolset --yes
+        shell: powershell
+
+      - name: Install Python dependencies
+        run: |
+          pip install pyinstaller
+        shell: powershell
+
+      - name: Build EXE with PyInstaller
+        run: |
+          pyinstaller --onefile --windowed --icon=MSAHU.ico MSAHU.py
+          Copy-Item dist\MSAHU.exe .\
+        shell: powershell
+
+      - name: Auto-increment version
+        id: version
+        run: |
+          $version = .\version.ps1
+          echo "version=$version" >> $env:GITHUB_OUTPUT
+        shell: powershell
+
+      - name: Build MSI
+        run: |
+          .\build-msi.ps1
+        shell: powershell
+
+      - name: Sign MSI (optional)
+        if: always()
+        run: |
+          if (Test-Path ".\sign.ps1") {
+            .\sign.ps1 ".\build\MSAHU.msi"
+          }
+        shell: powershell
+
+      - name: Upload MSI artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: MSAHU-msi
+          path: build/MSAHU.msi
+`
+
+---
+
+4️⃣ Self‑Update Module for MSAHU (Python)
+
+This assumes:
+
+- You host the latest MSI and a small version.json somewhere (e.g. GitHub Releases, S3, etc.).
+- version.json format:
+
+`json
+{
+  "version": "1.0.5.0",
+  "msi_url": "https://example.com/downloads/MSAHU.msi"
+}
+`
+
+Save as: msahu_update.py
+
+`python
+import os
+import sys
+import json
+import tempfile
+import subprocess
+from urllib.request import urlopen, urlretrieve
+
+VERSION = "1.0.0.0"  # current app version, keep in sync with installer.wxs
+VERSION_URL = "https://example.com/msahu/version.json"  # change to your URL
+
+
+def parse_version(v):
+    return tuple(int(x) for x in v.split("."))
+
+
+def is_newer(remote, local):
+    return parseversion(remote) > parseversion(local)
+
+
+def getremoteversion_info():
+    with urlopen(VERSION_URL, timeout=10) as resp:
+        data = resp.read().decode("utf-8")
+    return json.loads(data)
+
+
+def download_msi(url):
+    fd, path = tempfile.mkstemp(suffix=".msi")
+    os.close(fd)
+    print(f"Downloading update to: {path}")
+    urlretrieve(url, path)
+    return path
+
+
+def runmsi(msipath):
+    # Launch MSI installer
+    print("Launching MSI installer...")
+    subprocess.Popen(["msiexec", "/i", msi_path, "/passive"])
+    # Optionally exit current app
+    sys.exit(0)
+
+
+def checkforupdate(interactive=True):
+    try:
+        info = getremoteversion_info()
+        remote_version = info.get("version")
+        msiurl = info.get("msiurl")
+
+        if not remoteversion or not msiurl:
+            if interactive:
+                print("Update info incomplete.")
+            return
+
+        if isnewer(remoteversion, VERSION):
+            if interactive:
+                print(f"New version available: {remote_version} (current: {VERSION})")
+                ans = input("Download and install update now? [y/N]: ").strip().lower()
+                if ans != "y":
+                    return
+            msipath = downloadmsi(msi_url)
+            runmsi(msipath)
+        else:
+            if interactive:
+                print(f"You are up to date. Current version: {VERSION}")
+
+    except Exception as e:
+        if interactive:
+            print(f"Update check failed: {e}")
+
+
+if name == "main":
+    checkforupdate(interactive=True)
+`
+
+You can call checkforupdate() from your main GUI (e.g. a “Check for updates” menu item or on startup with a non‑blocking thread).
+`
