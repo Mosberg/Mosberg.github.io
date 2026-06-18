@@ -1,0 +1,249 @@
+{
+  "version": "1.0.0",
+  "updated": "2026-06-18",
+  "software": [
+    {
+      "name": "Google Chrome",
+      "description": "Fast, widely supported browser with strong extension ecosystem.",
+      "tags": ["browser", "web"],
+      "category": "Web Browsers",
+      "url": "https://www.google.com/chrome/",
+      "download": "https://dl.google.com/chrome/install/latest/chrome_installer.exe",
+      "image": "https://www.google.com/chrome/static/images/chrome-logo.svg"
+    },
+    {
+      "name": "Mozilla Firefox",
+      "description": "Privacy‑focused browser with powerful customization.",
+      "tags": ["browser", "privacy"],
+      "category": "Web Browsers",
+      "url": "https://www.mozilla.org/firefox/",
+      "download": "https://download.mozilla.org/?product=firefox-latest&os=win64&lang=en-US",
+      "image": "https://www.mozilla.org/media/protocol/img/logos/firefox/browser/logo-md.55a4f1cbbf7e.svg"
+    },
+    {
+      "name": "Brave Browser",
+      "description": "Privacy‑first browser with built‑in adblock and tracker blocking.",
+      "tags": ["browser", "privacy"],
+      "category": "Web Browsers",
+      "url": "https://brave.com/",
+      "download": "https://laptop-updates.brave.com/latest/winx64",
+      "image": "https://brave.com/static-assets/images/brave-logo.svg"
+    },
+    {
+      "name": "7-Zip",
+      "description": "Open‑source file archiver supporting 7z, ZIP, TAR, and more.",
+      "tags": ["utility", "compression"],
+      "category": "System Tools",
+      "url": "https://www.7-zip.org/",
+      "download": "https://www.7-zip.org/a/7z2408-x64.exe",
+      "image": "https://www.7-zip.org/7ziplogo.png"
+    },
+    {
+      "name": "WinRAR",
+      "description": "Classic archive tool with RAR support.",
+      "tags": ["utility", "compression"],
+      "category": "System Tools",
+      "url": "https://www.rarlab.com/",
+      "download": "https://www.rarlab.com/rar/winrar-x64-701.exe",
+      "image": "https://www.rarlab.com/raricon.png"
+    },
+    {
+      "name": "Everything Search",
+      "description": "Instant file search engine for Windows.",
+      "tags": ["utility", "search"],
+      "category": "System Tools",
+      "url": "https://www.voidtools.com/",
+      "download": "https://www.voidtools.com/Everything-1.4.1.1024.x64-Setup.exe",
+      "image": "https://www.voidtools.com/img/everything.png"
+    },
+    {
+      "name": "PowerToys",
+      "description": "Advanced Windows utilities including FancyZones, PowerRename, and more.",
+      "tags": ["utility", "windows"],
+      "category": "System Tools",
+      "url": "https://github.com/microsoft/PowerToys",
+      "download": "https://github.com/microsoft/PowerToys/releases/latest/download/PowerToysSetup-x64.exe",
+      "image": "https://raw.githubusercontent.com/microsoft/PowerToys/main/doc/images/Logo.png"
+    },
+    {
+      "name": "HWInfo",
+      "description": "Professional hardware diagnostics and monitoring.",
+      "tags": ["hardware", "monitoring"],
+      "category": "System Tools",
+      "url": "https://www.hwinfo.com/",
+      "download": "https://www.hwinfo.com/files/hwi_760.exe",
+      "image": "https://www.hwinfo.com/wp-content/uploads/2020/04/hwinfo-logo.png"
+    },
+    {
+      "name": "Steam",
+      "description": "The largest PC gaming platform and library manager.",
+      "tags": ["gaming", "launcher"],
+      "category": "Gaming & Drivers",
+      "url": "https://store.steampowered.com/about/",
+      "download": "https://cdn.cloudflare.steamstatic.com/client/installer/SteamSetup.exe",
+      "image": "https://store.steampowered.com/public/shared/images/header/logo_steam.svg"
+    },
+    {
+      "name": "Epic Games Launcher",
+      "description": "Game launcher with weekly free games.",
+      "tags": ["gaming", "launcher"],
+      "category": "Gaming & Drivers",
+      "url": "https://www.epicgames.com/store/",
+      "download": "https://launcher-public-service-prod06.ol.epicgames.com/launcher/api/installer/download/EpicGamesLauncherInstaller.msi",
+      "image": "https://static-assets-prod.epicgames.com/epic-store/static/webpack/epic-logo.svg"
+    },
+    {
+      "name": "NVIDIA GeForce Drivers",
+      "description": "Official GPU drivers for NVIDIA graphics cards.",
+      "tags": ["drivers", "gpu"],
+      "category": "Gaming & Drivers",
+      "url": "https://www.nvidia.com/Download/index.aspx",
+      "download": "https://us.download.nvidia.com/Windows/551.23/551.23-desktop-win10-win11-64bit-international-dch-whql.exe",
+      "image": "https://www.nvidia.com/etc/designs/nvidiaGDC/clientlibs_base/images/NVIDIA-Logo.svg"
+    },
+    {
+      "name": "AMD Radeon Drivers",
+      "description": "Official GPU drivers for AMD Radeon graphics cards.",
+      "tags": ["drivers", "gpu"],
+      "category": "Gaming & Drivers",
+      "url": "https://www.amd.com/en/support",
+      "download": "https://drivers.amd.com/drivers/whql-amd-software-adrenalin-edition-24.5.1-win10-win11-64bit.exe",
+      "image": "https://www.amd.com/themes/custom/amd/logo.svg"
+    },
+    {
+      "name": "LibreOffice",
+      "description": "Full open‑source office suite (Writer, Calc, Impress).",
+      "tags": ["office", "documents"],
+      "category": "Office & Productivity",
+      "url": "https://www.libreoffice.org/",
+      "download": "https://download.documentfoundation.org/libreoffice/stable/24.2.2/win/x86_64/LibreOffice_24.2.2_Win_x64.msi",
+      "image": "https://www.libreoffice.org/assets/LibreOffice-Initial-Artwork-Logo.png"
+    },
+    {
+      "name": "Notion",
+      "description": "Notes, docs, and lightweight project management.",
+      "tags": ["notes", "productivity"],
+      "category": "Office & Productivity",
+      "url": "https://www.notion.so/desktop",
+      "download": "https://desktop-release.notion-static.com/Notion%20Setup%202.0.57.exe",
+      "image": "https://www.notion.so/images/logo-ios.png"
+    },
+    {
+      "name": "Obsidian",
+      "description": "Markdown‑based knowledge base with local storage.",
+      "tags": ["notes", "markdown"],
+      "category": "Office & Productivity",
+      "url": "https://obsidian.md/",
+      "download": "https://github.com/obsidianmd/obsidian-releases/releases/latest/download/Obsidian.1.6.3.exe",
+      "image": "https://obsidian.md/images/obsidian-logo-gradient.svg"
+    },
+    {
+      "name": "SumatraPDF",
+      "description": "Ultra‑lightweight PDF, ePub, and comic reader.",
+      "tags": ["pdf", "reader"],
+      "category": "Office & Productivity",
+      "url": "https://www.sumatrapdfreader.org/",
+      "download": "https://www.sumatrapdfreader.org/dl2/SumatraPDF-3.5.2-64-install.exe",
+      "image": "https://www.sumatrapdfreader.org/images/logo.png"
+    },
+    {
+      "name": "VLC Media Player",
+      "description": "Plays almost any audio/video format.",
+      "tags": ["media", "video"],
+      "category": "Media & Creativity",
+      "url": "https://www.videolan.org/vlc/",
+      "download": "https://get.videolan.org/vlc/3.0.20/win64/vlc-3.0.20-win64.exe",
+      "image": "https://www.videolan.org/images/logo.png"
+    },
+    {
+      "name": "GIMP",
+      "description": "Open‑source image editor similar to Photoshop.",
+      "tags": ["image", "editing"],
+      "category": "Media & Creativity",
+      "url": "https://www.gimp.org/",
+      "download": "https://download.gimp.org/gimp/v2.10/windows/gimp-2.10.36-setup.exe",
+      "image": "https://www.gimp.org/images/frontpage/wilber-big.png"
+    },
+    {
+      "name": "Krita",
+      "description": "Professional digital painting software.",
+      "tags": ["art", "drawing"],
+      "category": "Media & Creativity",
+      "url": "https://krita.org/",
+      "download": "https://download.kde.org/stable/krita/5.2.2/krita-x64-5.2.2-setup.exe",
+      "image": "https://krita.org/wp-content/uploads/2021/06/krita-logo.png"
+    },
+    {
+      "name": "Audacity",
+      "description": "Free, open‑source audio recording and editing.",
+      "tags": ["audio", "editing"],
+      "category": "Media & Creativity",
+      "url": "https://www.audacityteam.org/",
+      "download": "https://github.com/audacity/audacity/releases/latest/download/audacity-win-3.4.2-x64.exe",
+      "image": "https://www.audacityteam.org/wp-content/uploads/2016/04/audacity-logo.png"
+    },
+    {
+      "name": "Visual Studio Code",
+      "description": "Extensible code editor with thousands of extensions.",
+      "tags": ["dev", "editor"],
+      "category": "Development Tools",
+      "url": "https://code.visualstudio.com/",
+      "download": "https://code.visualstudio.com/sha/download?build=stable&os=win32-x64-user",
+      "image": "https://code.visualstudio.com/assets/images/code-stable.png"
+    },
+    {
+      "name": "Git for Windows",
+      "description": "Version control system with Git Bash.",
+      "tags": ["dev", "git"],
+      "category": "Development Tools",
+      "url": "https://git-scm.com/",
+      "download": "https://github.com/git-for-windows/git/releases/latest/download/Git-2.45.0-64-bit.exe",
+      "image": "https://git-scm.com/images/logos/downloads/Git-Icon-1788C.png"
+    },
+    {
+      "name": "Node.js",
+      "description": "JavaScript runtime with npm package manager.",
+      "tags": ["dev", "javascript"],
+      "category": "Development Tools",
+      "url": "https://nodejs.org/",
+      "download": "https://nodejs.org/dist/v20.12.2/node-v20.12.2-x64.msi",
+      "image": "https://nodejs.org/static/images/logo.svg"
+    },
+    {
+      "name": "Python",
+      "description": "Popular programming language for scripting and automation.",
+      "tags": ["dev", "python"],
+      "category": "Development Tools",
+      "url": "https://www.python.org/",
+      "download": "https://www.python.org/ftp/python/3.12.3/python-3.12.3-amd64.exe",
+      "image": "https://www.python.org/static/community_logos/python-logo.png"
+    },
+    {
+      "name": "Malwarebytes",
+      "description": "On‑demand malware scanner.",
+      "tags": ["security", "antivirus"],
+      "category": "Security & Backup",
+      "url": "https://www.malwarebytes.com/",
+      "download": "https://downloads.malwarebytes.com/file/mb-windows",
+      "image": "https://www.malwarebytes.com/images/logo.svg"
+    },
+    {
+      "name": "KeePass",
+      "description": "Local password manager with encrypted database.",
+      "tags": ["security", "passwords"],
+      "category": "Security & Backup",
+      "url": "https://keepass.info/",
+      "download": "https://sourceforge.net/projects/keepass/files/KeePass%202.x/2.56/KeePass-2.56-Setup.exe",
+      "image": "https://keepass.info/images/keepass_logo.png"
+    },
+    {
+      "name": "Macrium Reflect",
+      "description": "Disk imaging and full system backup tool.",
+      "tags": ["backup", "system"],
+      "category": "Security & Backup",
+      "url": "https://www.macrium.com/reflectfree",
+      "download": "https://updates.macrium.com/reflect/v8/ReflectDLHF.exe",
+      "image": "https://www.macrium.com/assets/images/logo.svg"
+    }
+  ]
+}
