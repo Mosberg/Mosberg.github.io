@@ -1,6 +1,7 @@
 // jsonLoader.js
-// Ultra‑robust dynamic JSON loader with validation, merging, caching,
-// dependency resolution, event hooks, metrics, and error buckets.
+// Ultra‑robust dynamic JSON loader supporting JSON, JSONC, JSON5,
+// schema auto‑detection, validation, deep merging, caching, events,
+// metrics, priorities, groups, and error buckets.
 
 export const JSONLoader = {
   // -----------------------------
@@ -11,9 +12,8 @@ export const JSONLoader = {
   raw: {}, // Raw per-file JSON
   cache: new Map(), // In-memory cache
   ready: false,
-  errors: [], // Error bucket
+  errors: [],
   metrics: {
-    // Performance metrics
     started: 0,
     finished: 0,
     duration: 0,
@@ -21,7 +21,6 @@ export const JSONLoader = {
     filesFailed: 0,
   },
 
-  // Event system
   events: {
     ready: [],
     error: [],
@@ -41,8 +40,9 @@ export const JSONLoader = {
     dedupeArrays: true,
     flattenArrays: false,
     validateSchemas: true,
+    autoDetectSchemas: true,
     strictTypes: false,
-    logLevel: "info", // none | error | warn | info | debug
+    logLevel: "info",
   },
 
   // -----------------------------
@@ -72,7 +72,7 @@ export const JSONLoader = {
   },
 
   // -----------------------------
-  // EVENT HOOKS
+  // EVENTS
   // -----------------------------
   on(event, callback) {
     if (!this.events[event]) throw new Error(`Unknown event: ${event}`);
@@ -85,14 +85,12 @@ export const JSONLoader = {
   },
 
   // -----------------------------
-  // LOAD ALL SOURCES
+  // LOAD ALL
   // -----------------------------
   async loadAll() {
     this.metrics.started = performance.now();
 
-    // Sort by priority
     const sorted = [...this.sources].sort((a, b) => b.priority - a.priority);
-
     const tasks = sorted.map((src) => this.loadSingle(src));
 
     await Promise.all(tasks);
@@ -122,8 +120,8 @@ export const JSONLoader = {
       return;
     }
 
-    // Fetch with retry + timeout
     let attempt = 0;
+
     while (attempt <= this.config.retries) {
       try {
         const controller = new AbortController();
@@ -137,9 +135,16 @@ export const JSONLoader = {
 
         if (!response.ok) throw new Error(`HTTP ${response.status}`);
 
-        const json = await response.json();
+        const rawText = await response.text();
+        const json = await this.parseByType(url, rawText);
 
-        // Schema validation
+        // Auto-detect schema if enabled
+        if (this.config.autoDetectSchemas && !src.schema) {
+          src.schema = this.detectSchema(json);
+          this.log("info", "Auto-detected schema for", url, src.schema);
+        }
+
+        // Validate schema if enabled
         if (src.schema && this.config.validateSchemas) {
           const valid = this.validateSchema(json, src.schema);
           if (!valid) throw new Error(`Schema mismatch for ${url}`);
@@ -168,20 +173,130 @@ export const JSONLoader = {
   },
 
   // -----------------------------
+  // JSON FORMAT PARSERS
+  // -----------------------------
+  stripJsonComments(text) {
+    return text.replace(/\/\*[\s\S]*?\*\//g, "").replace(/\/\/.*/g, "");
+  },
+
+  parseJSON5(text) {
+    try {
+      let t = text;
+
+      t = t.replace(/'/g, '"');
+      t = t.replace(/(\w+)\s*:/g, '"$1":');
+      t = t.replace(/,\s*([}\]])/g, "$1");
+
+      return JSON.parse(t);
+    } catch (err) {
+      throw new Error("JSON5 parse error: " + err.message);
+    }
+  },
+
+  async parseByType(url, text) {
+    const lower = url.toLowerCase();
+
+    try {
+      if (lower.endsWith(".json")) {
+        return JSON.parse(text);
+      }
+
+      if (lower.endsWith(".jsonc")) {
+        return JSON.parse(this.stripJsonComments(text));
+      }
+
+      if (lower.endsWith(".json5")) {
+        return this.parseJSON5(text);
+      }
+
+      // fallback chain
+      try {
+        return JSON.parse(text);
+      } catch (_) {}
+      try {
+        return JSON.parse(this.stripJsonComments(text));
+      } catch (_) {}
+      try {
+        return this.parseJSON5(text);
+      } catch (_) {}
+
+      throw new Error("Unsupported JSON format: " + url);
+    } catch (err) {
+      throw new Error(`Failed parsing ${url}: ${err.message}`);
+    }
+  },
+
+  // -----------------------------
+  // SCHEMA AUTO-DETECTION
+  // -----------------------------
+  detectSchema(json) {
+    const schema = {};
+
+    if (Array.isArray(json)) {
+      schema.type = "array";
+      schema.items = json.length ? this.detectSchema(json[0]) : {};
+      return schema;
+    }
+
+    if (typeof json === "object" && json !== null) {
+      schema.type = "object";
+      schema.properties = {};
+
+      for (const key in json) {
+        const val = json[key];
+
+        if (Array.isArray(val)) {
+          schema.properties[key] = {
+            type: "array",
+            items: val.length ? this.detectSchema(val[0]) : {},
+          };
+        } else if (typeof val === "object" && val !== null) {
+          schema.properties[key] = this.detectSchema(val);
+        } else {
+          schema.properties[key] = { type: typeof val };
+        }
+      }
+
+      return schema;
+    }
+
+    return { type: typeof json };
+  },
+
+  // -----------------------------
   // SCHEMA VALIDATION
   // -----------------------------
   validateSchema(json, schema) {
-    // Simple structural validation
-    for (const key in schema) {
-      if (!(key in json)) return false;
-      if (this.config.strictTypes && typeof json[key] !== schema[key])
-        return false;
+    if (!schema) return true;
+
+    if (schema.type === "array") {
+      if (!Array.isArray(json)) return false;
+      if (schema.items) {
+        return json.every((item) => this.validateSchema(item, schema.items));
+      }
+      return true;
     }
+
+    if (schema.type === "object") {
+      if (typeof json !== "object" || json === null || Array.isArray(json))
+        return false;
+
+      for (const key in schema.properties) {
+        if (!(key in json)) return false;
+        if (!this.validateSchema(json[key], schema.properties[key]))
+          return false;
+      }
+
+      return true;
+    }
+
+    if (schema.type !== typeof json) return false;
+
     return true;
   },
 
   // -----------------------------
-  // MERGING LOGIC
+  // MERGING
   // -----------------------------
   merge(json, src) {
     this.emit("beforeMerge", { json, src });
@@ -212,9 +327,6 @@ export const JSONLoader = {
     this.emit("afterMerge", this.data);
   },
 
-  // -----------------------------
-  // DEEP MERGE
-  // -----------------------------
   deepMerge(target, source) {
     if (typeof target !== "object" || typeof source !== "object") return source;
 
