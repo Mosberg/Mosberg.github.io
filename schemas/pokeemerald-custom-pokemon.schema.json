@@ -1,0 +1,929 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://mosberg.github.io/schemas/pokeemerald-custom-pokemon.schema.json",
+  "title": "PokeEmerald Custom Pokemon Dataset",
+  "description": "Superset schema for defining custom Pokemon for pret/pokeemerald and pokeemerald-expansion.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schemaVersion", "targetRepos", "species"],
+  "properties": {
+    "schemaVersion": {
+      "type": "string",
+      "const": "1.0.0"
+    },
+    "targetRepos": {
+      "type": "array",
+      "description": "Target repositories this dataset is intended to support.",
+      "items": {
+        "type": "string",
+        "enum": ["pret/pokeemerald", "rh-hideout/pokeemerald-expansion"]
+      },
+      "minItems": 1,
+      "uniqueItems": true
+    },
+    "defaults": {
+      "$ref": "#/$defs/defaults"
+    },
+    "species": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "$ref": "#/$defs/species"
+      }
+    }
+  },
+  "$defs": {
+    "defaults": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "nameLength": {
+          "type": "integer",
+          "minimum": 1,
+          "description": "Vanilla typically uses 10-char display names; expansion can support more depending on config."
+        },
+        "descriptionLinePolicy": {
+          "type": "string",
+          "enum": ["auto-wrap", "manual-escape"]
+        },
+        "assetRoot": {
+          "type": "string"
+        },
+        "generateVanillaDexSortOrders": {
+          "type": "boolean",
+          "default": true
+        }
+      }
+    },
+    "species": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "symbol",
+        "displayName",
+        "dex",
+        "baseStats",
+        "typing",
+        "training",
+        "breeding",
+        "abilities",
+        "appearance",
+        "graphics",
+        "learnsets"
+      ],
+      "properties": {
+        "symbol": {
+          "type": "string",
+          "pattern": "^SPECIES_[A-Z0-9_]+$",
+          "description": "C constant symbol."
+        },
+        "internalName": {
+          "type": "string",
+          "pattern": "^[a-z0-9_]+$",
+          "description": "Filesystem/codegen-safe id, e.g. mewthree."
+        },
+        "displayName": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 32
+        },
+        "introducedInGeneration": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 9
+        },
+        "familyId": {
+          "type": "string",
+          "pattern": "^[a-z0-9_]+$"
+        },
+        "tags": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "uniqueItems": true
+        },
+        "dex": {
+          "$ref": "#/$defs/dex"
+        },
+        "baseStats": {
+          "$ref": "#/$defs/baseStats"
+        },
+        "typing": {
+          "$ref": "#/$defs/typing"
+        },
+        "training": {
+          "$ref": "#/$defs/training"
+        },
+        "breeding": {
+          "$ref": "#/$defs/breeding"
+        },
+        "abilities": {
+          "$ref": "#/$defs/abilities"
+        },
+        "appearance": {
+          "$ref": "#/$defs/appearance"
+        },
+        "graphics": {
+          "$ref": "#/$defs/graphics"
+        },
+        "audio": {
+          "$ref": "#/$defs/audio"
+        },
+        "learnsets": {
+          "$ref": "#/$defs/learnsets"
+        },
+        "evolutions": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/evolution"
+          },
+          "default": []
+        },
+        "forms": {
+          "$ref": "#/$defs/forms"
+        },
+        "availability": {
+          "$ref": "#/$defs/availability"
+        },
+        "repoHints": {
+          "$ref": "#/$defs/repoHints"
+        }
+      }
+    },
+    "dex": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "nationalDexNumber",
+        "categoryName",
+        "heightDm",
+        "weightHg",
+        "description"
+      ],
+      "properties": {
+        "nationalDexNumber": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "regionalDex": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "hoenn": {
+              "type": ["integer", "null"],
+              "minimum": 1
+            },
+            "kanto": {
+              "type": ["integer", "null"],
+              "minimum": 1
+            },
+            "johto": {
+              "type": ["integer", "null"],
+              "minimum": 1
+            },
+            "custom": {
+              "type": "object",
+              "propertyNames": {
+                "pattern": "^[a-zA-Z0-9_-]+$"
+              },
+              "additionalProperties": {
+                "type": "integer",
+                "minimum": 1
+              }
+            }
+          }
+        },
+        "categoryName": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 32
+        },
+        "heightDm": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "Height in decimeters, matching dex data style."
+        },
+        "weightHg": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "Weight in hectograms, matching dex data style."
+        },
+        "description": {
+          "type": "array",
+          "minItems": 1,
+          "maxItems": 4,
+          "items": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 64
+          },
+          "description": "Dex text lines for generator output."
+        },
+        "scale": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "pokemonScale": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "pokemonOffset": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "trainerScale": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "trainerOffset": {
+              "type": "integer",
+              "minimum": 0
+            }
+          }
+        },
+        "sortHints": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "alphabeticalKey": {
+              "type": "string"
+            },
+            "heightOrderValue": {
+              "type": "integer"
+            },
+            "weightOrderValue": {
+              "type": "integer"
+            }
+          },
+          "description": "Useful for vanilla Pokedex order table generation."
+        }
+      }
+    },
+    "baseStats": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["hp", "attack", "defense", "speed", "spAttack", "spDefense"],
+      "properties": {
+        "hp": { "type": "integer", "minimum": 1, "maximum": 255 },
+        "attack": { "type": "integer", "minimum": 1, "maximum": 255 },
+        "defense": { "type": "integer", "minimum": 1, "maximum": 255 },
+        "speed": { "type": "integer", "minimum": 1, "maximum": 255 },
+        "spAttack": { "type": "integer", "minimum": 1, "maximum": 255 },
+        "spDefense": { "type": "integer", "minimum": 1, "maximum": 255 }
+      }
+    },
+    "typing": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["primaryType"],
+      "properties": {
+        "primaryType": {
+          "$ref": "#/$defs/typeConst"
+        },
+        "secondaryType": {
+          "anyOf": [{ "$ref": "#/$defs/typeConst" }, { "type": "null" }],
+          "default": null
+        }
+      }
+    },
+    "training": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "catchRate",
+        "expYield",
+        "evYield",
+        "friendship",
+        "growthRate"
+      ],
+      "properties": {
+        "catchRate": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 255
+        },
+        "expYield": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 255
+        },
+        "evYield": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "hp",
+            "attack",
+            "defense",
+            "speed",
+            "spAttack",
+            "spDefense"
+          ],
+          "properties": {
+            "hp": { "type": "integer", "minimum": 0, "maximum": 3 },
+            "attack": { "type": "integer", "minimum": 0, "maximum": 3 },
+            "defense": { "type": "integer", "minimum": 0, "maximum": 3 },
+            "speed": { "type": "integer", "minimum": 0, "maximum": 3 },
+            "spAttack": { "type": "integer", "minimum": 0, "maximum": 3 },
+            "spDefense": { "type": "integer", "minimum": 0, "maximum": 3 }
+          }
+        },
+        "friendship": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 255
+        },
+        "growthRate": {
+          "$ref": "#/$defs/growthRateConst"
+        },
+        "safariZoneFleeRate": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 255
+        },
+        "perfectIVCount": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 6,
+          "description": "Expansion-friendly field."
+        }
+      }
+    },
+    "breeding": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["genderRatio", "eggCycles", "eggGroups"],
+      "properties": {
+        "genderRatio": {
+          "oneOf": [
+            {
+              "type": "string",
+              "enum": ["MON_MALE", "MON_FEMALE", "MON_GENDERLESS"]
+            },
+            {
+              "type": "object",
+              "additionalProperties": false,
+              "required": ["percentFemale"],
+              "properties": {
+                "percentFemale": {
+                  "type": "number",
+                  "minimum": 0,
+                  "maximum": 100
+                }
+              }
+            }
+          ]
+        },
+        "eggCycles": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 255
+        },
+        "eggGroups": {
+          "type": "array",
+          "minItems": 1,
+          "maxItems": 2,
+          "items": {
+            "$ref": "#/$defs/eggGroupConst"
+          }
+        },
+        "incenseBaby": {
+          "type": "boolean"
+        }
+      }
+    },
+    "abilities": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["slots"],
+      "properties": {
+        "slots": {
+          "type": "array",
+          "minItems": 1,
+          "maxItems": 3,
+          "items": {
+            "$ref": "#/$defs/abilityConst"
+          },
+          "description": "Expansion supports 3 ability slots in the sample structure."
+        }
+      }
+    },
+    "appearance": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["bodyColor", "flip"],
+      "properties": {
+        "bodyColor": {
+          "$ref": "#/$defs/bodyColorConst"
+        },
+        "flip": {
+          "type": "string",
+          "enum": ["FLIP", "NO_FLIP"]
+        },
+        "enemyElevation": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 255,
+          "description": "Vanilla graphics table support."
+        },
+        "shadow": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "xOffset": { "type": "integer" },
+            "yOffset": { "type": "integer" },
+            "size": { "type": "string" },
+            "suppress": { "type": "boolean" }
+          },
+          "description": "Expansion enemy shadow metadata."
+        }
+      }
+    },
+    "graphics": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "frontSprite",
+        "backSprite",
+        "palette",
+        "shinyPalette",
+        "icon",
+        "frontPic",
+        "backPic"
+      ],
+      "properties": {
+        "assetFolder": {
+          "type": "string",
+          "description": "Example: graphics/pokemon/mewthree"
+        },
+        "frontSprite": { "$ref": "#/$defs/assetPath" },
+        "frontSpriteAnimated": { "$ref": "#/$defs/assetPath" },
+        "backSprite": { "$ref": "#/$defs/assetPath" },
+        "palette": { "$ref": "#/$defs/assetPath" },
+        "shinyPalette": { "$ref": "#/$defs/assetPath" },
+        "icon": { "$ref": "#/$defs/assetPath" },
+        "footprint": { "$ref": "#/$defs/assetPath" },
+        "frontPic": {
+          "$ref": "#/$defs/picPlacement"
+        },
+        "backPic": {
+          "$ref": "#/$defs/picPlacement"
+        },
+        "iconPalIndex": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 2,
+          "description": "Vanilla-style icon palette index."
+        },
+        "frontAnimation": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "frameSequence": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "additionalProperties": false,
+                "required": ["frame", "duration"],
+                "properties": {
+                  "frame": {
+                    "type": "integer",
+                    "minimum": 0,
+                    "maximum": 1
+                  },
+                  "duration": {
+                    "type": "integer",
+                    "minimum": 1
+                  }
+                }
+              }
+            },
+            "animationId": {
+              "type": "string"
+            },
+            "animationDelay": {
+              "type": "integer",
+              "minimum": 0
+            }
+          }
+        },
+        "backAnimationId": {
+          "type": "string"
+        },
+        "femaleGraphics": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "frontSprite": { "$ref": "#/$defs/assetPath" },
+            "backSprite": { "$ref": "#/$defs/assetPath" },
+            "palette": { "$ref": "#/$defs/assetPath" },
+            "shinyPalette": { "$ref": "#/$defs/assetPath" },
+            "icon": { "$ref": "#/$defs/assetPath" },
+            "frontPic": { "$ref": "#/$defs/picPlacement" },
+            "backPic": { "$ref": "#/$defs/picPlacement" },
+            "iconPalIndex": {
+              "type": "integer",
+              "minimum": 0
+            }
+          }
+        },
+        "overworld": {
+          "$ref": "#/$defs/overworld",
+          "description": "Expansion-oriented overworld/follower graphics metadata."
+        }
+      }
+    },
+    "audio": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "cryId": {
+          "type": "string",
+          "pattern": "^CRY_[A-Z0-9_]+$"
+        },
+        "crySource": {
+          "$ref": "#/$defs/assetPath"
+        },
+        "cryAifSource": {
+          "$ref": "#/$defs/assetPath"
+        },
+        "cryReverseSource": {
+          "$ref": "#/$defs/assetPath"
+        },
+        "sampleRateHz": {
+          "type": "integer",
+          "minimum": 1
+        }
+      }
+    },
+    "learnsets": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["levelUp"],
+      "properties": {
+        "levelUp": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/levelUpMove"
+          }
+        },
+        "tmhm": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/moveConst"
+          },
+          "uniqueItems": true
+        },
+        "teachable": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/moveConst"
+          },
+          "uniqueItems": true,
+          "description": "Expansion-friendly generalized teachable list."
+        },
+        "tutor": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/moveConst"
+          },
+          "uniqueItems": true
+        },
+        "eggMoves": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/moveConst"
+          },
+          "uniqueItems": true
+        }
+      }
+    },
+    "evolution": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["method", "targetSpecies"],
+      "properties": {
+        "method": {
+          "type": "string",
+          "pattern": "^EVO_[A-Z0-9_]+$"
+        },
+        "param": {
+          "description": "Evolution parameter, such as level, item, move, map, time, etc.",
+          "oneOf": [
+            { "type": "integer" },
+            { "type": "string" },
+            { "type": "boolean" },
+            { "type": "null" }
+          ]
+        },
+        "targetSpecies": {
+          "type": "string",
+          "pattern": "^SPECIES_[A-Z0-9_]+$"
+        },
+        "conditions": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/evolutionCondition"
+          }
+        }
+      }
+    },
+    "evolutionCondition": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["key", "value"],
+      "properties": {
+        "key": {
+          "type": "string"
+        },
+        "value": {}
+      }
+    },
+    "forms": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "formSpeciesTable": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "pattern": "^SPECIES_[A-Z0-9_]+$"
+          }
+        },
+        "formChanges": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/formChange"
+          }
+        }
+      }
+    },
+    "formChange": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["trigger", "targetSpecies"],
+      "properties": {
+        "trigger": {
+          "type": "string"
+        },
+        "targetSpecies": {
+          "type": "string",
+          "pattern": "^SPECIES_[A-Z0-9_]+$"
+        },
+        "conditions": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/evolutionCondition"
+          }
+        }
+      }
+    },
+    "availability": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "wildEncounters": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/wildEncounter"
+          }
+        },
+        "gift": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/giftEncounter"
+          }
+        },
+        "trainers": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/trainerUsage"
+          }
+        }
+      }
+    },
+    "wildEncounter": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["map", "method", "minLevel", "maxLevel"],
+      "properties": {
+        "map": {
+          "type": "string"
+        },
+        "method": {
+          "type": "string",
+          "enum": [
+            "land",
+            "water",
+            "rock_smash",
+            "fishing_old",
+            "fishing_good",
+            "fishing_super"
+          ]
+        },
+        "slot": {
+          "type": ["integer", "null"],
+          "minimum": 0
+        },
+        "chanceWeight": {
+          "type": ["integer", "null"],
+          "minimum": 1
+        },
+        "minLevel": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 100
+        },
+        "maxLevel": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 100
+        },
+        "conditions": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/evolutionCondition"
+          }
+        }
+      }
+    },
+    "giftEncounter": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["source"],
+      "properties": {
+        "source": { "type": "string" },
+        "level": { "type": "integer", "minimum": 1, "maximum": 100 },
+        "moves": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/moveConst" },
+          "maxItems": 4
+        },
+        "heldItem": { "$ref": "#/$defs/itemConst" }
+      }
+    },
+    "trainerUsage": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["trainerId"],
+      "properties": {
+        "trainerId": { "type": "string" },
+        "level": { "type": "integer", "minimum": 1, "maximum": 100 },
+        "abilitySlot": { "type": "integer", "minimum": 0, "maximum": 2 },
+        "heldItem": { "$ref": "#/$defs/itemConst" },
+        "moves": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/moveConst" },
+          "maxItems": 4
+        }
+      }
+    },
+    "repoHints": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "vanilla": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "speciesConstantValue": {
+              "type": ["integer", "null"],
+              "minimum": 1
+            },
+            "insertBeforeSpecies": {
+              "type": ["string", "null"],
+              "pattern": "^SPECIES_[A-Z0-9_]+$"
+            }
+          }
+        },
+        "expansion": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "speciesInfoFamilyFile": {
+              "type": ["string", "null"]
+            },
+            "appendCustomSpecies": {
+              "type": "boolean"
+            }
+          }
+        }
+      }
+    },
+    "picPlacement": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["width", "height", "yOffset"],
+      "properties": {
+        "width": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 64
+        },
+        "height": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 64
+        },
+        "yOffset": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 255
+        }
+      }
+    },
+    "overworld": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "enabled": {
+          "type": "boolean"
+        },
+        "size": {
+          "type": "string",
+          "enum": ["SIZE_32x32", "SIZE_64x64"]
+        },
+        "shadowSize": {
+          "type": "string"
+        },
+        "tracks": {
+          "type": "string"
+        },
+        "animationTable": {
+          "type": "string"
+        },
+        "imageTable": {
+          "type": "string"
+        },
+        "palette": {
+          "$ref": "#/$defs/assetPath"
+        },
+        "shinyPalette": {
+          "$ref": "#/$defs/assetPath"
+        },
+        "female": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "imageTable": {
+              "type": "string"
+            },
+            "palette": {
+              "$ref": "#/$defs/assetPath"
+            },
+            "shinyPalette": {
+              "$ref": "#/$defs/assetPath"
+            }
+          }
+        }
+      }
+    },
+    "levelUpMove": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["level", "move"],
+      "properties": {
+        "level": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 100
+        },
+        "move": {
+          "$ref": "#/$defs/moveConst"
+        }
+      }
+    },
+    "assetPath": {
+      "type": "string",
+      "minLength": 1
+    },
+    "typeConst": {
+      "type": "string",
+      "pattern": "^TYPE_[A-Z0-9_]+$"
+    },
+    "abilityConst": {
+      "type": "string",
+      "pattern": "^ABILITY_[A-Z0-9_]+$"
+    },
+    "moveConst": {
+      "type": "string",
+      "pattern": "^MOVE_[A-Z0-9_]+$"
+    },
+    "itemConst": {
+      "type": "string",
+      "pattern": "^ITEM_[A-Z0-9_]+$"
+    },
+    "eggGroupConst": {
+      "type": "string",
+      "pattern": "^EGG_GROUP_[A-Z0-9_]+$"
+    },
+    "growthRateConst": {
+      "type": "string",
+      "pattern": "^GROWTH_[A-Z0-9_]+$"
+    },
+    "bodyColorConst": {
+      "type": "string",
+      "pattern": "^BODY_COLOR_[A-Z0-9_]+$"
+    }
+  }
+}
