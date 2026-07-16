@@ -1,0 +1,391 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://mosberg.github.io/schemas/pokeemerald-custom-pokemon-1.1.0.schema.json",
+  "title": "PokeEmerald Custom Pokemon Dataset",
+  "description": "Schema for authoring custom Pokemon data that can be mapped to pret/pokeemerald source files and converted into pokeemerald-expansion C fragments.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schemaVersion", "targetRepo", "species"],
+  "properties": {
+    "schemaVersion": { "type": "string", "const": "1.1.0" },
+    "targetRepo": {
+      "type": "string",
+      "enum": ["pret/pokeemerald", "rh-hideout/pokeemerald-expansion"]
+    },
+    "sourceMapping": {
+      "type": "object",
+      "description": "Documents which vanilla pokeemerald files each payload section maps to.",
+      "additionalProperties": false,
+      "properties": {
+        "speciesConstantHeader": { "type": "string", "default": "include/constants/species.h" },
+        "speciesNames": { "type": "string", "default": "src/data/text/species_names.h" },
+        "speciesInfo": { "type": "string", "default": "src/data/pokemon/species_info.h" },
+        "pokedexConstants": { "type": "string", "default": "include/constants/pokedex.h" },
+        "pokedexText": { "type": "string", "default": "src/data/pokemon/pokedex_text.h" },
+        "pokedexEntries": { "type": "string", "default": "src/data/pokemon/pokedex_entries.h" },
+        "pokedexOrders": { "type": "string", "default": "src/data/pokemon/pokedex_orders.h" },
+        "levelUpLearnsets": { "type": "string", "default": "src/data/pokemon/level_up_learnsets.h" },
+        "levelUpPointers": { "type": "string", "default": "src/data/pokemon/level_up_learnset_pointers.h" },
+        "tmhmLearnsets": { "type": "string", "default": "src/data/pokemon/tmhm_learnsets.h" },
+        "tutorLearnsets": { "type": "string", "default": "src/data/pokemon/tutor_learnsets.h" },
+        "eggMoves": { "type": "string", "default": "src/data/pokemon/egg_moves.h" },
+        "evolutions": { "type": "string", "default": "src/data/pokemon/evolution.h" },
+        "cryIds": { "type": "string", "default": "src/data/pokemon/cry_ids.h" },
+        "graphicsHeader": { "type": "string", "default": "include/graphics.h" },
+        "graphicsData": { "type": "string", "default": "src/data/graphics/pokemon.h" },
+        "animFrontPics": { "type": "string", "default": "src/anim_mon_front_pics.c" },
+        "frontPicAnims": { "type": "string", "default": "src/data/pokemon_graphics/front_pic_anims.h" },
+        "frontPicTable": { "type": "string", "default": "src/data/pokemon_graphics/front_pic_table.h" },
+        "stillFrontPicTable": { "type": "string", "default": "src/data/pokemon_graphics/still_front_pic_table.h" },
+        "frontPicCoordinates": { "type": "string", "default": "src/data/pokemon_graphics/front_pic_coordinates.h" },
+        "backPicTable": { "type": "string", "default": "src/data/pokemon_graphics/back_pic_table.h" },
+        "backPicCoordinates": { "type": "string", "default": "src/data/pokemon_graphics/back_pic_coordinates.h" },
+        "footprintTable": { "type": "string", "default": "src/data/pokemon_graphics/footprint_table.h" },
+        "paletteTable": { "type": "string", "default": "src/data/pokemon_graphics/palette_table.h" },
+        "shinyPaletteTable": { "type": "string", "default": "src/data/pokemon_graphics/shiny_palette_table.h" },
+        "pokemonIcon": { "type": "string", "default": "src/pokemon_icon.c" },
+        "wildEncounters": { "type": "string", "default": "src/data/wild_encounters.json" }
+      }
+    },
+    "species": {
+      "type": "array",
+      "minItems": 1,
+      "items": { "$ref": "#/$defs/species" }
+    }
+  },
+  "$defs": {
+    "species": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "symbol",
+        "displayName",
+        "dex",
+        "baseStats",
+        "typing",
+        "training",
+        "breeding",
+        "abilities",
+        "appearance",
+        "graphics",
+        "learnsets"
+      ],
+      "properties": {
+        "symbol": { "type": "string", "pattern": "^SPECIES_[A-Z0-9_]+$" },
+        "displayName": { "type": "string", "minLength": 1, "maxLength": 32 },
+        "internalName": { "type": "string", "pattern": "^[a-z0-9_]+$" },
+        "dex": { "$ref": "#/$defs/dex" },
+        "baseStats": { "$ref": "#/$defs/baseStats" },
+        "typing": { "$ref": "#/$defs/typing" },
+        "training": { "$ref": "#/$defs/training" },
+        "breeding": { "$ref": "#/$defs/breeding" },
+        "abilities": { "$ref": "#/$defs/abilities" },
+        "appearance": { "$ref": "#/$defs/appearance" },
+        "heldItems": { "$ref": "#/$defs/heldItems" },
+        "graphics": { "$ref": "#/$defs/graphics" },
+        "audio": { "$ref": "#/$defs/audio" },
+        "learnsets": { "$ref": "#/$defs/learnsets" },
+        "evolutions": {
+          "type": "array",
+          "default": [],
+          "items": { "$ref": "#/$defs/evolution" }
+        },
+        "forms": { "$ref": "#/$defs/forms" },
+        "encounters": { "$ref": "#/$defs/encounters" }
+      }
+    },
+    "dex": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["nationalDexNumber", "categoryName", "heightDm", "weightHg", "description"],
+      "properties": {
+        "nationalDexNumber": { "type": "integer", "minimum": 0 },
+        "hoennDexNumber": { "type": ["integer", "null"], "minimum": 1 },
+        "categoryName": { "type": "string", "minLength": 1, "maxLength": 32 },
+        "heightDm": { "type": "integer", "minimum": 0 },
+        "weightHg": { "type": "integer", "minimum": 0 },
+        "description": {
+          "type": "array",
+          "minItems": 1,
+          "maxItems": 4,
+          "items": { "type": "string", "minLength": 1, "maxLength": 64 }
+        },
+        "scale": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["pokemonScale", "pokemonOffset", "trainerScale", "trainerOffset"],
+          "properties": {
+            "pokemonScale": { "type": "integer", "minimum": 0 },
+            "pokemonOffset": { "type": "integer", "minimum": 0 },
+            "trainerScale": { "type": "integer", "minimum": 0 },
+            "trainerOffset": { "type": "integer", "minimum": 0 }
+          }
+        },
+        "sortOrderHints": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "alphabeticalAfter": { "type": "string" },
+            "heightAfter": { "type": "string" },
+            "weightAfter": { "type": "string" }
+          }
+        }
+      }
+    },
+    "baseStats": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["hp", "attack", "defense", "speed", "spAttack", "spDefense"],
+      "properties": {
+        "hp": { "type": "integer", "minimum": 1, "maximum": 255 },
+        "attack": { "type": "integer", "minimum": 1, "maximum": 255 },
+        "defense": { "type": "integer", "minimum": 1, "maximum": 255 },
+        "speed": { "type": "integer", "minimum": 1, "maximum": 255 },
+        "spAttack": { "type": "integer", "minimum": 1, "maximum": 255 },
+        "spDefense": { "type": "integer", "minimum": 1, "maximum": 255 }
+      }
+    },
+    "typing": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["primaryType"],
+      "properties": {
+        "primaryType": { "$ref": "#/$defs/typeConst" },
+        "secondaryType": { "anyOf": [{ "$ref": "#/$defs/typeConst" }, { "type": "null" }] }
+      }
+    },
+    "training": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["catchRate", "expYield", "evYield", "friendship", "growthRate"],
+      "properties": {
+        "catchRate": { "type": "integer", "minimum": 0, "maximum": 255 },
+        "expYield": { "type": "integer", "minimum": 0, "maximum": 255 },
+        "evYield": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["hp", "attack", "defense", "speed", "spAttack", "spDefense"],
+          "properties": {
+            "hp": { "type": "integer", "minimum": 0, "maximum": 3 },
+            "attack": { "type": "integer", "minimum": 0, "maximum": 3 },
+            "defense": { "type": "integer", "minimum": 0, "maximum": 3 },
+            "speed": { "type": "integer", "minimum": 0, "maximum": 3 },
+            "spAttack": { "type": "integer", "minimum": 0, "maximum": 3 },
+            "spDefense": { "type": "integer", "minimum": 0, "maximum": 3 }
+          }
+        },
+        "friendship": { "type": "integer", "minimum": 0, "maximum": 255 },
+        "growthRate": { "$ref": "#/$defs/growthRateConst" },
+        "safariZoneFleeRate": { "type": "integer", "minimum": 0, "maximum": 255 },
+        "perfectIVCount": { "type": "integer", "minimum": 0, "maximum": 6 }
+      }
+    },
+    "breeding": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["genderRatio", "eggCycles", "eggGroups"],
+      "properties": {
+        "genderRatio": {
+          "oneOf": [
+            { "type": "string", "enum": ["MON_MALE", "MON_FEMALE", "MON_GENDERLESS"] },
+            {
+              "type": "object",
+              "additionalProperties": false,
+              "required": ["percentFemale"],
+              "properties": { "percentFemale": { "type": "number", "minimum": 0, "maximum": 100 } }
+            }
+          ]
+        },
+        "eggCycles": { "type": "integer", "minimum": 0, "maximum": 255 },
+        "eggGroups": {
+          "type": "array",
+          "minItems": 1,
+          "maxItems": 2,
+          "items": { "$ref": "#/$defs/eggGroupConst" }
+        }
+      }
+    },
+    "abilities": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["slots"],
+      "properties": {
+        "slots": {
+          "type": "array",
+          "minItems": 1,
+          "maxItems": 3,
+          "items": { "$ref": "#/$defs/abilityConst" }
+        }
+      }
+    },
+    "appearance": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["bodyColor", "flip"],
+      "properties": {
+        "bodyColor": { "$ref": "#/$defs/bodyColorConst" },
+        "flip": { "type": "string", "enum": ["FLIP", "NO_FLIP"] },
+        "enemyElevation": { "type": "integer", "minimum": 0, "maximum": 255 }
+      }
+    },
+    "heldItems": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "common": { "$ref": "#/$defs/itemConst" },
+        "rare": { "$ref": "#/$defs/itemConst" }
+      }
+    },
+    "graphics": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["frontPic", "backPic", "palette", "shinyPalette", "icon", "frontPicSize", "backPicSize"],
+      "properties": {
+        "assetFolder": { "type": "string" },
+        "frontPic": { "type": "string" },
+        "backPic": { "type": "string" },
+        "palette": { "type": "string" },
+        "shinyPalette": { "type": "string" },
+        "icon": { "type": "string" },
+        "footprint": { "type": "string" },
+        "frontPicSize": { "$ref": "#/$defs/picSize" },
+        "backPicSize": { "$ref": "#/$defs/picSize" },
+        "frontAnimFrames": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/animFrame" }
+        },
+        "frontAnimId": { "type": "string" },
+        "frontAnimDelay": { "type": "integer", "minimum": 0 },
+        "backAnimId": { "type": "string" },
+        "iconPalIndex": { "type": "integer", "minimum": 0, "maximum": 2 }
+      }
+    },
+    "audio": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "cryId": { "type": "string", "pattern": "^CRY_[A-Z0-9_]+$" },
+        "cryName": { "type": "string" },
+        "sampleRateHz": { "type": "integer", "minimum": 1 }
+      }
+    },
+    "learnsets": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["levelUp"],
+      "properties": {
+        "levelUp": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/levelUpMove" }
+        },
+        "tmhm": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": { "$ref": "#/$defs/moveConst" }
+        },
+        "tutor": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": { "$ref": "#/$defs/moveConst" }
+        },
+        "eggMoves": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": { "$ref": "#/$defs/moveConst" }
+        },
+        "teachable": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": { "$ref": "#/$defs/moveConst" }
+        }
+      }
+    },
+    "evolution": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["method", "targetSpecies"],
+      "properties": {
+        "method": { "type": "string", "pattern": "^EVO_[A-Z0-9_]+$" },
+        "param": { "oneOf": [{ "type": "integer" }, { "type": "string" }, { "type": "null" }] },
+        "targetSpecies": { "type": "string", "pattern": "^SPECIES_[A-Z0-9_]+$" }
+      }
+    },
+    "forms": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "formSpeciesTable": {
+          "type": "array",
+          "items": { "type": "string", "pattern": "^SPECIES_[A-Z0-9_]+$" }
+        },
+        "formChanges": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["trigger", "targetSpecies"],
+            "properties": {
+              "trigger": { "type": "string" },
+              "targetSpecies": { "type": "string", "pattern": "^SPECIES_[A-Z0-9_]+$" }
+            }
+          }
+        }
+      }
+    },
+    "encounters": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "wild": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["map", "method", "minLevel", "maxLevel"],
+            "properties": {
+              "map": { "type": "string" },
+              "method": { "type": "string", "enum": ["land", "water", "rock_smash", "fishing_old", "fishing_good", "fishing_super"] },
+              "minLevel": { "type": "integer", "minimum": 1, "maximum": 100 },
+              "maxLevel": { "type": "integer", "minimum": 1, "maximum": 100 }
+            }
+          }
+        }
+      }
+    },
+    "picSize": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["width", "height", "yOffset"],
+      "properties": {
+        "width": { "type": "integer", "minimum": 1, "maximum": 64 },
+        "height": { "type": "integer", "minimum": 1, "maximum": 64 },
+        "yOffset": { "type": "integer", "minimum": 0, "maximum": 255 }
+      }
+    },
+    "animFrame": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["frame", "duration"],
+      "properties": {
+        "frame": { "type": "integer", "minimum": 0, "maximum": 1 },
+        "duration": { "type": "integer", "minimum": 1 }
+      }
+    },
+    "levelUpMove": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["level", "move"],
+      "properties": {
+        "level": { "type": "integer", "minimum": 1, "maximum": 100 },
+        "move": { "$ref": "#/$defs/moveConst" }
+      }
+    },
+    "typeConst": { "type": "string", "pattern": "^TYPE_[A-Z0-9_]+$" },
+    "abilityConst": { "type": "string", "pattern": "^ABILITY_[A-Z0-9_]+$" },
+    "moveConst": { "type": "string", "pattern": "^MOVE_[A-Z0-9_]+$" },
+    "itemConst": { "type": "string", "pattern": "^ITEM_[A-Z0-9_]+$" },
+    "eggGroupConst": { "type": "string", "pattern": "^EGG_GROUP_[A-Z0-9_]+$" },
+    "growthRateConst": { "type": "string", "pattern": "^GROWTH_[A-Z0-9_]+$" },
+    "bodyColorConst": { "type": "string", "pattern": "^BODY_COLOR_[A-Z0-9_]+$" }
+  }
+}
